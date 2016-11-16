@@ -53,8 +53,6 @@ class Solution(object):
                 rS[i] = start
                 i += 1
             else:
-                rS[i] = start
-                rS[j] = end
                 i += 1
                 j -= 1
 

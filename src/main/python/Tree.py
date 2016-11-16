@@ -51,6 +51,7 @@ class TreeNode(object):
             return self.answer
         self.cancatTreePaths(root.right, root.val)
         self.cancatTreePaths(root.left, root.val)
+        return self.answer
 
     def cancatTreePaths(self, root, path):
         if root is None:

@@ -1,4 +1,21 @@
 class Solution(object):
+
+    def longestCommonPrefix(self, strs):
+        if len(strs) == 0:
+            return ""
+        min_l = len(strs[0])
+        for s in strs:
+            if len(s) < min_l:
+                min_l = len(s)
+        result = ''
+        for i in range(min_l):
+            prefix = strs[0][i]
+            for j in range(1, len(strs)):
+                if strs[j][i] != prefix:
+                    return result
+            result = result + prefix
+        return result
+
     def reverseString(self, s):
         """
         :type s: str
@@ -58,6 +75,32 @@ class Solution(object):
 
         return ''.join(rS)
 
+    def covert(self, s, numRows):
+        if numRows <= 1 or len(s) == 0:
+            return s
+        convert = ''
+        pattern = 2 * numRows - 2
+        length = len(s)
+
+        for i in range(numRows):
+            index = i
+            j = 0
+            while index<length:
+                convert = convert.__add__(s[index])
+                j += 1
+                index = pattern * j + i
+                print convert
+                if i == 0 or i == numRows-1:
+                    continue
+
+                if index + (numRows -i -1) * 2 < length:
+                    # add the zig bridge number
+                    convert = convert.__add__(s[index + (numRows -i -1) * 2])
+
+        return convert
+
+
+
 
 
 
@@ -68,3 +111,5 @@ if __name__ == '__main__':
     print solution.isIsomorphic('paper', 'title')
 
     print solution.reverseVowels('leetcode')
+
+    print solution.covert('PAYPALISHIRING',3)

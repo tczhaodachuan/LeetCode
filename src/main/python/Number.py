@@ -194,6 +194,61 @@ class Solution(object):
         swap_nums[j] = tmp
         return swap_nums
 
+    def findMedianSortedArray(self, nums1, nums2):
+        nums = []
+        i = 0
+        j = 0
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] <= nums2[j]:
+                nums = nums + [nums1[i]]
+                i += 1
+            else:
+                nums = nums + [nums2[j]]
+                j += 1
+
+        if i < len(nums1):
+            nums.extend(nums1[i:])
+        if j < len(nums2):
+            nums.extend(nums2[j:])
+
+        length = len(nums)
+        if length % 2 == 0:
+            return (nums[length / 2] + nums[length / 2 - 1]) / 2.0
+        else:
+            return nums[length / 2]
+
+    def searchRange(self, nums, target):
+        if len(nums) == 0:
+            return [-1, -1]
+
+        found = self.binarySearch(nums, 0, len(nums), target)
+        if found == []:
+            return [-1, -1]
+        if len(found) == 1:
+            return [found[0], found[0]]
+        else:
+            return [found[0], found[len(found) - 1]]
+
+    def binarySearch(self, nums, start, end, target):
+        if start >= end:
+            if len(nums) > start and nums[start] == target:
+                return [start]
+            return []
+
+        mid = (start + end) / 2
+
+        if nums[mid] == target:
+            targets = [mid]
+            leftSearch = self.binarySearch(nums, start, mid - 1, target)
+            rightSearch = self.binarySearch(nums, mid + 1, end, target)
+
+            # TODO
+            return leftSearch + targets + rightSearch
+        elif nums[mid] > target:
+            return self.binarySearch(nums, start, mid, target)
+        else:
+            return self.binarySearch(nums, mid + 1, end, target)
+
 
 if __name__ == '__main__':
     missingNumber([0, 1, 2, 3, 4, 5, 7, 8, 9])
@@ -241,3 +296,9 @@ if __name__ == '__main__':
         sort_s = sorted(s[i:j])
         result = result + ''.join(sort_s)
     print result
+
+    print solution.findMedianSortedArray([1, 2], [3, 4])
+
+    print solution.searchRange([5, 7, 7, 8, 8, 10], 8)
+
+    print solution.searchRange([2,2], 2)

@@ -145,6 +145,42 @@ def reverse(nums, i, j):
 
 
 class Solution(object):
+    def minReturnAfterChange(self, num):
+        reversed_digits = []
+        while num > 0:
+            residue = num % 10
+            num = num / 10
+            reversed_digits.append(residue)
+        for i in range(len(reversed_digits) - 1):
+            if reversed_digits[i] > reversed_digits[i + 1]:
+                reversed_digits[i + 1] = reversed_digits[i]
+                reversed_digits.__delitem__(i)
+                break
+
+        min_num = 0
+        reversed_digits.reverse()
+        for digit in reversed_digits:
+            min_num = min_num * 10 + digit
+        return min_num
+
+    def maxReturnAfterChange(self, num):
+        reversed_digits = []
+        while num > 0:
+            residue = num % 10
+            num = num / 10
+            reversed_digits.append(residue)
+        reversed_digits.reverse()
+        for i in range(len(reversed_digits) - 1):
+            round_up = (reversed_digits[i] + reversed_digits[i + 1]) / 2 + 1
+            if round_up > reversed_digits[i]:
+                reversed_digits[i] = round_up
+                reversed_digits.__delitem__(i + 1)
+                break
+        number = 0
+        for digit in reversed_digits:
+            number = number * 10 + digit
+        return number
+
     def titleToNumber(self, str):
         result = ord(str[0]) - 64;
         for i in xrange(1, str.__len__()):
@@ -301,4 +337,9 @@ if __name__ == '__main__':
 
     print solution.searchRange([5, 7, 7, 8, 8, 10], 8)
 
-    print solution.searchRange([2,2], 2)
+    print solution.searchRange([2, 2], 2)
+
+    print solution.minReturnAfterChange(233614)
+    print solution.minReturnAfterChange(323641)
+
+    print solution.maxReturnAfterChange(623315)

@@ -29,7 +29,7 @@ class TreeNode(object):
     def rightSideView(self, root):
         self.lastDepth = 0
         self.answer = []
-        self.doRightSideView(0,root)
+        self.doRightSideView(0, root)
         return self.answer
 
     def doRightSideView(self, depth, root):
@@ -64,6 +64,48 @@ class TreeNode(object):
         self.cancatTreePaths(root.right, path)
         self.cancatTreePaths(root.left, path)
 
+    def generateBST(self, nums):
+        head = TreeNode(nums[0])
+        for i in range(1, len(nums)):
+            self.insertBST(head, nums[i])
+        return head
+
+    def insertBST(self, node, value):
+        if node == None:
+            return TreeNode(value)
+        elif node.val > value:
+            leftNode = self.insertBST(node.left, value)
+            node.left = leftNode
+            return node
+        elif node.val < value:
+            rightNode = self.insertBST(node.right, value)
+            node.right = rightNode
+            return node
+
+    def print_in_order(self, head):
+        if head == None:
+            return
+        if head.left == None and head.right == None:
+            print head.val
+            return
+
+        self.print_in_order(head.left)
+        print head.val
+        self.print_in_order(head.right)
+
+    def findNthSmallestNode(self, head, n, c):
+        if head == None:
+            return None
+        if c['count'] >= n:
+            return None
+        left = self.findNthSmallestNode(head.left, n, c)
+        if left:
+            return left
+        c['count'] += 1
+        if c['count'] == n:
+            return head.val
+        right = self.findNthSmallestNode(head.right, n, c)
+        return right
 
 
 if __name__ == '__main__':
@@ -80,3 +122,9 @@ if __name__ == '__main__':
     head.rightSideView(head)
 
     print head.binaryTreePaths(head)
+
+    bstHead = head.generateBST([3, 1, 2, 5, 10, 9])
+    bstHead.print_in_order(bstHead)
+
+    counter = {'count':0}
+    print bstHead.findNthSmallestNode(bstHead, 6, counter)

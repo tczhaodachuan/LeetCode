@@ -285,6 +285,18 @@ class Solution(object):
         else:
             return self.binarySearch(nums, mid + 1, end, target)
 
+    def lessThanTarget(self, nums, target):
+        answers = []
+        digits = []
+        while target > 0:
+            residue = target % 10
+            digits.append(residue)
+            target = target / 10
+
+
+
+
+
 
 if __name__ == '__main__':
     missingNumber([0, 1, 2, 3, 4, 5, 7, 8, 9])
@@ -343,3 +355,5 @@ if __name__ == '__main__':
     print solution.minReturnAfterChange(323641)
 
     print solution.maxReturnAfterChange(623315)
+
+    solution.lessThanTarget([2, 3, 4], 52)

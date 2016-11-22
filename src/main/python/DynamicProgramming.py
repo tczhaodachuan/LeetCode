@@ -1,3 +1,6 @@
+from Sort import SortArrays
+
+
 class DP(object):
     def canIWin(self, maxChoosableInteger, desiredTotal):
         """
@@ -140,6 +143,31 @@ class DP(object):
             diff = current_max - current_min
         return count
 
+    def maxVacationDays(self, holidays):
+        numer_of_cities = len(holidays[0])
+        number_of_month = len(holidays)
+
+        dp = [[0 for i in range(numer_of_cities)] for i in range(number_of_month)]
+        for i in range(1, number_of_month):
+            for j in range(numer_of_cities):
+                dp[i][j] = max(dp[i - 1])
+        print number_of_month, numer_of_cities
+
+    def first_overlapping_interval(self, intervals):
+        sort = SortArrays()
+        sort.merge_sort(intervals)
+        i = 1
+        start_time = intervals[0][0]
+        end_time = intervals[0][1]
+        while i < len(intervals):
+            if intervals[i][0] < end_time:
+                return [(start_time, end_time), intervals[i]]
+            else:
+                start_time = intervals[i][0]
+                end_time = intervals[i][1]
+            i += 1
+        return []
+
 
 if __name__ == '__main__':
     dp = DP()
@@ -159,3 +187,9 @@ if __name__ == '__main__':
 
     print dp.longest_increase_subsequence([10, 9, 2, 5, 3, 7, 101, 18])
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 7, 101, 18])
+
+    holidays = [[1, 0, 3, 4], [0, 1, 0, 2], [0, 2, 3, 0]]
+
+    dp.maxVacationDays(holidays)
+
+    print dp.first_overlapping_interval([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])

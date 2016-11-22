@@ -6,6 +6,73 @@ class SortArrays(object):
             result.append(heap.peak())
         return result
 
+    def merge_sort_intervals(self, intervals):
+        if len(intervals) > 1:
+            mid = len(intervals) / 2
+            leftNums = intervals[:mid]
+            rightNums = intervals[mid:]
+            self.merge_sort(leftNums)
+            self.merge_sort(rightNums)
+
+            i = 0
+            j = 0
+            k = 0
+            while i < len(leftNums) and j < len(rightNums):
+                if leftNums[i][0] < rightNums[j][0]:
+                    intervals[k] = leftNums[i]
+                    i += 1
+                else:
+                    intervals[k] = rightNums[j]
+                    j += 1
+                k += 1
+            while i < len(leftNums):
+                intervals[k] = leftNums[i]
+                k += 1
+                i += 1
+
+            while j < len(rightNums):
+                intervals[k] = rightNums[j]
+                k += 1
+                j += 1
+
+    def merge_sort(self, nums):
+        if len(nums) > 1:
+            mid = len(nums) / 2
+            leftNums = nums[:mid]
+            rightNums = nums[mid:]
+            self.merge_sort(leftNums)
+            self.merge_sort(rightNums)
+
+            i = 0
+            j = 0
+            k = 0
+            while i < len(leftNums) and j < len(rightNums):
+                if leftNums[i] < rightNums[j]:
+                    nums[k] = leftNums[i]
+                    i += 1
+                else:
+                    nums[k] = rightNums[j]
+                    j += 1
+                k += 1
+            while i < len(leftNums):
+                nums[k] = leftNums[i]
+                k += 1
+                i += 1
+
+            while j < len(rightNums):
+                nums[k] = rightNums[j]
+                k += 1
+                j += 1
+
+    def wiggle_sort(self, nums):
+        if len(nums) <= 1:
+            return nums
+        for i in range(1, len(nums)):
+            if (i % 2 == 0 and nums[i] > nums[i - 1]) or (i % 2 == 1 and nums[i] < nums[i - 1]):
+                nums[i], nums[i - 1] = nums[i - 1], nums[i]
+
+        return nums
+
 
 # parent position of current node i is i/2
 # the parent node's value is greater or equal to left and right child's value
@@ -69,3 +136,10 @@ if __name__ == '__main__':
 
     nums = [13, 6523, 320, 3, 21, 9, 10]
     print sort_arrays.heap_sort(nums)
+
+    nums = [13, 6523, 320, 3, 21, 9, 10]
+    sort_arrays.merge_sort(nums)
+
+    print nums
+    nums = [13, 6523, 320, 3, 21, 9, 10]
+    print sort_arrays.wiggle_sort(nums)

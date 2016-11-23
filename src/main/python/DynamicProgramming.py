@@ -168,6 +168,61 @@ class DP(object):
             i += 1
         return []
 
+    def rob_dp(self, nums):
+        if len(nums) == 0:
+            return 0
+
+        if len(nums) == 1:
+            return nums[0]
+
+        dp = [0 for i in range(len(nums))]
+        dp[0] = nums[0]
+        dp[1] = max(nums[0], nums[1])
+        for i in range(2, len(nums)):
+            dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+
+        return dp[len(nums) - 1]
+
+    def rob(self, nums):
+        if len(nums) == 0:
+            return 0
+
+        even = 0
+        odd = 0
+        for i in range(len(nums)):
+            if i % 2 == 0:
+                even = even + nums[i]
+                even = max(even, odd)
+            else:
+                odd = odd + nums[i]
+                odd = max(even, odd)
+
+        return max(odd, even)
+
+    def merge_intervals(self, intervals):
+        if len(intervals) <= 1:
+            return intervals
+
+        sort = SortArrays()
+        sort.merge_sort(intervals)
+
+        stack = []
+
+        stack.append(intervals[0])
+
+        for i in range(1, len(intervals)):
+            interval = stack.pop()
+            if intervals[i][0] > interval[1]:
+                stack.append(interval)
+                stack.append(intervals[i])
+            else:
+                if interval[1] > intervals[i][1]:
+                    newInterval = interval
+                else:
+                    newInterval = (interval[0], intervals[i][1])
+                stack.append(newInterval)
+        return stack
+
 
 if __name__ == '__main__':
     dp = DP()
@@ -193,3 +248,7 @@ if __name__ == '__main__':
     dp.maxVacationDays(holidays)
 
     print dp.first_overlapping_interval([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
+
+    print dp.merge_intervals([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
+
+    print dp.merge_intervals([[1, 4], [1, 4]])

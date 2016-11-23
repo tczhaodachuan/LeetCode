@@ -3,6 +3,7 @@ class TreeNode(object):
         self.val = val
         self.left = None
         self.right = None
+        self.subTreeMaxSize = 0
 
     def maxDepth(self, head):
         if head is None:
@@ -107,6 +108,35 @@ class TreeNode(object):
         right = self.findNthSmallestNode(head.right, n, c)
         return right
 
+    def findMaximumSubTree(self, head, start, end):
+        if head == None:
+            return 0
+
+        if head.val < start or head.val > end:
+            return -1
+
+        leftSize = self.findMaximumSubTree(head.left, start, end)
+        rightSize = self.findMaximumSubTree(head.right, start, end)
+        print leftSize, rightSize, head.val, start, end
+        if leftSize == -1 or rightSize == -1:
+            return -1
+        if leftSize != -1 and rightSize != -1:
+            self.subTreeMaxSize = max(self.subTreeMaxSize, 1 + leftSize + rightSize)
+            return 1 + leftSize + rightSize
+        return -1
+
+    def pathSumIII(self, root, sum):
+        if root == None:
+            return 0
+
+        return self.sumUp(root, 0, sum) + self.pathSumIII(root.left, sum) + self.pathSumIII(root.right, sum)
+
+    def sumUp(self, root, pre, sum):
+        if root == None:
+            return 0
+        pre = pre + root.val
+        return (sum == pre) + self.sumUp(root.left, pre, sum) + self.sumUp(root.right, pre, sum)
+
 
 if __name__ == '__main__':
     head = TreeNode(6)
@@ -126,5 +156,21 @@ if __name__ == '__main__':
     bstHead = head.generateBST([3, 1, 2, 5, 10, 9])
     bstHead.print_in_order(bstHead)
 
-    counter = {'count':0}
+    counter = {'count': 0}
     print bstHead.findNthSmallestNode(bstHead, 6, counter)
+
+    head = TreeNode(10)
+    head.left = TreeNode(5)
+    head.left.left = TreeNode(3)
+    head.left.right = TreeNode(2)
+    head.left.right.right = TreeNode(1)
+    head.left.left.left = TreeNode(3)
+    head.left.left.right = TreeNode(-2)
+    headRight = TreeNode(-3)
+    head.right = headRight
+    headRight.right = TreeNode(11)
+
+    print head.pathSumIII(head, 8)
+
+    bstHead = head.generateBST([1,2,3])
+    print head.findMaximumSubTree(bstHead, 1, 3)

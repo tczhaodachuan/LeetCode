@@ -16,6 +16,34 @@ def kthLargestNumber(nums):
     pass
 
 
+def toHex(num):
+    hexDict = {10: 'a', 11: 'b', 12: 'c', 13: 'd', 14: 'e', 15: 'f'}
+
+    num = int(num)
+    string = ''
+    for i in range(8):
+        t = num & 0xf
+        if t >= 10:
+            string = hexDict.get(t) + string
+        else:
+            string = str(t) + string
+        num >>= 4
+
+    return string
+
+
+def hexToInt(hex):
+    hexDict = {'a': 10, 'b': 11, 'c': 12, 'd': 13, 'e': 14, 'f': 15}
+    number = 0
+    for h in hex:
+        if hexDict.has_key(h):
+            integer = hexDict.get(h)
+        else:
+            integer = int(h)
+        number = number * 16 + integer
+    return number
+
+
 def pow(x, n):
     if n == 0:
         return 1
@@ -294,10 +322,6 @@ class Solution(object):
             target = target / 10
 
 
-
-
-
-
 if __name__ == '__main__':
     missingNumber([0, 1, 2, 3, 4, 5, 7, 8, 9])
     print missingNumberByFormula([0, 1, 2, 3, 4, 5, 7, 8, 9])
@@ -357,3 +381,6 @@ if __name__ == '__main__':
     print solution.maxReturnAfterChange(623315)
 
     solution.lessThanTarget([2, 3, 4], 52)
+
+    hexValue = toHex(255)
+    print hexToInt(hexValue)

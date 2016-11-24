@@ -223,6 +223,43 @@ class DP(object):
                 stack.append(newInterval)
         return stack
 
+    def minMutation(self, start, end, bank):
+        bankDict = {}
+        for b in bank:
+            bankDict.setdefault(b, True)
+        bankDict.setdefault(end, True)
+        return self.findMinMutation(start, end, bankDict)
+
+    def findMinMutation(self, start, end, bankDict):
+        if start == end:
+            return 0
+
+        if not bankDict.has_key(end):
+            return -1
+
+        keys = bankDict.keys()
+
+        # make up each gene difference solution steps
+        steps = []
+        for i in range(len(start)):
+            for transit_gene in keys:
+                tmp = list(start)
+                # one gene mutation
+                if tmp[i] == transit_gene[i]:
+                    continue
+                tmp[i] = transit_gene[i]
+                # valid gene mutation
+                if bankDict.has_key(''.join(tmp)):
+                    bankDict.pop(''.join(tmp))
+                    step = self.findMinMutation(''.join(tmp), end, bankDict)
+                    if step != -1:
+                        # it's a valid gene mutation, can it can reach to the end gene, add the steps needed
+                        steps.append(step + 1)
+                    # if's a valid gene mutation, however, it cannot reach to target mutation, ignore
+        if len(steps) == 0:
+            return -1
+        return min(steps)
+
 
 if __name__ == '__main__':
     dp = DP()
@@ -252,3 +289,11 @@ if __name__ == '__main__':
     print dp.merge_intervals([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
 
     print dp.merge_intervals([[1, 4], [1, 4]])
+
+    print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGGTA", "AACCGCTA", "AAACGGTA"])
+
+    print dp.minMutation('AAAAACCC', 'AACCCCCC', ["AAAACCCC", "AAACCCCC", "AACCCCCC"])
+
+    print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
+
+    print dp.minMutation('hit', 'cog', ["hot","dot","dog","lot","log","cog"])

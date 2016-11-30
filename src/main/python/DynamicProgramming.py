@@ -227,8 +227,31 @@ class DP(object):
         bankDict = {}
         for b in bank:
             bankDict.setdefault(b, True)
-        bankDict.setdefault(end, True)
         return self.findMinMutation(start, end, bankDict)
+
+    def ladderLength(self, beginWord, endWord, wordList):
+
+        wordList.add(endWord)
+        queue = [(beginWord, 1)]
+        visited = set()
+        steps = []
+        while queue:
+            word, dist = queue.pop()
+            if word == endWord:
+                steps.append(dist)
+                continue
+            for i in range(len(word)):
+                for dict_word in wordList:
+                    if word[i] == dict_word[i]:
+                        continue
+                    else:
+                        tmp = word[:i] + dict_word[i] + word[i + 1:]
+                        if tmp not in visited and tmp in wordList:
+                            queue.append((tmp, dist + 1))
+                            visited.add(tmp)
+        if len(steps) == 0:
+            return -1
+        return min(steps)
 
     def findMinMutation(self, start, end, bankDict):
         if start == end:
@@ -255,7 +278,7 @@ class DP(object):
                     if step != -1:
                         # it's a valid gene mutation, can it can reach to the end gene, add the steps needed
                         steps.append(step + 1)
-                    # if's a valid gene mutation, however, it cannot reach to target mutation, ignore
+                        # if's a valid gene mutation, however, it cannot reach to target mutation, ignore
         if len(steps) == 0:
             return -1
         return min(steps)
@@ -296,4 +319,12 @@ if __name__ == '__main__':
 
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
 
-    print dp.minMutation('hit', 'cog', ["hot","dot","dog","lot","log","cog"])
+    print dp.ladderLength('hit', 'cog', {"hot", "dot", "dog", "lot", "log"})
+
+    print dp.ladderLength('hot', 'dog', {"hot", "dot", "dog"})
+
+    print dp.ladderLength('a', 'c', {"a", "b", "c"})
+
+    print dp.ladderLength('hot', 'dog', {"hot", "dog"})
+
+    print dp.ladderLength('hot', 'dot', {"hot", "dot", "dog"})

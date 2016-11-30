@@ -67,13 +67,49 @@ class Solution(object):
             visit[v] = 1
         return True
 
+    def numIslands(self, grid):
+        count = 0
+        matrix = [[0 for i in range(len(grid[0]))] for j in range(len(grid))]
+        for i in range(len(grid)):
+            for j in range(len(grid[i])):
+                if grid[i][j] == '1':
+                    matrix[i][j] = 1
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if self.markIslands(matrix, i, j) == 0:
+                    # no new island is found
+                    continue
+                else:
+                    count += 1
+        return count
+
+    def markIslands(self, grid, m, n):
+        if grid[m][n] == '#' or grid[m][n] == 0:
+            return 0
+        else:
+            grid[m][n] = '#'
+            if m - 1 >= 0:
+                self.markIslands(grid, m - 1, n)
+            if m + 1 < len(grid):
+                self.markIslands(grid, m + 1, n)
+            if n - 1 >= 0:
+                self.markIslands(grid, m, n - 1)
+            if n + 1 < len(grid[0]):
+                self.markIslands(grid, m, n + 1)
+            return 1
+
+
 class Vertex(object):
     def __init__(self):
         self.visited = False
         self.adjacents = list()
+
     def add_adj(self, u):
         self.adjacents.append(u)
+
 
 if __name__ == '__main__':
     solution = Solution()
     print solution.canFinish(2, [[0, 1], [1, 0]])
+
+    print solution.numIslands(["11000", "11000", "00100", "00011"])

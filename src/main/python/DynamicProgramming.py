@@ -255,10 +255,41 @@ class DP(object):
                     if step != -1:
                         # it's a valid gene mutation, can it can reach to the end gene, add the steps needed
                         steps.append(step + 1)
-                    # if's a valid gene mutation, however, it cannot reach to target mutation, ignore
+                        # if's a valid gene mutation, however, it cannot reach to target mutation, ignore
         if len(steps) == 0:
             return -1
         return min(steps)
+
+    def largest_rectangle_histogram(self, nums):
+        # the idea is to store the increasing numbers, because once it's increasing, the max rectangle is not determined.
+        # however, once you found current height is lower than previous one, uses the previous height, there will a lower height index
+        if len(nums) == 0:
+            return 0
+
+        stack = list()
+        maxRectangle = 0
+        i = 0
+
+        while i < len(nums):
+            currentHeight = nums[i]
+            if len(stack) == 0 or currentHeight >= nums[stack[len(stack) - 1]]:
+                stack.append(i)
+                i += 1
+            else:
+                # takes nums[tp] as minimal bar area, if stack is empty meaning all previous numbers are higher, so area=i*nums[tp]
+                # if stack is not empty, meaning there are lower numbers in front, higher number after until i. left index of current minimal_bar is stack.pop()
+                # right index is i, so width i - stack.pop() = i - stack.pop() - 1
+                tp = stack.pop(len(stack) - 1)
+                tp_area = nums[tp] * (i if len(stack) == 0 else i - stack[len(stack) - 1] - 1)
+                if maxRectangle < tp_area:
+                    maxRectangle = tp_area
+
+        while len(stack) > 0:
+            tp = stack.pop(len(stack) - 1)
+            tp_area = nums[tp] * (i if len(stack) == 0 else i - stack[len(stack) - 1] - 1)
+            if maxRectangle < tp_area:
+                maxRectangle = tp_area
+        return maxRectangle
 
 
 if __name__ == '__main__':
@@ -296,4 +327,6 @@ if __name__ == '__main__':
 
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
 
-    print dp.minMutation('hit', 'cog', ["hot","dot","dog","lot","log","cog"])
+    print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
+
+    print dp.largest_rectangle_histogram([2, 1, 5, 6, 2, 3])

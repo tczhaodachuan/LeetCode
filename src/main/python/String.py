@@ -168,6 +168,47 @@ class Solution(object):
             wordDict.setdefault(abbreviation, True)
         return not wordDict.has_key(self.convertToAbbreviation(word))
 
+    def canBePalindrome(self, characterDic):
+
+        oddKinds = 0
+
+        for v in characterDic.itervalues():
+            if v % 2 == 0:
+                continue
+            else:
+                oddKinds += 1
+        return oddKinds
+
+    def generatePalindromes(self, s):
+        characterDic = dict()
+        for i in len(s):
+            if characterDic.has_key(s[i]):
+                count = characterDic.get(s[i])
+                characterDic.setdefault(s[i], count + 1)
+            else:
+                characterDic.setdefault(s[i], 1)
+
+        palindromes = []
+        oddKinds = self.canBePalindrome(characterDic)
+        if oddKinds == 1:
+
+        elif oddKinds == 0:
+            for key, value in characterDic.iteritems():
+
+        else:
+            return []
+
+    def generatePalindromes(self, s, characterDic, palindromes):
+        if characterDic.__len__() == 0:
+            return
+
+        key, value = characterDic.popitem()
+        self.generatePalindromes('key' + s + 'key', characterDic, palindromes)
+
+
+# from inner side
+
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.reverseString('a.')
@@ -186,7 +227,6 @@ if __name__ == '__main__':
     print solution.isMatch('aaaaaaaaaaaaab', 'a*a*a*a*a*a*a*a*a*a*c')
 
     print solution.isWildCardMatch('', '***')
-
 
     print solution.isUnique(['deer', 'door', 'cake', 'card'], 'dear')
     print solution.isUnique(['deer', 'door', 'cake', 'card'], 'cart')

@@ -366,6 +366,25 @@ class Solution(object):
 
         return True
 
+    def findPeakElement(self, nums):
+        if len(nums) <= 1:
+            return 0
+
+        start = 0
+        end = len(nums) - 1
+        mid = 0
+        while start <= end:
+            mid = (end + start) / 2
+            if (mid == 0 or nums[mid] >= nums[mid - 1]) and (mid == len(nums) - 1 or nums[mid] >= nums[mid + 1]):
+                return mid
+            elif mid > 0 and nums[mid - 1] > nums[mid]:
+                # mid != 0, otherwise, end = -1 in the next run will break the loop
+                end = mid - 1
+            else:
+                # start <= end to give this edge case a chance to verify
+                start = mid + 1
+        return mid
+
 
 if __name__ == '__main__':
     missingNumber([0, 1, 2, 3, 4, 5, 7, 8, 9])
@@ -436,3 +455,6 @@ if __name__ == '__main__':
     print solution.isStrobogrammatic('1881')
 
     print solution.findStrobogrammatics(5)
+
+    print solution.findPeakElement([1,2,3,1])
+    print solution.findPeakElement([1, 2])

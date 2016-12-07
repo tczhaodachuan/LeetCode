@@ -283,6 +283,26 @@ class DP(object):
             return -1
         return min(steps)
 
+    def paintFence(self, n, k):
+        if n == 0:
+            return 0
+        i = 1
+        # current ith color is the same with i-1 Color, since 0 post is 0 color, the way to be same is 0
+        sameColor = 0
+        # current ith color different with 0 post ways is k
+        diffColor = k
+        # number of ways = diffColor + sameColor
+        numberOfWays = diffColor + sameColor
+        for i in range(2, n + 1):
+            # same with previous color on previous values are difference situation
+            sameColor = diffColor * 1
+            # the last number of ways on different with previous color, since previous value could be in k situation, so current is k-1
+            # however, the total of previous combination could be number of ways
+            diffColor = (k - 1) * numberOfWays
+            numberOfWays = sameColor + diffColor
+
+        return numberOfWays
+
 
 if __name__ == '__main__':
     dp = DP()
@@ -328,3 +348,5 @@ if __name__ == '__main__':
     print dp.ladderLength('hot', 'dog', {"hot", "dog"})
 
     print dp.ladderLength('hot', 'dot', {"hot", "dot", "dog"})
+
+    print dp.paintFence(2, 3)

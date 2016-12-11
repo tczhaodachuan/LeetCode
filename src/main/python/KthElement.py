@@ -41,9 +41,43 @@ class KthElement(object):
                 heapq.heappush(heap, nums[i])
         return heap[0]
 
+    def findKthNumber(self, n, k):
+        if k == 0:
+            return 0
+
+        if k == 1:
+            return n
+
+        ans = 1
+
+        while k > 1:
+            gap = self.getGap(n, ans, ans + 1)
+            if gap < k:
+                # ans is safe to move to ans+1
+                ans = ans + 1
+                k -= gap
+            else:
+                ans *= 10
+                k -= 1
+
+        return ans
+
+    def getGap(self, n, p, q):
+        # normally the gap is q-p, however, it could be q<n<q exists, so it would be min(n+1,q)-p
+        gap = 0
+        while p <= n:
+            gap += min(n + 1, q) - p
+            p *= 10
+            q *= 10
+
+        return gap
+
 
 if __name__ == '__main__':
     kthElement = KthElement()
     print kthElement.findKthElement([1, 2, 6, 8, 10, 11], [6, 9, 10, 18, 19], 6)
 
     print kthElement.kthLargest([9, 10, 0, 1, 6, 9], 4)
+
+    print kthElement.findKthNumber(13, 2)
+    print kthElement.findKthNumber(9, 2)

@@ -1,4 +1,30 @@
 class SortArrays(object):
+    def hIndex(self, citations):
+        # if the hIndex is i, meaning there are i papers at least has citations for i times.
+        if len(citations) == 0:
+            return 0
+        citations.sort(reverse=True)
+
+        hIndex = 0
+        for i in range(1, len(citations) + 1):
+            hIndex = max(min(citations[i - 1], i), hIndex)
+        return hIndex
+
+    def hIndexII(self, citations):
+        if len(citations) == 0:
+            return 0
+        start = 0
+        end = len(citations)
+        hIndex = 0
+        while start < end:
+            mid = (end + start) / 2
+            if citations[mid] >= len(citations) - mid:
+                hIndex = max(hIndex, len(citations) - mid)
+                end = mid
+            else:
+                start = mid + 1
+        return hIndex
+
     def heap_sort(self, nums):
         result = []
         heap = Heap(nums)
@@ -143,3 +169,9 @@ if __name__ == '__main__':
     print nums
     nums = [13, 6523, 320, 3, 21, 9, 10]
     print sort_arrays.wiggle_sort(nums)
+
+    print sort_arrays.hIndex([3, 0, 6, 1, 5])
+    print sort_arrays.hIndexII([0, 1, 3, 5, 6])
+    print sort_arrays.hIndexII([0])
+    print sort_arrays.hIndexII([100])
+    print sort_arrays.hIndexII([11, 15])

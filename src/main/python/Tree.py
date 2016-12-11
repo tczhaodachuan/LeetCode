@@ -154,6 +154,28 @@ def UpsideDownBinaryTree(head):
     return parent
 
 
+def countNodes(root):
+    """
+    :type root: TreeNode
+    :rtype: int
+    """
+    if root == None:
+        return 0
+    d = depth(root)
+    print 'depth ' + str(d)
+    print 2^1
+    return 2 ^ d - 1
+
+
+def depth(root):
+    if root == None:
+        return 0
+
+    leftDepth = depth(root.left)
+    rightDepth = depth(root.right)
+    return 1 + max(leftDepth, rightDepth)
+
+
 if __name__ == '__main__':
     head = TreeNode(6)
     head.left = TreeNode(2)
@@ -197,7 +219,7 @@ if __name__ == '__main__':
     head.left.right = TreeNode(5)
     head.left.left = TreeNode(4)
 
-
     UpsideDownBinaryTree(head)
 
-
+    bstHead = head.generateBST([1])
+    print countNodes(bstHead)

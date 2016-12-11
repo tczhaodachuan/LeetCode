@@ -29,32 +29,40 @@ class NSum(object):
         :rtype: List[List[int]]
         """
         answers = []
+        # sort the nums is the key to KSum questions, O(nlog(n))
         nums.sort()
-        lastIndex = nums.__len__() - 2;
-        for i in range(0, lastIndex):
+        # binarySearch O(log(n)) * loop O(n) = O(nlog(n))
+        for i in range(len(nums) - 2):
             # avoid duplicates answers
             if nums[i] == nums[i - 1] and i > 0:
                 continue
             if nums[i] > 0:
+                # if the minimal number is more than 0, it won't have 3 positive numbers sum is 0
                 break
+            if nums[len(nums) - 1] < 0:
+                # if the maximal number is less then 0, it won't have 3 negative numbers sum is 0
+                break
+
             j = i + 1
-            k = lastIndex + 1
+            k = len(nums) - 1
             while j < k:
                 if (j > i + 1 and nums[j] == nums[j - 1]):
                     # avoid duplicates answers
                     j = j + 1
                     continue
-
+                # change the 3sum problem to a binary search problem
                 target = -1 * nums[i]
                 sum = nums[j] + nums[k]
                 if target == sum:
                     answers.append([nums[i], nums[j], nums[k]])
+                    # keeps searching until j>=k
                     j = j + 1
                     k = k - 1
                 elif sum > target:
                     k = k - 1
                 else:
                     j = j + 1
+        # 3Sum is O(nlog(n)) complexity
         return answers
 
 

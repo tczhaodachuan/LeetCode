@@ -1,3 +1,6 @@
+import sys
+
+
 class Solution(object):
     def isMatch(self, s, p):
         dp = [[False for i in range(len(p) + 1)] for j in range(len(s) + 1)]
@@ -191,10 +194,10 @@ class Solution(object):
         palindromes = []
         oddKinds = self.canBePalindrome(characterDic)
         if oddKinds == 1:
-
+            pass
         elif oddKinds == 0:
             for key, value in characterDic.iteritems():
-
+                pass
         else:
             return []
 
@@ -204,6 +207,75 @@ class Solution(object):
 
         key, value = characterDic.popitem()
         self.generatePalindromes('key' + s + 'key', characterDic, palindromes)
+
+
+def atoi(str):
+    if len(str) == 0 or str == None:
+        return 0
+    print sys.maxint
+    i = 0
+    sign = 1
+    ret = 0
+    MaxInt = sys.maxint
+    if str[i] == '+':
+        i += 1
+    elif str[i] == '-':
+        i += 1
+        sign = -1
+    for i in range(i, len(str)):
+        if str[i] < '0' or str[i] > '9':
+            break
+        ret = ret * 10 + int(str[i])
+        if ret > sys.maxint:
+            break
+    ret *= sign
+
+    if ret >= MaxInt:
+        return MaxInt
+    if ret < MaxInt * -1:
+        return MaxInt * -1 - 1
+    return ret
+
+
+def decodeString(s):
+    encodeQueue = []
+    decodeStr = ''
+
+    for i in range(len(s)):
+        if len(encodeQueue) == 0 and s[i].isalpha():
+            decodeStr = decodeStr + s[i]
+        elif s[i].isdigit():
+            if len(encodeQueue) > 0 and encodeQueue[len(encodeQueue) - 1].isdigit():
+                # if the previous one is also a digit
+                # merge the current digit to previous digit
+                encodeQueue[len(encodeQueue) - 1] = encodeQueue[len(encodeQueue) - 1] + s[i]
+            else:
+                encodeQueue.append(s[i])
+        elif s[i] != ']':
+            encodeQueue.append(s[i])
+        else:
+            repeatPattern = ''
+            while len(encodeQueue) > 0:
+                tail = encodeQueue.pop(len(encodeQueue) - 1)
+                if tail != '[':
+                    repeatPattern = tail + repeatPattern
+                else:
+                    repeatNum = encodeQueue.pop(len(encodeQueue) - 1)
+                    tmp = ''
+                    for i in range(int(repeatNum)):
+                        tmp = tmp + repeatPattern
+                    encodeQueue.append(tmp)
+                    break
+
+    if len(decodeStr) > 0:
+        prefix = decodeStr
+        decodeStr = ''
+    else:
+        prefix = ''
+    while len(encodeQueue) > 0:
+        tail = encodeQueue.pop(len(encodeQueue) - 1)
+        decodeStr = tail + decodeStr
+    return prefix + decodeStr
 
 
 # from inner side
@@ -232,3 +304,10 @@ if __name__ == '__main__':
     print solution.isUnique(['deer', 'door', 'cake', 'card'], 'cart')
     print solution.isUnique(['deer', 'door', 'cake', 'card'], 'cane')
     print solution.isUnique(['deer', 'door', 'cake', 'card'], 'make')
+
+    print atoi('-12392130912309')
+
+    print decodeString('3[a]2[bc]')
+    print decodeString('3[a2[c]]')
+    print decodeString('2[abc]3[cd]ef')
+    print decodeString('sd2[f2[e]g]i')

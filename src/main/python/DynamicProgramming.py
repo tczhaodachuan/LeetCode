@@ -303,9 +303,35 @@ class DP(object):
 
         return numberOfWays
 
+    def largest_rectangle_histogram_brutal_force(self, nums):
+        # based on the nums[i] as minimal bar, what would be the maxRectangle area from i to the end.
+        maxRectangle = nums[0]
+        minimal_height = [nums[0] for i in range(len(nums))]
+        i = 1
+        while i < len(nums):
+            if nums[i] != 0 and maxRectangle >= nums[i] * (len(nums) - i):
+                # since nums[i] as minimal bar for the rest of rectangle smaller than current max, no need to consider
+                i += 1
+                continue
+
+            for j in range(i, len(nums)):
+                if i == j:
+                    minimal_height[j] = nums[i]
+                elif nums[j] < minimal_height[j - 1]:
+                    minimal_height[j] = nums[j]
+                else:
+                    minimal_height[j] = minimal_height[j - 1]
+
+                tp_area = minimal_height[j] * (j - i + 1)
+                maxRectangle = max(tp_area, maxRectangle)
+            i += 1
+
+        return maxRectangle
+
     def largest_rectangle_histogram(self, nums):
-        # the idea is to store the increasing numbers, because once it's increasing, the max rectangle is not determined.
-        # however, once you found current height is lower than previous one, uses the previous height, there will a lower height index
+        # The idea is to store the increasing numbers, because when the number it's increasing, the max rectangle is non-determinative.
+        # The max rectangle could be the current bar itself, or the consecutive bars together.[1,2,3], [1,2,10], max could be 10 or 3.
+        # However, once you found current height is lower than previous one, uses the previous height, there will a lower height index.
         if len(nums) == 0:
             return 0
 
@@ -316,11 +342,12 @@ class DP(object):
         while i < len(nums):
             currentHeight = nums[i]
             if len(stack) == 0 or currentHeight >= nums[stack[len(stack) - 1]]:
+                # if the current height is higher than previous height, insert it into stack
                 stack.append(i)
                 i += 1
             else:
-                # takes nums[tp] as minimal bar area, if stack is empty meaning all previous numbers are higher, so area=i*nums[tp]
-                # if stack is not empty, meaning there are lower numbers in front, higher number after until i. left index of current minimal_bar is stack.pop()
+                # Takes nums[tp] as minimal bar area, if stack is empty meaning all previous numbers are higher, so area=i*nums[tp]
+                # If stack is not empty, meaning there are lower numbers in the stack, higher number after until i. left index of current minimal_bar is stack.pop()
                 # right index is i, so width i - stack.pop() = i - stack.pop() - 1
                 tp = stack.pop(len(stack) - 1)
                 tp_area = nums[tp] * (i if len(stack) == 0 else i - stack[len(stack) - 1] - 1)
@@ -403,4 +430,8 @@ if __name__ == '__main__':
     print coinChange([1, 2, 5], 11)
     print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
 
+    print 'largest_rectangle_histogram'
     print dp.largest_rectangle_histogram([2, 1, 5, 6, 2, 3])
+
+    print 'largest_rectangle_histogram_brutal_force'
+    print dp.largest_rectangle_histogram_brutal_force([2, 1, 5, 6, 2, 3])

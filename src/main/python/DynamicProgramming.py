@@ -227,8 +227,31 @@ class DP(object):
         bankDict = {}
         for b in bank:
             bankDict.setdefault(b, True)
-        bankDict.setdefault(end, True)
         return self.findMinMutation(start, end, bankDict)
+
+    def ladderLength(self, beginWord, endWord, wordList):
+
+        wordList.add(endWord)
+        queue = [(beginWord, 1)]
+        visited = set()
+        steps = []
+        while queue:
+            word, dist = queue.pop()
+            if word == endWord:
+                steps.append(dist)
+                continue
+            for i in range(len(word)):
+                for dict_word in wordList:
+                    if word[i] == dict_word[i]:
+                        continue
+                    else:
+                        tmp = word[:i] + dict_word[i] + word[i + 1:]
+                        if tmp not in visited and tmp in wordList:
+                            queue.append((tmp, dist + 1))
+                            visited.add(tmp)
+        if len(steps) == 0:
+            return -1
+        return min(steps)
 
     def findMinMutation(self, start, end, bankDict):
         if start == end:
@@ -259,6 +282,44 @@ class DP(object):
         if len(steps) == 0:
             return -1
         return min(steps)
+
+    def paintFence(self, n, k):
+        if n == 0:
+            return 0
+        i = 1
+        # current ith color is the same with i-1 Color, since 0 post is 0 color, the way to be same is 0
+        sameColor = 0
+        # current ith color different with 0 post ways is k
+        diffColor = k
+        # number of ways = diffColor + sameColor
+        numberOfWays = diffColor + sameColor
+        for i in range(2, n + 1):
+            # same with previous color on previous values are difference situation
+            sameColor = diffColor * 1
+            # the last number of ways on different with previous color, since previous value could be in k situation, so current is k-1
+            # however, the total of previous combination could be number of ways
+            diffColor = (k - 1) * numberOfWays
+            numberOfWays = sameColor + diffColor
+
+        return numberOfWays
+
+
+def coinChange(coins, amount):
+    # dp[i] = min(dp[i-coin[j]] + 1) number of coins for amount i is number of coins for amount i - face value of a coin + 1 coin
+    # e.g. amount dp[15] =  dp[10] + 1 when coin is 5, when coin is 2 dp[15] = dp[13] + 1, optimize solution would be min dp[i-coin] + 1
+    if amount == 0:
+        return 0
+    dp = [(amount + 1) for i in range(amount + 1)]
+    dp[0] = 0
+    for i in range(min(coins), amount + 1):
+        for j in range(len(coins)):
+            if coins[j] <= i:
+                dp[i] = min(dp[i], dp[i - coins[j]] + 1)
+
+    if dp[amount] > amount:
+        return -1
+    else:
+        return dp[amount]
 
     def largest_rectangle_histogram(self, nums):
         # the idea is to store the increasing numbers, because once it's increasing, the max rectangle is not determined.
@@ -327,6 +388,19 @@ if __name__ == '__main__':
 
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
 
+    print dp.ladderLength('hit', 'cog', {"hot", "dot", "dog", "lot", "log"})
+
+    print dp.ladderLength('hot', 'dog', {"hot", "dot", "dog"})
+
+    print dp.ladderLength('a', 'c', {"a", "b", "c"})
+
+    print dp.ladderLength('hot', 'dog', {"hot", "dog"})
+
+    print dp.ladderLength('hot', 'dot', {"hot", "dot", "dog"})
+
+    print dp.paintFence(2, 3)
+
+    print coinChange([1, 2, 5], 11)
     print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
 
     print dp.largest_rectangle_histogram([2, 1, 5, 6, 2, 3])

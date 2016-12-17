@@ -138,6 +138,44 @@ class TreeNode(object):
         return (sum == pre) + self.sumUp(root.left, pre, sum) + self.sumUp(root.right, pre, sum)
 
 
+def UpsideDownBinaryTree(head):
+    current = head
+    parent = None
+    right = None
+    while current:
+        # saves the left subtree
+        left = current.left
+        current.left = right
+        # saves the right subtree
+        right = current.right
+        current.right = parent
+        parent = current
+        current = left
+    return parent
+
+
+def countNodes(root):
+    """
+    :type root: TreeNode
+    :rtype: int
+    """
+    if root == None:
+        return 0
+    d = depth(root)
+    print 'depth ' + str(d)
+    print 2^1
+    return 2 ^ d - 1
+
+
+def depth(root):
+    if root == None:
+        return 0
+
+    leftDepth = depth(root.left)
+    rightDepth = depth(root.right)
+    return 1 + max(leftDepth, rightDepth)
+
+
 if __name__ == '__main__':
     head = TreeNode(6)
     head.left = TreeNode(2)
@@ -172,5 +210,16 @@ if __name__ == '__main__':
 
     print head.pathSumIII(head, 8)
 
-    bstHead = head.generateBST([1,2,3])
+    bstHead = head.generateBST([1, 2, 3])
     print head.findMaximumSubTree(bstHead, 1, 3)
+
+    head = TreeNode(1)
+    head.right = TreeNode(3)
+    head.left = TreeNode(2)
+    head.left.right = TreeNode(5)
+    head.left.left = TreeNode(4)
+
+    UpsideDownBinaryTree(head)
+
+    bstHead = head.generateBST([1])
+    print countNodes(bstHead)

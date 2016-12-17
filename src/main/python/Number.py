@@ -321,6 +321,70 @@ class Solution(object):
             digits.append(residue)
             target = target / 10
 
+    def findStrobogrammatics(self, n):
+        return self.findStrobogrammaticsII(n, n)
+
+    def findStrobogrammaticsII(self, n, m):
+        if n == 0:
+            return ''
+        if n == 1:
+            return ['0', '1', '8']
+
+        inner_strobogramatics = self.findStrobogrammaticsII(n - 2, m)
+        results = []
+        for inner_strobogramatic in inner_strobogramatics:
+            if n != m:
+                results.append('0' + inner_strobogramatic + '0')
+            results.append('1' + inner_strobogramatic + '1')
+            results.append('6' + inner_strobogramatic + '9')
+            results.append('8' + inner_strobogramatic + '8')
+            results.append('9' + inner_strobogramatic + '6')
+
+        return results
+
+    def isStrobogrammatic(self, numStr):
+        strobogrammaticDict = dict()
+        strobogrammaticDict.setdefault('6', '9')
+        strobogrammaticDict.setdefault('1', '1')
+        strobogrammaticDict.setdefault('0', '0')
+        strobogrammaticDict.setdefault('8', '8')
+        strobogrammaticDict.setdefault('9', '6')
+
+        if numStr in ['0', '1', '8']:
+            return True
+
+        i = 0
+        j = len(numStr) - 1
+        while i <= j:
+            if not strobogrammaticDict.has_key(numStr[i]) or not strobogrammaticDict.has_key(numStr[j]):
+                return False
+            else:
+                if strobogrammaticDict.get(numStr[i]) != numStr[j] or strobogrammaticDict.get(numStr[j]) != numStr[i]:
+                    return False
+            i += 1
+            j -= 1
+
+        return True
+
+    def findPeakElement(self, nums):
+        if len(nums) <= 1:
+            return 0
+
+        start = 0
+        end = len(nums) - 1
+        mid = 0
+        while start <= end:
+            mid = (end + start) / 2
+            if (mid == 0 or nums[mid] >= nums[mid - 1]) and (mid == len(nums) - 1 or nums[mid] >= nums[mid + 1]):
+                return mid
+            elif mid > 0 and nums[mid - 1] > nums[mid]:
+                # mid != 0, otherwise, end = -1 in the next run will break the loop
+                end = mid - 1
+            else:
+                # start <= end to give this edge case a chance to verify
+                start = mid + 1
+        return mid
+
 
 if __name__ == '__main__':
     missingNumber([0, 1, 2, 3, 4, 5, 7, 8, 9])
@@ -384,3 +448,13 @@ if __name__ == '__main__':
 
     hexValue = toHex(255)
     print hexToInt(hexValue)
+
+    print solution.isStrobogrammatic('69')
+    print solution.isStrobogrammatic('88')
+    print solution.isStrobogrammatic('818')
+    print solution.isStrobogrammatic('1881')
+
+    print solution.findStrobogrammatics(5)
+
+    print solution.findPeakElement([1,2,3,1])
+    print solution.findPeakElement([1, 2])

@@ -213,6 +213,46 @@ def bfs_topological_sort(v, degrees, unsorted_graph, schedules):
             bfs_topological_sort(edge, degrees, unsorted_graph, schedules)
 
 
+def alienDictionaryBFS(words):
+    # 26 alphabetical characters
+    unsorted_graph = dict((i, []) for i in range(26))
+    degrees = [0 for i in range(26)]
+    characters = set()
+    i = 0
+    while i < len(words) - 1:
+        j = 0
+        while j < min(len(words[i]), len(words[i + 1])):
+            if words[i][j] != words[i + 1][j]:
+                smaller = ord(words[i][j]) - ord('a')
+                larger = ord(words[i + 1][j]) - ord('a')
+                unsorted_graph[smaller].append(larger)
+                degrees[larger] += 1
+                characters.add(smaller)
+                characters.add(larger)
+            j += 1
+        i += 1
+    zero_incomings = []
+    for character in characters:
+        if degrees[character] == 0:
+            zero_incomings.append(character)
+    # stack contains all degrees 0 characters, which meaning the smallest order in alien dictionary
+    sorted_index = []
+    while len(zero_incomings) > 0:
+        index = zero_incomings.pop(len(zero_incomings) - 1)
+        sorted_index.append(index)
+        for edge in unsorted_graph[index]:
+            degrees[edge] -= 1
+            if degrees[edge] == 0:
+                zero_incomings.insert(0, edge)
+
+    sorted_characters = []
+    for index in sorted_index:
+        # convert back from index to character
+        character = chr(index + ord('a'))
+        sorted_characters.append(character)
+    return sorted_characters
+
+
 def alienDictionary(words):
     # sorted words in alphabetical order
     characters = set()
@@ -266,3 +306,6 @@ if __name__ == '__main__':
 
     print 'AlienDictionary'
     print alienDictionary(['wrt', 'wrf', 'er', 'ett', 'rftt'])
+
+    print 'alienDictionaryBFS'
+    print alienDictionaryBFS(['wrt', 'wrf', 'er', 'ett', 'rftt'])

@@ -303,24 +303,6 @@ class DP(object):
 
         return numberOfWays
 
-
-def coinChange(coins, amount):
-    # dp[i] = min(dp[i-coin[j]] + 1) number of coins for amount i is number of coins for amount i - face value of a coin + 1 coin
-    # e.g. amount dp[15] =  dp[10] + 1 when coin is 5, when coin is 2 dp[15] = dp[13] + 1, optimize solution would be min dp[i-coin] + 1
-    if amount == 0:
-        return 0
-    dp = [(amount + 1) for i in range(amount + 1)]
-    dp[0] = 0
-    for i in range(min(coins), amount + 1):
-        for j in range(len(coins)):
-            if coins[j] <= i:
-                dp[i] = min(dp[i], dp[i - coins[j]] + 1)
-
-    if dp[amount] > amount:
-        return -1
-    else:
-        return dp[amount]
-
     def largest_rectangle_histogram(self, nums):
         # the idea is to store the increasing numbers, because once it's increasing, the max rectangle is not determined.
         # however, once you found current height is lower than previous one, uses the previous height, there will a lower height index
@@ -351,6 +333,24 @@ def coinChange(coins, amount):
             if maxRectangle < tp_area:
                 maxRectangle = tp_area
         return maxRectangle
+
+
+def coinChange(coins, amount):
+    # dp[i] = min(dp[i-coin[j]] + 1) number of coins for amount i is number of coins for amount i - face value of a coin + 1 coin
+    # e.g. amount dp[15] =  dp[10] + 1 when coin is 5, when coin is 2 dp[15] = dp[13] + 1, optimize solution would be min dp[i-coin] + 1
+    if amount == 0:
+        return 0
+    dp = [(amount + 1) for i in range(amount + 1)]
+    dp[0] = 0
+    for i in range(min(coins), amount + 1):
+        for j in range(len(coins)):
+            if coins[j] <= i:
+                dp[i] = min(dp[i], dp[i - coins[j]] + 1)
+
+    if dp[amount] > amount:
+        return -1
+    else:
+        return dp[amount]
 
 
 if __name__ == '__main__':

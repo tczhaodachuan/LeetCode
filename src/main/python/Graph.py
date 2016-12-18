@@ -163,6 +163,126 @@ class Vertex(object):
         self.adjacents.append(u)
 
 
+def canFinish(numOfCourses, prerequisites):
+    unsorted_graph = dict((i, []) for i in range(numOfCourses))
+    for prerequisite in prerequisites:
+        unsorted_graph[prerequisite[1]].append(prerequisite[0])
+    visited = [0 for i in range(numOfCourses)]
+
+    for i in range(numOfCourses):
+        if visited[i] != 1:
+            if dfs_visited(i, unsorted_graph, visited):
+                return False
+    return True
+
+
+def dfs_visited(v, graph, visited):
+    if visited[v] == -1:
+        # v is being in the DFS process, so cycle detected, it's a backward edge
+        return True
+    visited[v] = -1
+    for edge in graph[v]:
+        # edge hasn't been visited and dfs visit of edge found cycle
+        if visited[edge] == -1 or dfs_visited(edge, graph, visited):
+            return True
+    visited[v] = 1
+    return False
+
+
+def course_schedule(numOfCourses, prerequisites):
+    unsorted_graph = dict((i, []) for i in range(numOfCourses))
+    degrees = [0 for i in range(numOfCourses)]
+    for prerequisite in prerequisites:
+        degrees[prerequisite[0]] += 1
+        unsorted_graph[prerequisite[1]].append(prerequisite[0])
+
+    schedules = []
+    for i in range(numOfCourses):
+        if degrees[i] == 0 and i not in schedules:
+            bfs_topological_sort(i, degrees, unsorted_graph, schedules)
+
+    return schedules
+
+
+def bfs_topological_sort(v, degrees, unsorted_graph, schedules):
+    schedules.append(v)
+
+    for edge in unsorted_graph[v]:
+        degrees[edge] -= 1
+        if degrees[edge] == 0 and edge not in schedules:
+            bfs_topological_sort(edge, degrees, unsorted_graph, schedules)
+
+
+def alienDictionaryBFS(words):
+    # 26 alphabetical characters
+    unsorted_graph = dict((i, []) for i in range(26))
+    degrees = [0 for i in range(26)]
+    characters = set()
+    i = 0
+    while i < len(words) - 1:
+        j = 0
+        while j < min(len(words[i]), len(words[i + 1])):
+            if words[i][j] != words[i + 1][j]:
+                smaller = ord(words[i][j]) - ord('a')
+                larger = ord(words[i + 1][j]) - ord('a')
+                unsorted_graph[smaller].append(larger)
+                degrees[larger] += 1
+                characters.add(smaller)
+                characters.add(larger)
+            j += 1
+        i += 1
+    zero_incomings = []
+    for character in characters:
+        if degrees[character] == 0:
+            zero_incomings.append(character)
+    # stack contains all degrees 0 characters, which meaning the smallest order in alien dictionary
+    sorted_index = []
+    while len(zero_incomings) > 0:
+        index = zero_incomings.pop(len(zero_incomings) - 1)
+        sorted_index.append(index)
+        for edge in unsorted_graph[index]:
+            degrees[edge] -= 1
+            if degrees[edge] == 0:
+                zero_incomings.insert(0, edge)
+
+    sorted_characters = []
+    for index in sorted_index:
+        # convert back from index to character
+        character = chr(index + ord('a'))
+        sorted_characters.append(character)
+    return sorted_characters
+
+
+def alienDictionary(words):
+    # sorted words in alphabetical order
+    characters = set()
+    graph = dict((i, []) for i in range(26))
+    degrees = [0 for i in range(26)]
+    i = 0
+    while i < len(words) - 1:
+        j = 0
+        while j < min(len(words[i]), len(words[i + 1])):
+            if words[i][j] != words[i + 1][j]:
+                smaller = ord(words[i][j]) - ord('a')
+                larger = ord(words[i + 1][j]) - ord('a')
+                graph[smaller].append(larger)
+                degrees[larger] += 1
+                characters.add(smaller)
+                characters.add(larger)
+                # no need to compare rest of the character, since they are inaccurate
+                break
+            j += 1
+        i += 1
+    ret = []
+    for i in characters:
+        if degrees[i] == 0:
+            bfs_topological_sort(i, degrees, graph, ret)
+    ordered_characters = []
+    for i in ret:
+        ordered_characters.append(chr(i + ord('a')))
+    return ordered_characters
+
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.canFinish(2, [[0, 1], [1, 0]])
@@ -176,3 +296,16 @@ if __name__ == '__main__':
     print solution.getFactors(6)
     print solution.getFactors(4)
     print solution.getFactors(12)
+
+    print course_schedule(2, [[0, 1]])
+    print course_schedule(2, [[1, 0]])
+    print 'canFinish'
+    print canFinish(2, [[1, 0]])
+    print canFinish(2, [[0, 1]])
+    print canFinish(2, [[0, 1], [1, 0]])
+
+    print 'AlienDictionary'
+    print alienDictionary(['wrt', 'wrf', 'er', 'ett', 'rftt'])
+
+    print 'alienDictionaryBFS'
+    print alienDictionaryBFS(['wrt', 'wrf', 'er', 'ett', 'rftt'])

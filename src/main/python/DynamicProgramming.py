@@ -26,37 +26,51 @@ class DP(object):
             return True
 
     def longest_increase_subsequence(self, nums):
-        length = [0 for x in range(len(nums))]
+        # dp[i] meaning until the ith, longest increase subsequents.
+        # The longest increasing subsequents will skip the abnormal high and low numbers,
+        # since they don't contribute to the length of the increasing sequence.
+        # [1,2,10,3,5] [1,2,3,5] is longer than [1,2,10]
+        # [3,5,2,7,9] [3,5,7,9] will ignore the number 2
+        if len(nums) == 0:
+            return 0
+        # initial value is 1, because the starting len is 1 if the nums contains 1 number
+        dp = [1 for x in range(len(nums))]
+        longest_length = 1
         for i in range(1, len(nums)):
             j = i - 1
-            sub_lengths = [0]
             while j >= 0:
+                # as long as found a previous value is less than current value,
+                # we will increasing the previous one's length
                 if nums[j] < nums[i]:
-                    sub_lengths.append(length[j] + 1)
+                    dp[i] = max(dp[i], dp[j] + 1)
+                    if dp[i] > longest_length:
+                        longest_length = dp[i]
                 j -= 1
-            length[i] = max(sub_lengths)
-        return max(length) + 1
+        return longest_length
 
     def longest_increase_subsequence_optimize(self, nums):
         if len(nums) <= 1:
             return len(nums)
         increasing_subsequence = [nums[0]]
         for i in range(1, len(nums)):
-            print increasing_subsequence
+            # print increasing_subsequence
             if increasing_subsequence[0] > nums[i]:
                 increasing_subsequence[0] = nums[i]
             elif increasing_subsequence[len(increasing_subsequence) - 1] < nums[i]:
                 increasing_subsequence.append(nums[i])
             else:
                 left = 0
-                right = len(increasing_subsequence) - 1
+                right = len(increasing_subsequence)
                 while left < right:
                     mid = (left + right) / 2
                     if increasing_subsequence[mid] < nums[i]:
+                        # nums[i] cannot be in mid, since  increasing_subsequence[mid]  < nums[i]
+                        # we need to find the first  increasing_subsequence[mid] >= nums[i]
                         left = mid + 1
                     else:
+                        # right is more than mid, mid could be the first one or not
                         right = mid
-                # it doesn't matter overwrite the number
+                # find the first number which is more than num[i]
                 increasing_subsequence[right] = nums[i]
 
         return len(increasing_subsequence)
@@ -338,8 +352,11 @@ if __name__ == '__main__':
 
     print dp.longest_consecutive_numer([100, 4, 200, 1, 3, 2])
 
+    print 'longest_increase_subsequence'
     print dp.longest_increase_subsequence([10, 9, 2, 5, 3, 7, 101, 18])
+    print 'longest_increase_subsequence_optimize'
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 7, 101, 18])
+    print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 4])
 
     holidays = [[1, 0, 3, 4], [0, 1, 0, 2], [0, 2, 3, 0]]
 

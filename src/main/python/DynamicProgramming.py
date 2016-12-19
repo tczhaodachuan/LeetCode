@@ -308,11 +308,13 @@ class DP(object):
         # number of ways = diffColor + sameColor
         numberOfWays = diffColor + sameColor
         for i in range(2, n + 1):
-            # same with previous color on previous values are difference situation
+            # same with previous color on previous values are difference situation. e.g. there are 6 ways of different colors in first two fences, there are 6 ways of when 3rd fence is the same color if 2nd fence
             sameColor = diffColor * 1
             # the last number of ways on different with previous color, since previous value could be in k situation, so current is k-1
             # however, the total of previous combination could be number of ways
+            # The number of ways of previous fence permutation, be different with previous one color
             diffColor = (k - 1) * numberOfWays
+            # two different cases get the number of ways to print fences.
             numberOfWays = sameColor + diffColor
 
         return numberOfWays

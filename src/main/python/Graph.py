@@ -283,6 +283,21 @@ def alienDictionary(words):
     return ordered_characters
 
 
+def isSingleCompleteCycle(nums):
+    n = len(nums)
+    degrees = [0 for i in range(n)]
+    for i in range(len(nums)):
+        nums[i] = (i + nums[i]) % n
+    print nums
+    for num in nums:
+        if degrees[num] == 1:
+            return False
+        else:
+            degrees[num] += 1
+
+    return nums[len(nums) - 1] == 0
+
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.canFinish(2, [[0, 1], [1, 0]])
@@ -309,3 +324,7 @@ if __name__ == '__main__':
 
     print 'alienDictionaryBFS'
     print alienDictionaryBFS(['wrt', 'wrf', 'er', 'ett', 'rftt'])
+
+    print isSingleCompleteCycle([1, 117])
+    print isSingleCompleteCycle([1, 0])
+    print isSingleCompleteCycle([1, 3, 5, 7])

@@ -115,6 +115,56 @@ def findMinInRotatedArrayII(nums):
     return -1
 
 
+def rotateArray(nums, k):
+    if k == 0:
+        return
+    k = k % len(nums)
+    k = len(nums) - k
+    for i in range(gcd(k, len(nums))):
+        temp = nums[i]
+        j = i
+        while True:
+            fromPosition = j + k
+            if fromPosition >= len(nums):
+                fromPosition -= len(nums)
+            if fromPosition == i:
+                break
+            nums[j] = nums[fromPosition]
+            j = fromPosition
+        nums[j] = temp
+    print nums
+
+
+def gcd(m, n):
+    if n == 0:
+        return m
+    else:
+        return gcd(n, m % n)
+
+
+def rotateArrayReverse(nums, k):
+    # [1,2,3,4,5,6] flip over the array
+    # [6,5,4,3,2,1]
+    # [5,6,1,2,3,4] reverse digits in sub array will get the correct answer
+    if k == 0:
+        return
+    k = k % len(nums)
+    reverse(nums, 0, len(nums) - 1)
+    reverse(nums, 0, k - 1)
+    reverse(nums, k, len(nums) - 1)
+    print nums
+
+
+def reverse(nums, start, end):
+    mid = (start + end) / 2
+    i = start
+    while i <= mid:
+        temp = nums[i]
+        nums[i] = nums[end - i + start]
+        nums[end - i + start] = temp
+        i += 1
+
+
 if __name__ == '__main__':
     print 'searchRotatedArray'
     rotatedArray = [5, 6, 7, 8, 1, 2, 3]
@@ -142,3 +192,13 @@ if __name__ == '__main__':
     print findMinInRotatedArrayII([4, 1, 2, 3, 3, 3])
     print findMinInRotatedArrayII([3, 1, 3])
     print findMinInRotatedArrayII([5, 1, 3])
+
+    print 'rotateArray'
+    rotateArray([1, 2, 3, 4, 5, 6], 2)
+    rotateArray([1, 2], 3)
+    rotateArray([1, 2, 3], 2)
+
+    print 'rotateArrayReverse'
+    rotateArrayReverse([1, 2, 3, 4, 5, 6], 2)
+    rotateArrayReverse([1, 2], 3)
+    rotateArrayReverse([1, 2, 3], 2)

@@ -60,6 +60,49 @@ class Node(object):
         return count + 1
 
 
+def rotateKElement(head, k):
+    # When a head object passed in from outside scope
+    # When you alter the head.val, it reflected in outside scope
+    # When you reassign the head object, the local object created.
+    # The previous reference still exist in memory somewhere but you cannot retrieve.
+    # Thus it doesn't alter the outside scope variable.
+    if k == 0 or head == None:
+        return head
+    slow = head
+    fast = head
+    current = head
+    n = 0
+    while current:
+        n += 1
+        current = current.next
+    k = k % n
+    gap = 0
+    while fast.next:
+        fast = fast.next
+        if gap < k:
+            gap += 1
+        else:
+            slow = slow.next
+    fast.next = head
+    head = slow.next
+    slow.next = None
+    return head
+
+
+def generateNodes(nums):
+    head = Node(nums[0])
+    current = head
+    for i in range(1, len(nums)):
+        current.next = Node(nums[i])
+        current = current.next
+    return head
+
+
+def printNode(head):
+    current = head
+    while current:
+        print current.val
+        current = current.next
 if __name__ == '__main__':
     head = Node(5)
     head.next = Node(7)
@@ -83,3 +126,10 @@ if __name__ == '__main__':
     nums = [1, 1, 1, 2, 3]
     print head.removeDuplicateFromSortedArray(nums)
     print nums
+
+    head = generateNodes([1, 2, 3, 4, 5])
+    print 'generateNodes'
+    printNode(head)
+    print 'rotateKElement'
+    head = rotateKElement(head, 2)
+    printNode(head)

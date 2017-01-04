@@ -91,11 +91,12 @@ class DP(object):
                 nextTarget = nums[i] - 1
                 if visited.has_key(nextTarget):
                     continue
+                length[i] += 1
                 while num_dict.has_key(nextTarget):
                     visited.setdefault(nextTarget, True)
                     length[i] += 1
                     nextTarget -= 1
-        return max(length) + 1
+        return max(length)
 
     def maximum_contiguous_sum(self, nums):
         max_so_far = nums[0]

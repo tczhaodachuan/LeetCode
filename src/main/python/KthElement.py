@@ -41,6 +41,30 @@ class KthElement(object):
                 heapq.heappush(heap, nums[i])
         return heap[0]
 
+    def kSmallestPairs(self, nums1, nums2, k):
+        if k == 0:
+            return []
+        if len(nums1) == 0 or len(nums2) == 0:
+            return []
+        result = []
+        heap = []
+        for i in range(len(nums1)):
+            for j in range(len(nums2)):
+                pair = Pair(i, j, nums1[i] + nums2[j])
+                if len(heap) < k:
+                    heapq.heappush(heap, pair)
+                else:
+                    if pair.summation < heap[0].summation:
+                        heapq.heappop(heap)
+                        heapq.heappush(heap, pair)
+                    if pair.summation == heap[0].summation:
+                        heapq.heappush(heap, pair)
+
+        while len(heap) > 0 and len(result) < k:
+            pair = heapq.heappop(heap)
+            result.append([nums1[pair.i], nums2[pair.j]])
+        return result
+
     def findKthNumber(self, n, k):
         if k == 0:
             return 0
@@ -73,6 +97,19 @@ class KthElement(object):
         return gap
 
 
+class Pair(object):
+    def __init__(self, i, j, summation):
+        self.i = i
+        self.j = j
+        self.summation = summation
+
+    def __lt__(self, other):
+        return self.summation > other.summation
+
+    def __eq__(self, other):
+        return self.summation == other.summation
+
+
 if __name__ == '__main__':
     kthElement = KthElement()
     print kthElement.findKthElement([1, 2, 6, 8, 10, 11], [6, 9, 10, 18, 19], 6)
@@ -81,3 +118,5 @@ if __name__ == '__main__':
 
     print kthElement.findKthNumber(13, 2)
     print kthElement.findKthNumber(9, 2)
+
+    print kthElement.kSmallestPairs([1, 2, 4, 5, 6], [3, 5, 7, 9], 3)

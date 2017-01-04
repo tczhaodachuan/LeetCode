@@ -163,7 +163,7 @@ def countNodes(root):
         return 0
     d = depth(root)
     print 'depth ' + str(d)
-    print 2^1
+    print 2 ^ 1
     return 2 ^ d - 1
 
 
@@ -174,6 +174,20 @@ def depth(root):
     leftDepth = depth(root.left)
     rightDepth = depth(root.right)
     return 1 + max(leftDepth, rightDepth)
+
+
+def bstToArray(root):
+    array = []
+    inorder(root, array)
+    return array
+
+
+def inorder(root, array):
+    if root == None:
+        return
+    inorder(root.left, array)
+    array.append(root.val)
+    inorder(root.right, array)
 
 
 if __name__ == '__main__':
@@ -223,3 +237,8 @@ if __name__ == '__main__':
 
     bstHead = head.generateBST([1])
     print countNodes(bstHead)
+
+    bstHead = head.generateBST([9, 5, 8, 6, 7, 4])
+
+    bstArray = bstToArray(bstHead)
+    print bstArray

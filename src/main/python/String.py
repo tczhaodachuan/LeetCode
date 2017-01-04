@@ -278,7 +278,30 @@ def decodeString(s):
     return prefix + decodeStr
 
 
-# from inner side
+def longestPalindrome(s):
+    chacterCount = {}
+    for i in range(len(s)):
+        if chacterCount.has_key(s[i]):
+            chacterCount[s[i]] += 1
+        else:
+            chacterCount[s[i]] = 1
+    longestPalindromeLengh = 0
+    for key, value in chacterCount.iteritems():
+        if value % 2 == 1:
+            longestPalindromeLengh += 1
+            chacterCount[key] -= 1
+            break
+    for key, value in chacterCount.iteritems():
+        if value == 0:
+            continue
+        if value % 2 == 0:
+            longestPalindromeLengh += value
+            chacterCount[key] -= value
+        else:
+            longestPalindromeLengh += value/2 * 2
+            chacterCount[key] -= value/2 * 2
+
+    return longestPalindromeLengh
 
 
 if __name__ == '__main__':
@@ -311,3 +334,5 @@ if __name__ == '__main__':
     print decodeString('3[a2[c]]')
     print decodeString('2[abc]3[cd]ef')
     print decodeString('sd2[f2[e]g]i')
+
+    print longestPalindrome('aAbccccdd')

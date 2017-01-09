@@ -303,6 +303,8 @@ def longestPalindrome(s):
 
     return longestPalindromeLengh
 
+def minWindow(s, t):
+    pass
 
 if __name__ == '__main__':
     solution = Solution()

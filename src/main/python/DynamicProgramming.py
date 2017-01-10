@@ -98,6 +98,21 @@ class DP(object):
                     nextTarget -= 1
         return max(length)
 
+    def maximum_contiguous_sumII(self, nums):
+        # dp[i] meaning when the last num is nums[i] as element, the largest summation
+        # the largest element in dp array will be the answer.
+        # the formula dp[i] = nums[i] if dp[i-1] < 0, else nums[i] + dp[i-1]
+        n = len(nums)
+        dp = [nums[0] for i in range(n)]
+        maximum = dp[0]
+        for i in range(1, len(nums)):
+            if dp[i - 1] < 0:
+                dp[i] = nums[i]
+            else:
+                dp[i] = dp[i - 1] + nums[i]
+            maximum = max(maximum, dp[i])
+        return maximum
+
     def maximum_contiguous_sum(self, nums):
         max_so_far = nums[0]
         curr_max = nums[0]
@@ -108,22 +123,31 @@ class DP(object):
 
         return max_so_far
 
+    def maximum_contiguous_productII(self, nums):
+        n = len(nums)
+        f = [nums[0] for i in range(n)]
+        g = [nums[0] for i in range(n)]
+        # f[i] meaning ending with nums[i] maximum product
+        # g[i] meaning ending with nums[i] minimum product
+        maxProduct = nums[0]
+        for i in range(1, n):
+            f[i] = max(f[i - 1] * nums[i], g[i - 1] * nums[i], nums[i])
+            g[i] = min(g[i - 1] * nums[i], f[i - 1] * nums[i], nums[i])
+            maxProduct = max(maxProduct, f[i])
+        return maxProduct
+
     def maximum_contiguous_product(self, nums):
         max_so_far = nums[0]
         min_so_far = nums[0]
         max_product = nums[0]
-        all_product = nums[0]
 
         for i in range(1, len(nums)):
-            all_product = all_product * nums[i]
-            min_so_far = min_so_far * nums[i]
-            max_so_far = max_so_far * nums[i]
-
-            max_so_far = max(min_so_far, max_so_far, nums[i])
-            min_so_far = min(max_so_far, min_so_far, nums[i])
-
-            max_product = max_so_far if max_so_far > max_product else max_product
-        return max(max_product, all_product)
+            maxTemp = max_so_far
+            minTemp = min_so_far
+            max_so_far = max(minTemp * nums[i], maxTemp * nums[i], nums[i])
+            min_so_far = min(maxTemp * nums[i], minTemp * nums[i], nums[i])
+            max_product = max(max_product, max_so_far)
+        return max_product
 
     def minMoves3(self, nums):
 
@@ -424,9 +448,15 @@ def minDistance(word1, word2):
 
 if __name__ == '__main__':
     dp = DP()
+    print 'maximum_contiguous_sum'
     print dp.maximum_contiguous_sum([-2, -3, 4, -1, -2, 1, 5, -3])
+    print 'maximum_contiguous_sumII'
+    print dp.maximum_contiguous_sumII([-2, -3, 4, -1, -2, 1, 5, -3])
 
+    print 'maximum_contiguous_product'
     print dp.maximum_contiguous_product([1, 0, -1, 2, 3, -5, -2])
+    print 'maximum_contiguous_productII'
+    print dp.maximum_contiguous_productII([1, 0, -1, 2, 3, -5, -2])
 
     print dp.minMoves1([1, 2])
 

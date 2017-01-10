@@ -110,6 +110,28 @@ class Pair(object):
         return self.summation == other.summation
 
 
+def topKFrequent(nums, k):
+    heap = []
+    numCountDict = dict()
+    for num in nums:
+        if numCountDict.has_key(num):
+            numCountDict[num] += 1
+        else:
+            numCountDict[num] = 1
+    for num, count in numCountDict.iteritems():
+        if len(heap) < k:
+            heapq.heappush(heap, [count, num])
+        else:
+            if [count, num] > heap[0]:
+                heapq.heappop(heap)
+                heapq.heappush(heap, [count, num])
+
+    result = []
+    for i in range(len(heap)):
+        result.append(heap[i][1])
+    return result
+
+
 if __name__ == '__main__':
     kthElement = KthElement()
     print kthElement.findKthElement([1, 2, 6, 8, 10, 11], [6, 9, 10, 18, 19], 6)
@@ -120,3 +142,5 @@ if __name__ == '__main__':
     print kthElement.findKthNumber(9, 2)
 
     print kthElement.kSmallestPairs([1, 2, 4, 5, 6], [3, 5, 7, 9], 3)
+
+    print topKFrequent([1, 1, 1, 2, 2, 3], 2)

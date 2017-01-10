@@ -397,6 +397,31 @@ def coinChange(coins, amount):
         return dp[amount]
 
 
+def minDistance(word1, word2):
+    m = len(word1)
+    n = len(word2)
+    # maintain a dp[i][j] array for solution matrix
+    # initial value dp[i][0] = i, dp[0][j] = j, because from workd2[:j] to word2[:0] is deletion of j
+    # dp[i][j] meaning from word1[:i] to word2[:j] min distance,
+    # if they are equal, dp[i][j] = dp[i-1][j-1]
+    # if they are not, 1) delete word1[i], dp[i-1][j] + 1
+    # 2) add word2[j] into word1, dp[i][j-1] + 1, move word2 to right one character
+    # 3) replace word1[i] to word2[j] dp[i-1][j-1] + 1
+    dp = [[0 for i in range(n + 1)] for j in range(m + 1)]
+    for i in range(1, m + 1):
+        dp[i][0] = i
+    for j in range(1, n + 1):
+        dp[0][j] = j
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if word1[:i] == word2[:j]:
+                dp[i][j] = dp[i - 1][j - 1]
+            else:
+                dp[i][j] = min(dp[i - 1][j - 1] + 1, dp[i - 1][j] + 1, dp[i][j - 1] + 1)
+
+    return dp[m][n]
+
+
 if __name__ == '__main__':
     dp = DP()
     print dp.maximum_contiguous_sum([-2, -3, 4, -1, -2, 1, 5, -3])

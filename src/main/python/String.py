@@ -298,13 +298,80 @@ def longestPalindrome(s):
             longestPalindromeLengh += value
             chacterCount[key] -= value
         else:
-            longestPalindromeLengh += value/2 * 2
-            chacterCount[key] -= value/2 * 2
+            longestPalindromeLengh += value / 2 * 2
+            chacterCount[key] -= value / 2 * 2
 
     return longestPalindromeLengh
 
+
 def minWindow(s, t):
-    pass
+    if len(s) == 0:
+        return ''
+    if len(t) == 1:
+        if s.__contains__(t):
+            return t
+        else:
+            return ''
+    keyDict = {}
+    for i in range(len(t)):
+        if keyDict.has_key(t[i]):
+            keyDict[t[i]] += 1
+        else:
+            keyDict[t[i]] = 1
+    # set d to be an impossible integer
+    d = len(s) + 1
+    start = 0
+    end = 0
+    counter = len(t)
+    head = 0
+    while end < len(s):
+        if keyDict.has_key(s[end]):
+            if keyDict[s[end]] > 0:
+                # only it's a valid match, counter deducts 1
+                counter -= 1
+            # find matching character, the counter, and keyDict counter both minus 1
+            keyDict[s[end]] -= 1
+            # find the target character
+        end += 1
+        while counter == 0:
+            # based on start index, we found all matching characters, and we got the diff
+            # now it's the time to move start index forward.
+            if end - start > 0 and end - start < d:
+                head = start
+                d = end - start
+            # move the start to the next matching character
+            # e.g. ADOBECODEBANC, ABC
+            # start =0, end = 6
+            # start =1, end = 11
+            if keyDict.has_key(s[start]):
+                if keyDict[s[start]] == 0:
+                    counter += 1
+                keyDict[s[start]] += 1
+            start += 1
+    if d == len(s) + 1:
+        return ''
+    else:
+        return s[head:head + d]
+
+
+def oneEditDistance(s, t):
+    if len(s) == len(t):
+        count = 0
+        for i in range(len(s)):
+            if s[i] != t[i]:
+                count += 1
+        return count == 1
+    # len(s) > len(t)
+    if len(s) - len(t) == 1:
+        for i in range(len(t)):
+            if s[i] != t[i]:
+                return s[i + 1:] == t[i:]
+    if len(t) - len(s) == 1:
+        for i in range(len(s)):
+            if s[i] != t[i]:
+                return s[i:] == t[i + 1:]
+    return False
+
 
 if __name__ == '__main__':
     solution = Solution()
@@ -338,3 +405,14 @@ if __name__ == '__main__':
     print decodeString('sd2[f2[e]g]i')
 
     print longestPalindrome('aAbccccdd')
+
+    print minWindow('ADOBECODEBANC', 'ABC')
+    print minWindow('abc', 'ab')
+    print minWindow('bba', 'ab')
+
+    print 'oneEditDistance'
+    print oneEditDistance('abc', 'ab')
+    print oneEditDistance('', '')
+    print oneEditDistance('', 'a')
+    print oneEditDistance('abcd', 'abecd')
+    print oneEditDistance('a', 'ba')

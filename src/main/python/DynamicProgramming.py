@@ -446,6 +446,37 @@ def minDistance(word1, word2):
     return dp[m][n]
 
 
+def shortestDistance(grid):
+    m = len(grid)
+    n = len(grid[0])
+    buildingReached = 0
+    directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    # distance will be updated from each building
+    distance = [[0 for i in range(n)] for j in range(m)]
+    s_distance = m + n + 1
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                queue = []
+                queue.append([i, j, 0])
+                while len(queue) > 0:
+                    [currX, currY, dist] = queue.pop()
+                    distance[currX][currY] += dist
+                    for [x, y] in directions:
+                        [nextX, nextY] = [currX + x, currY + y]
+                        if nextX >= 0 and nextX < m and nextY >= 0 and nextY < n and grid[nextX][
+                            nextY] == buildingReached:
+                            grid[nextX][nextY] -= 1
+                            queue.append([nextX, nextY, dist + 1])
+                buildingReached -= 1
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == buildingReached and distance[i][j] < s_distance:
+                s_distance = distance[i][j]
+
+    return s_distance
+
+
 if __name__ == '__main__':
     dp = DP()
     print 'maximum_contiguous_sum'
@@ -510,3 +541,6 @@ if __name__ == '__main__':
 
     print 'largest_rectangle_histogram_brutal_force'
     print dp.largest_rectangle_histogram_brutal_force([2, 1, 5, 6, 2, 3])
+
+    print 'ShortestDistance'
+    print shortestDistance([[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])

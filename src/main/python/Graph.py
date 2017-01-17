@@ -35,6 +35,37 @@ class Solution(object):
 
         return False
 
+    def canFinishII(self, numCourses, prerequisites):
+        # graph stores the course which is the prerequisite of other courses
+        courseGraph = [[] for i in range(numCourses)]
+        visited = [0 for i in range(numCourses)]
+        for prerequisite in prerequisites:
+            if prerequisite[0] not in courseGraph[prerequisite[1]]:
+                courseGraph[prerequisite[1]].append(prerequisite[0])
+
+        for i in range(numCourses):
+            if visited[i] != 1:
+                # take the course which is not visited yet
+                if not self.takeCourse(i, visited, courseGraph):
+                    return False
+        return True
+
+    def takeCourse(self, i, visited, courseGraph):
+        # if the ith course has been completed, meaning True
+        if visited[i] == 1:
+            return True
+        if visited[i] == -1:
+            # the course is being pre-requisite by other courses
+            return False
+
+        # attemp to take the i course
+        visited[i] = -1
+        for postCourse in courseGraph[i]:
+            if not self.takeCourse(postCourse, visited, courseGraph):
+                return False
+        visited[i] = 1
+        return True
+
     def canFinish(self, numCourses, prerequisites):
         """
         :type numCourses: int
@@ -288,7 +319,6 @@ def isSingleCompleteCycle(nums):
     degrees = [0 for i in range(n)]
     for i in range(len(nums)):
         nums[i] = (i + nums[i]) % n
-    print nums
     for num in nums:
         if degrees[num] == 1:
             return False
@@ -315,9 +345,13 @@ if __name__ == '__main__':
     print course_schedule(2, [[0, 1]])
     print course_schedule(2, [[1, 0]])
     print 'canFinish'
+    print canFinish(2, [[0, 1], [1, 0]])
     print canFinish(2, [[1, 0]])
     print canFinish(2, [[0, 1]])
-    print canFinish(2, [[0, 1], [1, 0]])
+    print 'canFinishII'
+    print solution.canFinishII(2, [[0, 1], [1, 0]])
+    print solution.canFinishII(2, [[1, 0]])
+    print solution.canFinishII(2, [[0, 1]])
 
     print 'AlienDictionary'
     print alienDictionary(['wrt', 'wrf', 'er', 'ett', 'rftt'])

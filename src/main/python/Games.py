@@ -33,10 +33,13 @@ class Games(object):
             move_one = self.play(n - 1, not myStep, matrix)
             matrix.setdefault(n - 1, move_one)
 
+        # one of the move is win, i can win, otherwise, lost.
         return move_one or move_two or move_three
 
 
 def BullsAndCowsII(secret, guess):
+    # only applies when secret and guess are all numbers
+    # if could be alphabetical, we should allocate 26 size or 52 size depends on input.
     bCount = 0
     cCount = 0
     secretAppears = [0 for i in range(10)]

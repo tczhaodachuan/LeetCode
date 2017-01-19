@@ -78,25 +78,26 @@ class DP(object):
     def longest_consecutive_numer(self, nums):
         # O(n) complexity
         # DP requires L(n) = L(n-1) + 1 if exists, if not L(n) = 0, where n is from a number to n consecutive sequence
-        length = [0 for i in range(len(nums))]
+        dp = [0 for i in range(len(nums))]
         num_dict = dict()
         visited = dict()
         for num in nums:
             num_dict.setdefault(num, True)
 
         for i in range(len(nums)):
-            if length[i] > 0:
+            if dp[i] > 0:
+                # from a number to num[i] is already calculated
                 continue
             else:
                 nextTarget = nums[i] - 1
                 if visited.has_key(nextTarget):
                     continue
-                length[i] += 1
+                dp[i] += 1
                 while num_dict.has_key(nextTarget):
                     visited.setdefault(nextTarget, True)
-                    length[i] += 1
+                    dp[i] += 1
                     nextTarget -= 1
-        return max(length)
+        return max(dp)
 
     def maximum_contiguous_sumII(self, nums):
         # dp[i] meaning when the last num is nums[i] as element, the largest summation
@@ -161,6 +162,8 @@ class DP(object):
         return moves
 
     def minMoves1(self, nums):
+        # increase n-1 elements 1 meaning add 1 to 1 elements
+        # so to make up the difference, sum(nums) - min(nums) * len(nums) would be the optimize solution
 
         return sum(nums) - min(nums) * len(nums)
 
@@ -168,18 +171,10 @@ class DP(object):
         if len(nums) <= 1:
             return 0
         nums = sorted(nums)
-        current_max = nums[len(nums) - 1]
-        current_min = nums[0]
-        diff = current_max - current_min
+        middle = len(nums) / 2
         count = 0
-        while diff > 0:
-            count += diff
-            for i in range(len(nums) - 1):
-                nums[i] += diff
-            nums = sorted(nums)
-            current_max = nums[len(nums) - 1]
-            current_min = nums[0]
-            diff = current_max - current_min
+        for i in range(len(nums)):
+            count += abs(nums[i] - nums[middle])
         return count
 
     def maxVacationDays(self, holidays):
@@ -460,12 +455,12 @@ if __name__ == '__main__':
 
     print dp.minMoves1([1, 2])
 
-    print dp.minMoves2([1, 2])
+    print dp.minMoves2([3, 1, 2])
 
     print dp.minMoves3([1, 2])
 
     # print dp.canIWin(4, 6)
-
+    print 'longest_consecutive_numer'
     print dp.longest_consecutive_numer([100, 4, 200, 1, 3, 2])
 
     print 'longest_increase_subsequence'

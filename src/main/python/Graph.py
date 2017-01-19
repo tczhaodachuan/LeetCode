@@ -298,6 +298,56 @@ def isSingleCompleteCycle(nums):
     return nums[len(nums) - 1] == 0
 
 
+class GraphNode(object):
+    def __init__(self, s):
+        self.s = s
+        self.length = len(s)
+        if '.' in s:
+            self.file = True
+        else:
+            self.file = False
+        self.neighbour = []
+
+
+def lengthLongestPath(input):
+    input += '\n'
+    directory = ''
+    graph = {}
+    graphNode = GraphNode('')
+    graphNode.length = -1
+    graph[0] = graphNode
+    level = 1
+    for n in input:
+        if n == '\n':
+            # current directory variable should have the string
+            graphNode = GraphNode(directory)
+            if level > 0:
+                graph[level - 1].neighbour.append(graphNode)
+            # replace current level node is fine, since the previous node is already built
+            graph[level] = graphNode
+            directory = ''
+            level = 1
+        elif n == '\t':
+            level += 1
+        else:
+            directory += n
+
+    return dfs(graph[0])
+
+
+def dfs(graphNode):
+    if graphNode.file:
+        return graphNode.length
+    sum = graphNode.length + 1
+    max = 0
+    for n in graphNode.neighbour:
+        temp = dfs(n)
+        max = temp if temp > max else max
+    if max == 0:
+        return -1
+    return sum + max
+
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.canFinish(2, [[0, 1], [1, 0]])
@@ -328,3 +378,14 @@ if __name__ == '__main__':
     print isSingleCompleteCycle([1, 117])
     print isSingleCompleteCycle([1, 0])
     print isSingleCompleteCycle([1, 3, 5, 7])
+
+    path = 'dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext'
+    print 'Longest path'
+    print lengthLongestPath(path)
+    print len('dir/subdir2/subsubdir2/file2.ext')
+    print lengthLongestPath('dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext')
+    print len('dir/subdir2/file.ext')
+    print lengthLongestPath('dir\n\tsubdir1')
+    print lengthLongestPath('dir\n   file.txt')
+    print "a\n\taa\n\t\taaa\n\t\t\tfile1234567890123.txt\naaaaaaaaaaaaaaaaaaaaa\n\tsth.png"
+    print lengthLongestPath("a\n\taa\n\t\taaa\n\t\t\tfile1234567890123.txt\naaaaaaaaaaaaaaaaaaaaa\n\tsth.png")

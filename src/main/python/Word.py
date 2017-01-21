@@ -1,3 +1,22 @@
+def validWordAbbreviation(word, abbr):
+    loc = 0
+    count = 0
+    for w in abbr:
+        if w.isdigit():
+            count = count * 10 + int(w)
+        else:
+            if count > 0:
+                if word[loc + count] != w:
+                    return False
+                else:
+                    loc += count
+                count = 0
+            if word[loc + count] != w:
+                return False
+            loc += 1
+    return True
+
+
 def validWordAbbr(word, abbr):
     # need to get digit first
     loc = 0
@@ -56,8 +75,56 @@ def generalizedAbbr(word):
     return permutations
 
 
+def WordBreak(s, wordDict, cache={}):
+    if len(s) == 0:
+        return False
+    if cache.has_key(s):
+        return cache[s]
+    if s in wordDict:
+        cache[s] = True
+        return True
+    for word in wordDict:
+        if s.startswith(word) and WordBreak(s[len(word):], wordDict, cache):
+            cache[word] = True
+            return True
+
+    cache[s] = False
+    return False
+
+
+def WordBreakII(s, wordDict, cache):
+    if cache.has_key(s):
+        return cache[s]
+    res = []
+    if len(s) == 0:
+        return res
+    for word in wordDict:
+        if s.startswith(word):
+            subStrings = WordBreakII(s[len(word):], wordDict, cache)
+            for sub in subStrings:
+                res.append(word + ' ' + sub)
+    if s in wordDict:
+        res.append(s)
+    cache[s] = res
+    return res
+
+
 if __name__ == '__main__':
+    print 'validWordAbbr'
     print validWordAbbr('internationalization', 'i12iz4n')
     print validWordAbbr('apple', 'a2e')
 
+    print 'validWordAbbreviation'
+    print validWordAbbreviation('internationalization', 'i12iz4n')
+    print validWordAbbreviation('apple', 'a2e')
+
     print generalizedAbbr('word')
+
+    print 'WordBreak'
+    dict = ['i', 'like', 'sam', 'sung', 'samsung', 'ham', 'water', 'is']
+    print WordBreak('ilikesamsung', dict)
+    print 'WordBreakII'
+    cache = {}
+    print WordBreakII('ilikesamsungsamsung', dict, cache)
+
+    ''.isdigit()

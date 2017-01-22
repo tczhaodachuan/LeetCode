@@ -372,6 +372,7 @@ def oneEditDistance(s, t):
                 return s[i:] == t[i + 1:]
     return False
 
+
 def licenseKeyFormatting(S, K):
     if K == 0:
         return ''
@@ -395,6 +396,30 @@ def licenseKeyFormatting(S, K):
             count += 1
     return license
 
+
+def longestLengthSubstringAtMostTwoCharacters(s):
+    if len(s) < 2:
+        return 0
+
+    longestLength = 0
+    startOfSubString = 0
+    hashDict = dict()
+
+    for i in range(len(s)):
+        if hashDict.has_key(s[i]):
+            hashDict[s[i]] += 1
+        else:
+            hashDict[s[i]] = 1
+
+
+        while len(hashDict.keys()) > 2:
+            hashDict[s[startOfSubString]] -= 1
+            if hashDict[s[startOfSubString]] == 0:
+                del hashDict[s[startOfSubString]]
+            startOfSubString += 1
+        longestLength = max(longestLength, i - startOfSubString + 1)
+
+    return longestLength
 
 
 if __name__ == '__main__':
@@ -443,3 +468,6 @@ if __name__ == '__main__':
 
     print 'LicenseKeyFormatting'
     print licenseKeyFormatting('2-4A0r7-4k', 4)
+
+    print 'LongestSubStringAtMost2Characters'
+    print longestLengthSubstringAtMostTwoCharacters('eceba')

@@ -190,6 +190,27 @@ def inorder(root, array):
     inorder(root.right, array)
 
 
+def dfs(val, root, len, res):
+    if not root:
+        return
+    if root.val == val + 1:
+        len += 1
+    else:
+        len = 1
+    res[0] = max(res[0], len)
+    dfs(root.val, root.left, len, res)
+    dfs(root.val, root.right, len, res)
+
+
+def longestConsecutiveSequence(root):
+    if not root:
+        return 0
+
+    res = [0]
+    dfs(root.val - 1, root, 0, res)
+    return res[0]
+
+
 if __name__ == '__main__':
     head = TreeNode(6)
     head.left = TreeNode(2)
@@ -242,3 +263,17 @@ if __name__ == '__main__':
 
     bstArray = bstToArray(bstHead)
     print bstArray
+
+    head = TreeNode(2)
+    head.right = TreeNode(3)
+    head.right.left = TreeNode(2)
+    head.right.left.left = TreeNode(1)
+
+    root = TreeNode(1)
+    root.right = TreeNode(3)
+    root.right.left = TreeNode(2)
+    root.right.right = TreeNode(4)
+    root.right.right.right = TreeNode(5)
+    print 'LongestConsecutiveSequence'
+    print longestConsecutiveSequence(head)
+    print longestConsecutiveSequence(root)

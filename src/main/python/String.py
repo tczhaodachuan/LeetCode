@@ -372,6 +372,30 @@ def oneEditDistance(s, t):
                 return s[i:] == t[i + 1:]
     return False
 
+def licenseKeyFormatting(S, K):
+    if K == 0:
+        return ''
+    count = 0
+    license = ''
+    stack = []
+    for s in S:
+        if s == '-':
+            continue
+        stack.append(s)
+    while len(stack) > 0:
+        if count == 0:
+            license = stack.pop().upper() + license
+            count += 1
+            continue
+        if count % K == 0:
+            license = '-' + license
+            count = 0
+        else:
+            license = stack.pop().upper() + license
+            count += 1
+    return license
+
+
 
 if __name__ == '__main__':
     solution = Solution()
@@ -416,3 +440,6 @@ if __name__ == '__main__':
     print oneEditDistance('', 'a')
     print oneEditDistance('abcd', 'abecd')
     print oneEditDistance('a', 'ba')
+
+    print 'LicenseKeyFormatting'
+    print licenseKeyFormatting('2-4A0r7-4k', 4)

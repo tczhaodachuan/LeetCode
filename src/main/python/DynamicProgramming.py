@@ -582,3 +582,6 @@ if __name__ == '__main__':
 
     print 'ShortestDistance'
     print shortestDistance([[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])
+
+    print 'MinDistance'
+    print minDistance("sea", "eat")

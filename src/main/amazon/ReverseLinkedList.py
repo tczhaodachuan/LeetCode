@@ -2,6 +2,30 @@ import pprint
 
 from LinkedList import generateNodes, printNode
 
+def reverseLinkedList(head):
+    pre = None
+    current = head
+    nextNode = None
+    while current:
+        nextNode = current.next
+        current.next = pre
+        pre = current
+        current = nextNode
+
+    return pre
+def reverseHalfLinkedListII(head):
+    slow = head
+
+    fast = head
+    pre = None
+    while fast and fast.next:
+        pre = slow
+        slow = slow.next
+        fast = fast.next.next
+    # even number, fast will be None
+    pre.next = reverseLinkedList(slow)
+
+
 
 def reverseHalfLinkedList(head):
     stack = []
@@ -32,7 +56,11 @@ def reverseHalfLinkedList(head):
 
 
 if __name__ == '__main__':
-    head = generateNodes([9, 10, 11, 12, 13, 14])
+    head = generateNodes([9, 10, 11, 12])
     reverseHalfLinkedList(head)
+    printNode(head)
 
+
+    head = generateNodes([9, 10, 11, 12])
+    reverseHalfLinkedListII(head)
     printNode(head)

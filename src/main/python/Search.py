@@ -109,8 +109,10 @@ def findMinInRotatedArrayII(nums):
             return nums[start]
         mid = (start + end) / 2
         if nums[mid] > nums[end]:
+            # min value in right half
             start = mid + 1
         else:
+            # min value in left half
             end = mid
     return -1
 

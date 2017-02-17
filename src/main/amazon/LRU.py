@@ -26,6 +26,31 @@ class LRU(object):
                 del self.cache[leastUsedKey]
 
 
+def countMissLL(array, size):
+    if not array or len(array) == 0:
+        return 0
+    if size < 1:
+        # for size 0 cache, all array will be missed
+        return len(array)
+
+    cache = {}
+    list = []
+    missed = 0
+    for x in array:
+        if cache.has_key(x):
+            list.remove(x)
+            list.append(x)
+        else:
+            missed += 1
+            cache[x] = True
+            list.append(x)
+            if len(list) > size:
+                # pop up the least used cache
+                y = list.pop(0)
+                del cache[y]
+    return missed
+
+
 if __name__ == '__main__':
     lru = LRU(5)
 
@@ -36,3 +61,5 @@ if __name__ == '__main__':
 
     for item in lru.cache.items():
         print item
+
+    print countMissLL([1, 2, 3, 4, 1, 2, 6, 7], 5)

@@ -320,7 +320,6 @@ class DP(object):
     def paintFence(self, n, k):
         if n == 0:
             return 0
-        i = 1
         # current ith color is the same with i-1 Color, since 0 post is 0 color, the way to be same is 0
         sameColor = 0
         # current ith color different with 0 post ways is k
@@ -364,7 +363,40 @@ class DP(object):
 
         return maxRectangle
 
+    def largest_rectangle_histogramII(self, heights):
+        if len(heights) == 0:
+            return 0
+        largestRectangleArea = 0
+        stackIndex = []
+        i = 0
+        while i < len(heights):
+            if len(stackIndex) == 0:
+                stackIndex.append(i)
+                # move the i to the next
+                i += 1
+            else:
+                if heights[i] >= heights[stackIndex[-1]]:
+                    # the sequence is increasing, so the max area is non-determinative
+                    stackIndex.append(i)
+                    i += 1
+                else:
+                    tpIndex = stackIndex.pop(-1)
+                    tp = heights[tpIndex]
+                    if len(stackIndex) == 0:
+                        area = tp * i
+                    else:
+                        area = tp * (i - stackIndex[-1] - 1)
+                    largestRectangleArea = max(largestRectangleArea, area)
+
+        while len(stackIndex) > 0:
+            tpIndex = stackIndex.pop(-1)
+            tp = heights[tpIndex]
+            area = tp * (i if len(stackIndex) == 0 else (i - stackIndex[-1] - 1))
+            largestRectangleArea = max(largestRectangleArea, area)
+
+        return largestRectangleArea
     def largest_rectangle_histogram(self, nums):
+        # The idea is to find area = local min height * (first smaller number in the right - last smaller number in the left - 1)
         # The idea is to store the increasing numbers, because when the number it's increasing, the max rectangle is non-determinative.
         # The max rectangle could be the current bar itself, or the consecutive bars together.[1,2,3], [1,2,10], max could be 10 or 3.
         # However, once you found current height is lower than previous one, uses the previous height, there will a lower height index.
@@ -386,6 +418,11 @@ class DP(object):
                 # If stack is not empty, meaning there are lower numbers in the stack, higher number after until i. left index of current minimal_bar is stack.pop()
                 # right index is i, so width i - stack.pop() = i - stack.pop() - 1
                 tp = stack.pop(len(stack) - 1)
+                # i - stack[-1] -  1 meaning
+                # stack has the last index which has height smaller than current height
+                # i - last index which has height smaller than current one and not include the last index
+                # so the area is calculated based on minimal value of current height until last smaller value
+                # to the i which is first smaller value than current height
                 tp_area = nums[tp] * (i if len(stack) == 0 else i - stack[len(stack) - 1] - 1)
                 if maxRectangle < tp_area:
                     maxRectangle = tp_area
@@ -439,6 +476,37 @@ def minDistance(word1, word2):
                 dp[i][j] = min(dp[i - 1][j - 1] + 1, dp[i - 1][j] + 1, dp[i][j - 1] + 1)
 
     return dp[m][n]
+
+
+def shortestDistance(grid):
+    m = len(grid)
+    n = len(grid[0])
+    buildingReached = 0
+    directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+    # distance will be updated from each building
+    distance = [[0 for i in range(n)] for j in range(m)]
+    s_distance = m + n + 1
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == 1:
+                queue = []
+                queue.append([i, j, 0])
+                while len(queue) > 0:
+                    [currX, currY, dist] = queue.pop()
+                    distance[currX][currY] += dist
+                    for [x, y] in directions:
+                        [nextX, nextY] = [currX + x, currY + y]
+                        if nextX >= 0 and nextX < m and nextY >= 0 and nextY < n and grid[nextX][
+                            nextY] == buildingReached:
+                            grid[nextX][nextY] -= 1
+                            queue.append([nextX, nextY, dist + 1])
+                buildingReached -= 1
+    for i in range(m):
+        for j in range(n):
+            if grid[i][j] == buildingReached and distance[i][j] < s_distance:
+                s_distance = distance[i][j]
+
+    return s_distance
 
 
 if __name__ == '__main__':
@@ -501,7 +569,14 @@ if __name__ == '__main__':
     print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
 
     print 'largest_rectangle_histogram'
-    print dp.largest_rectangle_histogram([2, 1, 5, 6, 2, 3])
-
+    print dp.largest_rectangle_histogram([4,2,0,3,2,5])
+    print 'largest_rectangle_histogramII'
+    print dp.largest_rectangle_histogramII([4,2,0,3,2,5])
     print 'largest_rectangle_histogram_brutal_force'
-    print dp.largest_rectangle_histogram_brutal_force([2, 1, 5, 6, 2, 3])
+    print dp.largest_rectangle_histogram_brutal_force([4,2,0,3,2,5])
+
+    print 'ShortestDistance'
+    print shortestDistance([[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])
+
+    print 'MinDistance'
+    print minDistance("sea", "eat")

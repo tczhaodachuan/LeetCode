@@ -65,6 +65,31 @@ class KthElement(object):
             result.append([nums1[pair.i], nums2[pair.j]])
         return result
 
+    def findKthNumberII(self, n, k):
+        if k == 0:
+            return 0
+        if k == 1:
+            return n
+        ans = 1
+        while k > 1:
+            gap = self.getGapII(n, ans, ans + 1)
+            if gap < k:
+                k -= gap
+                ans = ans + 1
+            else:
+                # move the leftGap to next level
+                k -= 1
+                ans = ans * 10
+        return ans
+
+    def getGapII(self, n, p, q):
+        gap = 0
+        while p <= n:
+            gap += min(n + 1, q) - p
+            p *= 10
+            q *= 10
+        return gap
+
     def findKthNumber(self, n, k):
         if k == 0:
             return 0
@@ -87,7 +112,8 @@ class KthElement(object):
         return ans
 
     def getGap(self, n, p, q):
-        # normally the gap is q-p, however, it could be q<n<q exists, so it would be min(n+1,q)-p
+        # normally the gap is q-p, however, it could be p<n<q exists, so it would be min(n+1,q)-p
+        # from 1-2, gap is 1, 10-20 gap is 10 or 13-10 =3 depends on the n+1
         gap = 0
         while p <= n:
             gap += min(n + 1, q) - p
@@ -138,8 +164,12 @@ if __name__ == '__main__':
 
     print kthElement.kthLargest([9, 10, 0, 1, 6, 9], 4)
 
-    print kthElement.findKthNumber(13, 2)
+    print 'findKthNumber'
     print kthElement.findKthNumber(9, 2)
+    print kthElement.findKthNumber(13, 2)
+    print 'findKthNumberII'
+    print kthElement.findKthNumberII(9, 2)
+    print kthElement.findKthNumberII(13, 2)
 
     print kthElement.kSmallestPairs([1, 2, 4, 5, 6], [3, 5, 7, 9], 3)
 

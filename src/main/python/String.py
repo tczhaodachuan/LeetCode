@@ -373,6 +373,55 @@ def oneEditDistance(s, t):
     return False
 
 
+def licenseKeyFormatting(S, K):
+    if K == 0:
+        return ''
+    count = 0
+    license = ''
+    stack = []
+    for s in S:
+        if s == '-':
+            continue
+        stack.append(s)
+    while len(stack) > 0:
+        if count == 0:
+            license = stack.pop().upper() + license
+            count += 1
+            continue
+        if count % K == 0:
+            license = '-' + license
+            count = 0
+        else:
+            license = stack.pop().upper() + license
+            count += 1
+    return license
+
+
+def longestLengthSubstringAtMostTwoCharacters(s):
+    if len(s) < 2:
+        return 0
+
+    longestLength = 0
+    startOfSubString = 0
+    hashDict = dict()
+
+    for i in range(len(s)):
+        if hashDict.has_key(s[i]):
+            hashDict[s[i]] += 1
+        else:
+            hashDict[s[i]] = 1
+
+
+        while len(hashDict.keys()) > 2:
+            hashDict[s[startOfSubString]] -= 1
+            if hashDict[s[startOfSubString]] == 0:
+                del hashDict[s[startOfSubString]]
+            startOfSubString += 1
+        longestLength = max(longestLength, i - startOfSubString + 1)
+
+    return longestLength
+
+
 if __name__ == '__main__':
     solution = Solution()
     print solution.reverseString('a.')
@@ -416,3 +465,9 @@ if __name__ == '__main__':
     print oneEditDistance('', 'a')
     print oneEditDistance('abcd', 'abecd')
     print oneEditDistance('a', 'ba')
+
+    print 'LicenseKeyFormatting'
+    print licenseKeyFormatting('2-4A0r7-4k', 4)
+
+    print 'LongestSubStringAtMost2Characters'
+    print longestLengthSubstringAtMostTwoCharacters('eceba')

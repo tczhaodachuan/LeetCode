@@ -1,0 +1,53 @@
+Adam planned a small event for the day after Halloween. He invited his friends and told them to invite more people and have those people invite even more people and so on. He wanted as many people there as possible. The idea was for guests to bring candy to share with the people there. During the event, Adam kept track of the people who attended the event, the person they were invited by, the amount of candy they brought with them and the amount of candy they consumed. His stored this data as an array of comma separated strings. The following is an example where each line is a string in the array. The header is the first string and the rest of the array is comprised of the guest data.
+
+Guest,Inviter,CandyBrought,CandyConsumed
+Beth,Adam,4,2
+Cass,Adam,3,4
+Dole,Adam,2,3
+Evan,Beth,3,1
+Fury,Evan,2,2
+Greg,Dole,6,2
+Hugh,Cass,4,4
+Ivan,Cass,6,4
+Juan,Cass,3,1
+Kale,Ivan,1,6
+Leon,Ivan,2,5
+Mark,Ivan,1,6
+
+When everyone had left, Adam noticed that all the candy he brought in was consumed and there wasn’t anything left for him. Adam decided to host a similar event in a week’s time but he would use the data he has to stop some people from attending to maximize leftover candy. Write a function for Adam, which will accept an array of strings in the format specified above and will return names of people that should not be invited again. A person is welcome if inviting them does not decrease the candy left for Adam. If inviting them decreases the leftover candy, your function must recommend that they be stopped from attending the event.
+
+Example 1:
+Juan,Cass,3,1
+Juan brings 3 pieces of candy and consumes 1 piece. Inviting Juan increases the leftover candy by 2. He is welcome.
+
+Example 2:
+Hugh,Cass,4,4
+Hugh brings 4 pieces of candy and consumes 4 pieces. Inviting Hugh doesn’t decrease the leftover candy. He is welcome.
+
+Example 3:
+Mark,Ivan,1,6
+Mark brings 1 piece of candy and consumes 6 pieces. Inviting Mark decreases the leftover candy by 5. Mark is not welcome.
+
+Example 4:
+Beth,Adam,4,2
+Evan,Beth,3,1
+Fury,Evan,2,2
+Inviting Beth triggers a chain of invitations. Beth invites Evan and Evan invites Fury. Beth and her guests bring in a total of 9 pieces of candy (4 + 3 + 2) and consume 5 pieces of candy (2 + 1 + 2). Inviting Beth increases the leftovers by 4. She is welcome.
+
+Example 5:
+Ivan,Cass,6,4
+Kale,Ivan,1,6
+Leon,Ivan,2,5
+Mark,Ivan,1,6
+Inviting Ivan triggers a chain of invitations. Ivan and his guests bring in a total of 10 pieces of candy (6 + 1 + 2 + 1) and consume 21 pieces of candy (4 + 6 + 5 + 6). Inviting Ivan decreases the leftover candy by 11. However, if Kale, Leon and Mark are not invited, Ivan would bring in 6 pieces by himself and consume 4. Inviting Ivan by himself increases the leftover candy by 2. Ivan is welcome but the other three are not.
+
+Example 6:
+Dole,Adam,2,3
+Greg,Dole,6,2
+Inviting Dole results in Greg getting invited as well. Dole and Greg bring in a total of 8 pieces of candy (2 + 6) and consume 5 pieces of candy (3 + 2). Even though Dole consumes more candy than he brings in by himself, the leftover candy increases when he is invited due to Greg. Adam can’t invite Greg himself and needs Dole to invite Greg. As a result, both Dole and Greg are welcome.
+
+Safe assumptions about input:
+With the exception of Adam, everyone is invited by Adam or exactly one other guest.
+All guests are invited by people that were mentioned before them in the array.
+All guests have unique names.
+Guests bring and consume non-negative pieces of candy.

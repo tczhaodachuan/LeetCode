@@ -3,6 +3,17 @@ class Node(object):
         self.val = val
         self.next = None
 
+    def reverseII(self, head):
+        current = head
+        previous = None
+
+        while current:
+            nextOne = current.next
+            current.next = previous
+            previous = current
+            current = nextOne
+        return previous
+
     # without space complexity
     def reverse(self, head):
         current = head
@@ -88,6 +99,34 @@ def rotateKElement(head, k):
     slow.next = None
     return head
 
+def rotateKElementII(head, k):
+    if k == 0 or head == None:
+        return head
+    fast = head
+    slow = head
+    current = head
+    n = 0
+    while current:
+        n += 1
+        current = current.next
+    k = k % n
+    gap = 0
+    while fast.next:
+        fast = fast.next
+        if gap < k:
+            gap += 1
+        else:
+            # move the slow pointer with a gap
+            slow = slow.next
+    fast.next = head
+    head = slow.next
+    slow.next = None
+    return head
+
+
+
+
+
 
 def generateNodes(nums):
     head = Node(nums[0])
@@ -103,6 +142,8 @@ def printNode(head):
     while current:
         print current.val
         current = current.next
+
+
 if __name__ == '__main__':
     head = Node(5)
     head.next = Node(7)
@@ -132,4 +173,14 @@ if __name__ == '__main__':
     printNode(head)
     print 'rotateKElement'
     head = rotateKElement(head, 2)
+    printNode(head)
+
+    print 'rotateKElementII'
+    head = generateNodes([1, 2, 3, 4, 5])
+    head = rotateKElementII(head, 7)
+    printNode(head)
+
+    head = generateNodes([8, 990, 10, 20])
+    print 'reverseII'
+    head = head.reverseII(head)
     printNode(head)

@@ -66,6 +66,78 @@ class NSum(object):
         return answers
 
 
+def findTargetSumWaysII(nums, S):
+    # NP-complete problem, easy to find answer
+    # hard to find all solutions in polynormal time
+    summation = sum(nums)
+    if summation < S:
+        # no solution available
+        return 0
+    if summation + S % 2 == 1:
+        # because all of the num in nums are even number
+        # after each num * 2, however, the taret number is an odd number
+        return 0
+    # convert the problem to a subset sum problem
+    # (S+sum)/2 is the target number, then only consider the summation
+    # numbers in subset is "+", others are using "-"
+    # dp[i] meaning the number of ways to get target number i
+    target = (S + summation) / 2
+    dp = [0 for i in range(target + 1)]
+    # get 0 is the empty subset
+    dp[0] = 1
+    for i in range(len(nums)):
+        j = target
+        while j >= nums[i]:
+            dp[j] += dp[j - nums[i]]
+            j -= 1
+    return dp[target]
+
+
+def findTargetSumWays(nums, S):
+    res = []
+    doFind(0, 0, nums, S, res)
+    return len(res)
+
+
+def doFind(value, index, nums, S, res):
+    if index == len(nums):
+        if value == S:
+            res.append(1)
+        return res
+
+    doFind(value + nums[index], index + 1, nums, S, res)
+    doFind(value - nums[index], index + 1, nums, S, res)
+
+
+def addOperators(num, target):
+    nums = []
+    for n in num:
+        nums.append(int(n))
+    res = []
+    expression = ''
+    helper(res, expression, nums, target, 0, 0, 0)
+    return res
+
+
+def helper(res, expression, nums, target, pos, eval, multed):
+    if pos == len(nums):
+        if target == eval:
+            print target, pos, eval, multed, expression
+            res.append(expression)
+        return
+
+    for i in range(pos, len(nums)):
+        curr = nums[i]
+        if pos == 0:
+            helper(res, expression + '{0}'.format(curr), nums, target, i + 1, curr, curr)
+        else:
+            helper(res, expression + '+{0}'.format(curr), nums, target, i + 1, eval + curr, curr)
+            helper(res, expression + '-{0}'.format(curr), nums, target, i + 1, eval - curr, -curr)
+            # because multiply gets executed first
+            helper(res, expression + '*{0}'.format(curr), nums, target, i + 1, eval - multed + multed * curr,
+                   multed * curr)
+
+
 if __name__ == '__main__':
     n_sum = NSum()
     nums = [-12, -1, 4, -14, 0, 10, 7, -7, -6, 9, 6, -2, 7, 13, 9, -1, 4, 12, 9, 4, 14, 0, -4, 0, 0, 10, 2, -7, 7, -4,
@@ -78,3 +150,14 @@ if __name__ == '__main__':
 
     answers = n_sum.threeSum(nums)
     print answers
+
+    print 'findTargetSumWays'
+    print findTargetSumWays([1, 1, 1, 1, 1], 3)
+    # print findTargetSumWays([10, 9, 6, 4, 19, 0, 41, 30, 27, 15, 14, 39, 33, 7, 34, 17, 24, 46, 2, 46], 45)
+
+    print 'findTargetSumWaysII'
+    print findTargetSumWaysII([1, 1, 1, 1, 1], 3)
+    print findTargetSumWaysII([10, 9, 6, 4, 19, 0, 41, 30, 27, 15, 14, 39, 33, 7, 34, 17, 24, 46, 2, 46], 45)
+
+    print 'addOperators'
+    print addOperators('123', 6)

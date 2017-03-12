@@ -59,6 +59,9 @@ if __name__ == '__main__':
     order1.dependent = order2
     order2.dependent = order5
     order3.dependent = order5
+    order6.dependent = order3
+    order4.dependent = order3
+    order1.dependent = order4
 
     orders = [order1, order2, order3, order4, order5, order6, order7]
 

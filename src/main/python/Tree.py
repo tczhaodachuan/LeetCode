@@ -33,6 +33,26 @@ class TreeNode(object):
         self.doRightSideView(0, root)
         return self.answer
 
+    def rightSideViewII(self, root):
+        answer = []
+        if not root:
+            return answer
+        stack = []
+        stack.append(root)
+        while len(stack) > 0:
+            n = len(stack)
+            for i in range(n):
+                node = stack.pop()
+                if i == 0:
+                    answer.append(node.val)
+                if node.right:
+                    stack.insert(0, node.right)
+                if node.left:
+                    stack.insert(0, node.left)
+        return answer
+
+
+
     def doRightSideView(self, depth, root):
         if root is None:
             return []
@@ -190,6 +210,53 @@ def inorder(root, array):
     inorder(root.right, array)
 
 
+<<<<<<< HEAD
+def generateBSTTree(nums):
+    if len(nums) == 1:
+        return TreeNode(nums[0])
+
+    n = len(nums)
+    visited = {}
+    root = None
+    for i in range(n):
+        if visited.has_key(i):
+            node = visited[i]
+        else:
+            node = TreeNode(nums[i])
+            visited[i] = node
+        if not root:
+            root = node
+        leftIndex = 2 * i + 1
+        rightIndex = 2 * i + 2
+        if leftIndex < len(nums):
+            leftNode = TreeNode(nums[leftIndex])
+            node.left = leftNode
+            visited[leftIndex] = leftNode
+        if rightIndex < len(nums):
+            rightNode = TreeNode(nums[rightIndex])
+            node.right = rightNode
+            visited[rightIndex] = rightNode
+    return root
+
+
+def isSymmetric(root):
+    if not root:
+        return True
+    return isSubTreeEqual(root.left, root.right)
+
+def isSubTreeEqual(left, right):
+    if not left and not right:
+        return True
+    elif not left and right:
+        return False
+    elif left and not right:
+        return False
+
+    if left.val == right.val:
+        return isSubTreeEqual(left.right, right.left) and isSubTreeEqual(left.left, right.right)
+    else:
+        return False
+=======
 def dfs(val, root, len, res):
     if not root:
         return
@@ -209,6 +276,7 @@ def longestConsecutiveSequence(root):
     res = [0]
     dfs(root.val - 1, root, 0, res)
     return res[0]
+>>>>>>> ae6e2bfed932b5367011ad82c2026a11d584253c
 
 
 if __name__ == '__main__':
@@ -221,9 +289,11 @@ if __name__ == '__main__':
     # print head.maxDepth(head)
 
     # print(head.lowestCommonAncestor(head, headRight, headRightLeft)).val
-
-    head.rightSideView(head)
-
+    print 'rightSideView'
+    print head.rightSideView(head)
+    print 'rightSideViewII'
+    print head.rightSideViewII(head)
+    print 'binaryTreePaths'
     print head.binaryTreePaths(head)
 
     bstHead = head.generateBST([3, 1, 2, 5, 10, 9])
@@ -264,6 +334,11 @@ if __name__ == '__main__':
     bstArray = bstToArray(bstHead)
     print bstArray
 
+<<<<<<< HEAD
+    head = generateBSTTree([1, 2, 2, 3, 4, 4, 3])
+
+    print isSymmetric(head)
+=======
     head = TreeNode(2)
     head.right = TreeNode(3)
     head.right.left = TreeNode(2)
@@ -277,3 +352,4 @@ if __name__ == '__main__':
     print 'LongestConsecutiveSequence'
     print longestConsecutiveSequence(head)
     print longestConsecutiveSequence(root)
+>>>>>>> ae6e2bfed932b5367011ad82c2026a11d584253c

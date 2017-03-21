@@ -36,7 +36,6 @@ def dfs(i, visited, friends, N):
             visited[j] = 1
             dfs(j, visited, friends, N)
 
-
 if __name__ == '__main__':
     friends = ['YYNN',
                'YYYN',
@@ -45,7 +44,6 @@ if __name__ == '__main__':
 
     print friendCycles(friends)
 
-
     friends = ['YNNNN',
                'NYNNN',
                'NNYNN',
@@ -53,4 +51,3 @@ if __name__ == '__main__':
                'NNNNY']
 
     print friendCycles(friends)
-

@@ -1,3 +1,7 @@
+# insertion sort is trying to find the first location whose value is more than the value which is going to be inserted
+# find first location > value meaning low index is returned
+# find last location < value meaning high index is returned
+
 class SortList(object):
     def __init__(self):
         self.nums = []

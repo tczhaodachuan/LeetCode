@@ -55,8 +55,6 @@ class MedianStream(object):
         else:
             self.median = self.left_heap[0]
 
-        print self.left_heap
-        print self.right_heap
         return self.median
 
 

@@ -1,6 +1,3 @@
-import heapq
-
-
 def bestTimeBuyAndSellStock(prices):
     currentMin = prices[0]
     maxProfits = 0
@@ -16,7 +13,7 @@ def bestTimeBuyAndSellStock(prices):
 
 
 def bestTimeBuyAndSellStockII(prices):
-    # dp[i] meaning at ith price max profits, it prices[i] > prices[i-1], the profits could add together
+    # dp[i] meaning at ith price max profits, if prices[i] > prices[i-1], the profits could add together
     # given the assumption dp[i-1] already make the max profits decision
     dp = [0 for i in range(len(prices))]
     for i in range(1, len(prices)):

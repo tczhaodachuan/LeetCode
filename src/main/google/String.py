@@ -397,6 +397,25 @@ def licenseKeyFormatting(S, K):
     return license
 
 
+def longestSubstringWithoutRepeatingCharacters(s):
+    # bounded buffer
+    if not s:
+        return 0
+    longestLength = 0
+    i = 0
+    j = 0
+    hashDict = {}
+    while i < len(s) and j < len(s):
+        if not hashDict.has_key(s[j]):
+            hashDict[s[j]] = True
+            j += 1
+            longestLength = max(longestLength, len(hashDict.values()))
+        else:
+            del hashDict[s[i]]
+            i += 1
+    return longestLength
+
+
 def longestLengthSubstringAtMostTwoCharacters(s):
     if len(s) < 2:
         return 0
@@ -410,7 +429,6 @@ def longestLengthSubstringAtMostTwoCharacters(s):
             hashDict[s[i]] += 1
         else:
             hashDict[s[i]] = 1
-
 
         while len(hashDict.keys()) > 2:
             hashDict[s[startOfSubString]] -= 1
@@ -471,3 +489,6 @@ if __name__ == '__main__':
 
     print 'LongestSubStringAtMost2Characters'
     print longestLengthSubstringAtMostTwoCharacters('eceba')
+
+    print 'longestSubstringWithoutRepeatingCharacters'
+    print longestSubstringWithoutRepeatingCharacters("bbbb")

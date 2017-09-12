@@ -43,7 +43,7 @@ class LRU(object):
             return node
         else:
             node = Node(key, value)
-            self.cache.setdefault(key, value)
+            self.cache.setdefault(key, node)
             self.setHead(node)
 
 

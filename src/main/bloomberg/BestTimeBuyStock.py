@@ -17,7 +17,6 @@ def bestTimeBuyStock(prices):
 def bestTimeBuyStocks(prices):
     # multiple buy and sell decisions could add up all the positive profit
     dp = [0 for i in range(0, len(prices))]
-    print dp
 
     for i in range(1, len(prices)):
         if prices[i] > prices[i - 1]:

@@ -54,6 +54,7 @@ class LFUCache(object):
             prev.next = next
         if next:
             next.prev = prev
+        # if key node is at head or tail
         if freqNode.first == keyNode:
             freqNode.first = next
         if freqNode.last == keyNode:

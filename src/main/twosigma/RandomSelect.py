@@ -31,6 +31,31 @@ class WeightSampler(object):
                 return (name, weight)
 
 
+class PickIndexWithWeight(object):
+
+	def __init__(self, w):
+		"""
+		:type w: List[int]
+		"""
+		self.total = sum(w)
+		self.w = w
+		self.weights = sorted(w)
+		self.min = self.weights[0]
+		self.max = self.weights[-1]
+
+	def pickIndex(self):
+		"""
+		:rtype: int
+		"""
+		import random
+		num = random.uniform(0.0, 1.0) * self.total
+		cum = 0
+		for i, m in enumerate(self.weights):
+			cum += m
+			if cum > num:
+				return self.w.index(self.weights[i])
+
+
 if __name__ == '__main__':
     weightSampler = WeightSampler()
     weightSampler.insert('Apple', 100)
@@ -47,3 +72,13 @@ if __name__ == '__main__':
             name_dict[name] = 1
 
     print name_dict
+
+    pick = PickIndexWithWeight([10, 7, 8, 10])
+    results = {}
+    for i in range(1000):
+	    index = pick.pickIndex()
+	    results[index] = results.get(index, 1) + 1
+
+    total = pick.total
+    for key, value in results.iteritems():
+	    print key, value / 1000.0 * 100

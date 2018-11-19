@@ -29,11 +29,11 @@ def generateId(url):
 
     return id
 def convert(char):
-    if char >= '0' and char <= '9':
+    if '0' <= char <= '9':
         return ord(char) - ord('0')
-    if char >= 'a' and char <= 'z':
+    if 'a' <= char <= 'z':
         return ord(char) - ord('a') + 10
-    if char >= 'A' and char <= 'Z':
+    if 'A' <= char <= 'Z':
         return ord(char) - ord('A') + 36
     return -1
 

@@ -33,7 +33,7 @@ class StrobogrammaticNumber(object):
         return count
 
     def allStrobogramaticNumberIII(self, low, high, w, count):
-        if len(w) >= len(low) and len(w) <= len(high):
+        if len(low) <= len(w) <= len(high):
             if int(w) < int(low) or int(w) > int(high):
                 return
             else:

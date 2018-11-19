@@ -12,12 +12,12 @@ def searchRotatedArrayII(array, target):
         if array[mid] == target:
             return True
         elif array[mid] < array[end]:  # right half is sorted
-            if array[mid] < target and target <= array[end]:
+            if array[mid] < target <= array[end]:
                 start = mid + 1
             else:
                 end = mid - 1
         elif array[mid] > array[end]:  # left half is sorted
-            if array[start] <= target and target < array[mid]:
+            if array[start] <= target < array[mid]:
                 end = mid - 1
             else:
                 start = mid + 1
@@ -40,12 +40,12 @@ def searchRotatedArray(array, target):
         if array[mid] == target:
             return mid
         elif array[mid] < array[end]:
-            if array[mid] < target and target <= array[end]:
+            if array[mid] < target <= array[end]:
                 start = mid + 1
             else:
                 end = mid - 1
         else:
-            if array[start] <= target and target < array[mid]:
+            if array[start] <= target < array[mid]:
                 end = mid - 1
             else:
                 start = mid + 1

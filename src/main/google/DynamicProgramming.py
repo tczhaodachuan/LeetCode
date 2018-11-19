@@ -496,7 +496,7 @@ def shortestDistance(grid):
                     distance[currX][currY] += dist
                     for [x, y] in directions:
                         [nextX, nextY] = [currX + x, currY + y]
-                        if nextX >= 0 and nextX < m and nextY >= 0 and nextY < n and grid[nextX][
+                        if 0 <= nextX < m and 0 <= nextY < n and grid[nextX][
                             nextY] == buildingReached:
                             grid[nextX][nextY] -= 1
                             queue.append([nextX, nextY, dist + 1])

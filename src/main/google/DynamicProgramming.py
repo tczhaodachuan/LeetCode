@@ -25,6 +25,7 @@ class DP(object):
         else:
             return True
 
+    # https://leetcode.com/problems/longest-increasing-subsequence/
     def longest_increase_subsequence(self, nums):
         # dp[i] meaning until the ith, longest increase subsequents.
         # The longest increasing subsequents will skip the abnormal high and low numbers,
@@ -34,7 +35,7 @@ class DP(object):
         if len(nums) == 0:
             return 0
         # initial value is 1, because the starting len is 1 if the nums contains 1 number
-        dp = [1 for x in range(len(nums))]
+        dp = [1 for _ in range(len(nums))]
         longest_length = 1
         for i in range(1, len(nums)):
             j = i - 1
@@ -72,10 +73,36 @@ class DP(object):
                         right = mid
                 # find the first number which is more than num[i]
                 increasing_subsequence[right] = nums[i]
-
         return len(increasing_subsequence)
 
-    def longest_consecutive_numer(self, nums):
+    # https: // leetcode.com / problems / number - of - longest - increasing - subsequence /
+    def number_of_longest_increasing_subsequence(self, nums):
+        if len(nums) <= 1: return len(nums)
+        lengths = [0] * len(nums) #lengths[i] = longest ending in nums[i]
+        counts = [1] * len(nums) #count[i] = number of longest ending in nums[i]
+
+        for j, num in enumerate(nums):
+            for i in xrange(j):
+                if nums[i] < nums[j]:
+                    if lengths[i] >= lengths[j]:
+                        lengths[j] = 1 + lengths[i]
+                        counts[j] = counts[i]
+                    elif lengths[i] + 1 == lengths[j]:
+                        # if nums[i] < nums[j] and they are consecutive, it means the counts[j] should include counts[i]
+                        counts[j] += counts[i]
+
+        longest = max(lengths)
+        return sum(c for i, c in enumerate(counts) if lengths[i] == longest)
+
+    def length_of_longest_continuous_increasing_subsequence(self, nums):
+        result = turn_point = 0
+        for i in range(len(nums)):
+            if i and nums[i-1] >= nums[i]: turn_point = i
+            result = max(result, i - turn_point + 1)
+        return result
+
+
+    def longest_consecutive_number(self, nums):
         # O(n) complexity
         # DP requires L(n) = L(n-1) + 1 if exists, if not L(n) = 0, where n is from a number to n consecutive sequence
         dp = [0 for i in range(len(nums))]
@@ -154,7 +181,6 @@ class DP(object):
 
         nums = sorted(nums)
         median = len(nums) / 2
-        print median, nums[median]
         moves = 0
         for i in range(len(nums)):
             moves += abs(nums[i] - nums[median])
@@ -395,6 +421,7 @@ class DP(object):
             largestRectangleArea = max(largestRectangleArea, area)
 
         return largestRectangleArea
+
     def largest_rectangle_histogram(self, nums):
         # The idea is to find area = local min height * (first smaller number in the right - last smaller number in the left - 1)
         # The idea is to store the increasing numbers, because when the number it's increasing, the max rectangle is non-determinative.
@@ -529,13 +556,18 @@ if __name__ == '__main__':
 
     # print dp.canIWin(4, 6)
     print 'longest_consecutive_numer'
-    print dp.longest_consecutive_numer([100, 4, 200, 1, 3, 2])
+    print dp.longest_consecutive_number([100, 4, 200, 1, 3, 2])
 
     print 'longest_increase_subsequence'
     print dp.longest_increase_subsequence([10, 9, 2, 5, 3, 7, 101, 18])
     print 'longest_increase_subsequence_optimize'
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 7, 101, 18])
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 4])
+    print 'number of longest increase_subsequence'
+    print dp.number_of_longest_increasing_subsequence([2, 2, 2, 2, 2])
+    print dp.number_of_longest_increasing_subsequence([1, 3, 5, 4, 7])
+    print 'length of longest continuous increase_subsequence'
+    print dp.length_of_longest_continuous_increasing_subsequence([1, 6, 3, 7, 8])
 
     holidays = [[1, 0, 3, 4], [0, 1, 0, 2], [0, 2, 3, 0]]
 
@@ -569,11 +601,11 @@ if __name__ == '__main__':
     print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
 
     print 'largest_rectangle_histogram'
-    print dp.largest_rectangle_histogram([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogram([4, 2, 0, 3, 2, 5])
     print 'largest_rectangle_histogramII'
-    print dp.largest_rectangle_histogramII([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogramII([4, 2, 0, 3, 2, 5])
     print 'largest_rectangle_histogram_brutal_force'
-    print dp.largest_rectangle_histogram_brutal_force([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogram_brutal_force([4, 2, 0, 3, 2, 5])
 
     print 'ShortestDistance'
     print shortestDistance([[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])

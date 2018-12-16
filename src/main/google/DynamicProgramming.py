@@ -101,7 +101,7 @@ class DP(object):
             result = max(result, i - turn_point + 1)
         return result
 
-
+    # https://leetcode.com/problems/longest-consecutive-sequence/
     def longest_consecutive_number(self, nums):
         # O(n) complexity
         # DP requires L(n) = L(n-1) + 1 if exists, if not L(n) = 0, where n is from a number to n consecutive sequence
@@ -283,12 +283,6 @@ class DP(object):
                 stack.append(newInterval)
         return stack
 
-    def minMutation(self, start, end, bank):
-        bankDict = {}
-        for b in bank:
-            bankDict.setdefault(b, True)
-        return self.findMinMutation(start, end, bankDict)
-
     def ladderLength(self, beginWord, endWord, wordList):
 
         wordList.add(endWord)
@@ -313,6 +307,12 @@ class DP(object):
             return -1
         return min(steps)
 
+    def minMutation(self, start, end, bank):
+        bankDict = {}
+        for b in bank:
+            bankDict.setdefault(b, True)
+        return self.findMinMutation(start, end, bankDict)
+
     def findMinMutation(self, start, end, bankDict):
         if start == end:
             return 0
@@ -326,15 +326,13 @@ class DP(object):
         steps = []
         for i in range(len(start)):
             for transit_gene in keys:
-                tmp = list(start)
-                # one gene mutation
-                if tmp[i] == transit_gene[i]:
+                if start[i] == transit_gene[i]:
                     continue
-                tmp[i] = transit_gene[i]
+                tmp = start[:i] + transit_gene[i] + start[i+1:]
                 # valid gene mutation
-                if bankDict.has_key(''.join(tmp)):
-                    bankDict.pop(''.join(tmp))
-                    step = self.findMinMutation(''.join(tmp), end, bankDict)
+                if bankDict.has_key(tmp):
+                    bankDict.pop(tmp)
+                    step = self.findMinMutation(tmp, end, bankDict)
                     if step != -1:
                         # it's a valid gene mutation, can it can reach to the end gene, add the steps needed
                         steps.append(step + 1)
@@ -557,7 +555,6 @@ if __name__ == '__main__':
     # print dp.canIWin(4, 6)
     print 'longest_consecutive_numer'
     print dp.longest_consecutive_number([100, 4, 200, 1, 3, 2])
-
     print 'longest_increase_subsequence'
     print dp.longest_increase_subsequence([10, 9, 2, 5, 3, 7, 101, 18])
     print 'longest_increase_subsequence_optimize'
@@ -578,21 +575,15 @@ if __name__ == '__main__':
     print dp.merge_intervals([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
 
     print dp.merge_intervals([[1, 4], [1, 4]])
-
+    print 'MinMutation'
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGGTA", "AACCGCTA", "AAACGGTA"])
-
     print dp.minMutation('AAAAACCC', 'AACCCCCC', ["AAAACCCC", "AAACCCCC", "AACCCCCC"])
-
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
-
+    print 'WordLadder'
     print dp.ladderLength('hit', 'cog', {"hot", "dot", "dog", "lot", "log"})
-
     print dp.ladderLength('hot', 'dog', {"hot", "dot", "dog"})
-
     print dp.ladderLength('a', 'c', {"a", "b", "c"})
-
     print dp.ladderLength('hot', 'dog', {"hot", "dog"})
-
     print dp.ladderLength('hot', 'dot', {"hot", "dot", "dog"})
 
     print dp.paintFence(2, 3)

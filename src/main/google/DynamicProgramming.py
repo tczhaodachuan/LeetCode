@@ -203,15 +203,23 @@ class DP(object):
             count += abs(nums[i] - nums[middle])
         return count
 
-    def maxVacationDays(self, holidays):
-        numer_of_cities = len(holidays[0])
-        number_of_month = len(holidays)
+    def maxVacationDays(self, flights, days):
+        n = len(flights)
+        k = len(days[0])
+        dp = [-1] * n
+        dp[0] = 0
+        # dp[i] stands for current week's holidays taken from each days
+        for curr_week in range(k):
+            t = [-1] * n
+            for curr_city in range(n):
+                for from_city in range(n):
+                    if curr_city ==  from_city or flights[from_city][curr_city]:
+                        t[curr_city] = max(t[curr_city], dp[from_city] + days[curr_city][curr_week])
+            dp = t
 
-        dp = [[0 for i in range(numer_of_cities)] for i in range(number_of_month)]
-        for i in range(1, number_of_month):
-            for j in range(numer_of_cities):
-                dp[i][j] = max(dp[i - 1])
-        print number_of_month, numer_of_cities
+        return max(dp)
+
+
 
     def first_overlapping_interval(self, intervals):
         sort = SortArrays()
@@ -532,6 +540,32 @@ def shortestDistance(grid):
                 s_distance = distance[i][j]
 
     return s_distance
+# https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/
+# A = [1,3,5,4], B = [1,2,3,7]
+def minSwaps(a, b):
+    # swap[i] stands for minimal steps to do swap at i
+    # keeps[i] stands for minimal steps to remain the same
+    swaps = [len(a) + 1] * len(a)
+    keeps = [len(a) + 1] * len(a)
+    if len(a) != len(b):
+        return 0
+    # just swap the first one is 1
+    swaps[0] = 1
+    # keep doesn't need swap
+    keeps[0] = 0
+    for i in range(1, len(a)):
+        if a[i] > a[i-1] and b[i] > b[i-1]:
+            swaps[i] = swaps[i-1] + 1
+            keeps[i] = keeps[i-1]
+        ## 1, 3
+        ## 2, 4
+        if a[i] > b[i-1] and b[i] > a[i-1]:
+            swaps[i] = min(keeps[i-1] + 1, swaps[i])
+            keeps[i] = min(swaps[i-1], keeps[i])
+
+    return min(swaps[-1], keeps[-1])
+
+
 
 
 if __name__ == '__main__':
@@ -566,10 +600,6 @@ if __name__ == '__main__':
     print 'length of longest continuous increase_subsequence'
     print dp.length_of_longest_continuous_increasing_subsequence([1, 6, 3, 7, 8])
 
-    holidays = [[1, 0, 3, 4], [0, 1, 0, 2], [0, 2, 3, 0]]
-
-    dp.maxVacationDays(holidays)
-
     print dp.first_overlapping_interval([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
 
     print dp.merge_intervals([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
@@ -603,3 +633,9 @@ if __name__ == '__main__':
 
     print 'MinDistance'
     print minDistance("sea", "eat")
+
+    print 'MinSwaps'
+    print minSwaps([1,3,5,4], [1,2,3,7])
+
+    print "MaxVacationDays"
+    print dp.maxVacationDays([[0,1,1],[1,0,1],[1,1,0]],[[1,3,1],[6,0,3],[3,3,3]])

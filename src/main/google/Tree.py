@@ -137,7 +137,6 @@ class TreeNode(object):
 
         leftSize = self.findMaximumSubTree(head.left, start, end)
         rightSize = self.findMaximumSubTree(head.right, start, end)
-        print leftSize, rightSize, head.val, start, end
         if leftSize == -1 or rightSize == -1:
             return -1
         if leftSize != -1 and rightSize != -1:
@@ -256,7 +255,12 @@ def isSubTreeEqual(left, right):
     else:
         return False
 
-
+# https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
+# replace the same character at once leetcode
+# google map, person bike, min steps the person can reach the bike
+# https://leetcode.com/problems/product-of-array-except-self/
+# start time, end time, check whether a new job could be scheduled
+# the job could execute 1 or n jobs
 if __name__ == '__main__':
     head = TreeNode(6)
     head.left = TreeNode(2)
@@ -278,6 +282,7 @@ if __name__ == '__main__':
     bstHead.print_in_order(bstHead)
 
     counter = {'count': 0}
+    print 'findNthSmallestNode'
     print bstHead.findNthSmallestNode(bstHead, 6, counter)
 
     head = TreeNode(10)
@@ -290,7 +295,7 @@ if __name__ == '__main__':
     headRight = TreeNode(-3)
     head.right = headRight
     headRight.right = TreeNode(11)
-
+    print 'pathSum'
     print head.pathSumIII(head, 8)
 
     bstHead = head.generateBST([1, 2, 3])

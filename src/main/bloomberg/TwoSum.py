@@ -13,6 +13,23 @@ def twoSum(nums):
     return False
 
 
+def twoSum2(nums):
+    if len(nums) < 2:
+        return []
+    num_dict = {}
+    for num in nums:
+        if num in num_dict:
+            num_dict[num] += 1
+        else:
+            num_dict[num] = 1
+    for num in nums:
+        if num == 0 and num_dict[0] > 1:
+            return [num, -1 * num]
+        if -1 * num in num_dict:
+            return [num, -1 * num]
+    return []
+
+
 def threeSum(nums):
     nums.sort()
     for i in range(0, len(nums) - 2):
@@ -44,5 +61,6 @@ def threeSum(nums):
 if __name__ == '__main__':
     nums = [6, 7, 8, 2, -8, 34, 5, 10]
     print twoSum(nums)
+    print twoSum2(nums)
 
     print threeSum([8, 9, 9, 2, 10, 43, 10, -2, -9, -7])

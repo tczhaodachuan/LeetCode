@@ -18,6 +18,18 @@ class Solution(object):
         else:
             return v * v * x
 
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+
+        res = x
+
+        while res * res > x:
+            res = (res + x / res) / 2
+        return res
+
 
 if __name__ == '__main__':
     s = Solution()
@@ -29,3 +41,6 @@ if __name__ == '__main__':
 
     print s.myPow(2, -2)
     print s.myPow(-2, -3)
+
+    print s.mySqrt(4)
+    print s.mySqrt(8)

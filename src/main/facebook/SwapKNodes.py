@@ -65,6 +65,33 @@ def swap_k_nodes(head, k):
     return pre
 
 
+def rotateRight(head, k):
+    if k == 0 or head == None:
+        return head
+
+    curr = head
+    count = 0
+    while curr:
+        count += 1
+        curr = curr._next
+
+    k = k % count
+    slow = head
+    fast = head
+    gap = 0
+    while fast._next:
+        fast = fast._next
+        if gap < k:
+            gap += 1
+        else:
+            # sync slow and fast moving pace
+            slow = slow._next
+
+    fast._next = head
+    # slow._next is fast when k == 1
+    head = slow._next
+    slow._next = None
+    return head
 if __name__ == '__main__':
     head = generateNodes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     print_head(swap_k_nodes(head, 3))

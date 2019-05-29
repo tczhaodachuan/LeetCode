@@ -48,6 +48,7 @@ class Solution(object):
             return self.findRange(nums, mid + 1, end, target)
 
     def searchRotatedArray(self, nums, target):
+        # no duplicates
         if len(nums) == 0:
             return 0
 
@@ -55,10 +56,10 @@ class Solution(object):
         end = len(nums) - 1
         while start <= end:
             mid = (start + end) / 2
-            print start, mid, end
             if nums[mid] == target:
                 return mid
-            elif nums[mid] <= nums[end]:
+            # there is no equal sigh, since no duplicates
+            elif nums[mid] < nums[end]:
                 # the right part is in order
                 if nums[mid] < target and target <= nums[end]:
                     start = mid + 1
@@ -78,6 +79,38 @@ class Solution(object):
             return end
 
         return -1
+
+    def searchRotatedArrayWithDuplicates(self, nums, target):
+        # some assumptions of the excluded rule may not apply due to the edge case
+        # of this [3,1,2,3,3,3,3] or [3,3,3,3,2,1,3], from the condition of mid <= end
+        # cannot determine which side is in order
+        if len(nums) == 0:
+            return False
+
+        start = 0
+        end = len(nums)
+
+        while start < end:
+            mid = (start + end) / 2
+            if nums[mid] == target:
+                return True
+            elif nums[mid] < nums[end]:
+                # right part is in order
+                if nums[mid] < target and target < nums[end]:
+                    start = mid + 1
+                else:
+                    end = mid - 1
+            elif nums[mid] > nums[end]:
+                # left part is in order
+                if nums[start] <= target and target < nums[mid]:
+                    end = mid - 1
+                else:
+                    start = mid + 1
+            else:
+                # edge cases for duplicates, cannot determine which side is in order
+                # cannot reduce the searching part
+                end -= 1
+        return False
 
 
 if __name__ == '__main__':

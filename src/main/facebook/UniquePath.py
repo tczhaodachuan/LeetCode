@@ -92,6 +92,30 @@ class Solution(object):
                 dp[i][j] = min((dp[i - 1][j] + grid[i][j]), (dp[i][j - 1] + grid[i][j]))
         return dp[m - 1][n - 1]
 
+    def climbStairs(self, n):
+        if n == 1:
+            return 1
+
+        dp = [0 for _ in range(n + 1)]
+        dp[0] = 1
+        dp[1] = 1
+        dp[2] = 2
+        for i in range(3, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2]
+        return dp[n]
+
+    def minCostClimbingStairs(self, cost):
+        n = len(cost)
+        if n <= 1:
+            return 0
+        dp = [0 for _ in range(n + 1)]
+        # dp[i] stands for minimal cost of ith step
+        dp[0] = 0
+        dp[1] = 0
+        dp[2] = min(dp[0] + cost[0], dp[1] + cost[1])
+        for i in range(3, n + 1):
+            dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
+        return dp[n]
 
 if __name__ == '__main__':
     s = Solution()
@@ -112,3 +136,8 @@ if __name__ == '__main__':
         [1, 5, 1],
         [4, 2, 1]
     ])
+
+    print s.climbStairs(3)
+    print s.climbStairs(4)
+
+    print s.minCostClimbingStairs([10, 15, 20])

@@ -69,6 +69,20 @@ class Solution(object):
 
         return ''.join(reversed(result))
 
+    def plusOne(self, digits):
+        digits.reverse()
+        result = []
+        carry = 0
+
+        for i, digit in enumerate(digits):
+            mod = (digit + carry + (1 if i == 0 else 0)) % 10
+            carry = (digit + carry + (1 if i == 0 else 0)) / 10
+            result.append(mod)
+        if carry != 0:
+            result.append(carry)
+        result.reverse()
+        return result
+
 
 if __name__ == '__main__':
     s = Solution()
@@ -78,3 +92,5 @@ if __name__ == '__main__':
 
     print s.addBinary('11', '1')
     print s.addBinary('1010', '1011')
+
+    print s.plusOne([1, 2, 3])

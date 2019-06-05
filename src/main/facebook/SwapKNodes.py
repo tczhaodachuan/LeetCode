@@ -92,6 +92,40 @@ def rotateRight(head, k):
     head = slow._next
     slow._next = None
     return head
+
+
+def deleteDuplicates(head):
+    if not head:
+        return head
+
+    pre = None
+    curr = head
+    while curr:
+        next = curr._next
+        remove = False
+        while next and next.val == curr.val:
+            curr = curr._next
+            next = curr._next
+            remove = True
+
+        # either next is end o r the repeated value
+        if remove:
+            if not pre:
+                head = curr._next
+            else:
+                pre._next = curr._next
+        else:
+            pre = curr
+        curr = curr._next
+    return head
+
+
 if __name__ == '__main__':
     head = generateNodes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     print_head(swap_k_nodes(head, 3))
+    print 'deleteDuplicates'
+    head = generateNodes([1, 1, 1, 1, 2, 2, 3, 3])
+    print_head(deleteDuplicates(head))
+
+    head = generateNodes([1, 2, 3, 3, 4, 4, 5])
+    print_head(deleteDuplicates(head))

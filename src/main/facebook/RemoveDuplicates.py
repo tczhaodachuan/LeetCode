@@ -23,6 +23,29 @@ def removeElements(nums, val):
     return i
 
 
+def removeDuplicatesFromSortedArray(nums):
+    # duplicates appeared at most twice
+    if len(nums) == 0 or not nums:
+        return 0
+
+    i = 1
+    j = 1
+    cnt = 1
+    k = 2
+    while j < len(nums):
+        if nums[j] != nums[j - 1]:
+            cnt = 1
+            nums[i] = nums[j]
+            i += 1
+        else:
+            if cnt < k:
+                nums[i] = nums[j]
+                i += 1
+                cnt += 1
+        j += 1
+    return i
+
+
 if __name__ == '__main__':
     a = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
     print removeDuplicates(a)
@@ -38,3 +61,6 @@ if __name__ == '__main__':
     print removeElements([0, 1, 2, 2, 3, 0, 4, 2], 9)
     print removeElements([1], 1)
     print removeElements([4, 5], 4)
+    print 'removeDuplicatesFromSortedArray'
+    print removeDuplicatesFromSortedArray([1, 1, 1, 2, 2, 3])
+    print removeDuplicatesFromSortedArray([0, 0, 1, 1, 1, 1, 2, 3, 3])

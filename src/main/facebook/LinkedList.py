@@ -17,9 +17,14 @@ def generateNodes(arr):
 
 def print_head(head):
     curr = head
+    line = ''
     while curr:
-        print curr.val
+        if line == '':
+            line = str(curr.val)
+        else:
+            line += '->' + str(curr.val)
         curr = curr._next
+    print line
 
 
 if __name__ == '__main__':

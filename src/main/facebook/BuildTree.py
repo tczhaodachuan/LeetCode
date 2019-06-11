@@ -53,7 +53,31 @@ class Solution(object):
 
         return root
 
+    def flatten(self, root):
+        if not root:
+            return
+        if hasattr(self, 'lastRoot'):
+            # we are in the recursion
+            self.lastRoot.left = None
+            self.lastRoot.right = root
+        right_node = root.right
+        self.lastRoot = root
+        self.flatten(root.left)
+        self.flatten(right_node)
 
+    def connect(self, root):
+        if not root:
+            return root
+        level_node = root
+        while level_node.left:
+            curr = level_node
+            while curr:
+                curr.left.next = curr.right
+                if curr.next:
+                    curr.right.next = curr.next.left
+                curr = curr.next
+            level_node = level_node.left
+        return root
 if __name__ == '__main__':
     s = Solution()
     tree = s.buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7])
@@ -63,5 +87,12 @@ if __name__ == '__main__':
     print tree
     print_tree(tree)
 
-    # tree = s.buildTree2([9, 3, 15, 20, 7], [9, 15, 7, 20, 3])
-    # print_tree(tree)
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.left.left = TreeNode(3)
+    root.left.right = TreeNode(4)
+    root.right = TreeNode(5)
+    root.right.right = TreeNode(6)
+    print 'flatten'
+    s.flatten(root)
+    print_tree(root)

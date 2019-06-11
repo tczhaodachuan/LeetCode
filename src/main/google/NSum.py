@@ -185,10 +185,27 @@ def helper(res, expression, nums, target, pos, eval, multed):
             helper(res, expression + '*{0}'.format(curr), nums, target, i + 1, eval - multed + multed * curr,
                    multed * curr)
 
-#https://leetcode.com/problems/subarray-sum-equals-k/
+
+# https://leetcode.com/problems/subarray-sum-equals-k/
 def subArrayEqual(nums, k):
-    presum = {}
-    pass
+
+    if len(nums) == 0:
+        return 0
+
+    presum_dict = {0: 1}
+    # dp[i] meaning the sum of array from 0 to i,
+    presum = 0
+    count = 0
+    for num in nums:
+        presum += num
+        # e.g. sum of the sub string i -> j equals k
+        # dp[j]-k=dp[i], j>i, means i has been stored before reaches to j
+        count += presum_dict.get(presum - k, 0)
+        presum_dict[presum] = presum_dict.get(presum, 0) + 1
+
+    return count
+
+
 if __name__ == '__main__':
     n_sum = NSum()
     nums = [-12, -1, 4, -14, 0, 10, 7, -7, -6, 9, 6, -2, 7, 13, 9, -1, 4, 12, 9, 4, 14, 0, -4, 0, 0, 10, 2, -7, 7, -4,
@@ -214,3 +231,7 @@ if __name__ == '__main__':
 
     print 'addOperators'
     print addOperators('123', 6)
+
+    print 'subArrayEqualsK'
+
+    print subArrayEqual([1, 1, 1], 2)

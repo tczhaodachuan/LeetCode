@@ -75,37 +75,64 @@ def generalizedAbbr(word):
     return permutations
 
 
-def WordBreak(s, wordDict, cache={}):
-    if len(s) == 0:
-        return False
-    if cache.has_key(s):
-        return cache[s]
-    if s in wordDict:
-        cache[s] = True
-        return True
-    for word in wordDict:
-        if s.startswith(word) and WordBreak(s[len(word):], wordDict, cache):
-            cache[word] = True
-            return True
-
-    cache[s] = False
+def WordSearch(board, word):
+    for i in range(len(board)):
+        for j in range(len(board[0])):
+            if _word_search(board, word, i, j):
+                return True
     return False
 
 
-def WordBreakII(s, wordDict, cache):
-    if cache.has_key(s):
-        return cache[s]
+def _word_search(board, word, x, y):
+    if len(word) == 0:
+        return False
+    if x >= 0 and x < len(board) and y >= 0 and y < len(board[0]) and board[x][y] == word:
+        return True
+
+    directions = [(0, 1), (-1, 0), (1, 0), (0, -1)]
+    if x >= 0 and x < len(board) and y >= 0 and y < len(board[0]) and board[x][y] == word[0]:
+        for dx, dy in directions:
+            tmp = board[x][y]
+            # to avoid circular
+            board[x][y] = '*'
+            if _word_search(board, word[1:], x + dx, y + dy):
+                return True
+            board[x][y] = tmp
+    return False
+
+
+def WordBreak(s, word_dict, visited=None):
+    if len(s) == 0:
+        return False
+    if visited.has_key(s):
+        return visited[s]
+    if s in word_dict:
+        visited[s] = True
+        return True
+    for word in word_dict:
+        if WordBreak(s[len(word):], word_dict, visited) and s.startswith(word):
+            visited[word] = True
+            return True
+    # the current word is not in the word_dict
+    visited[s] = False
+    return False
+
+
+def WordBreakII(s, word_dict, visited):
+    if visited.has_key(s):
+        return visited[s]
     res = []
     if len(s) == 0:
         return res
-    for word in wordDict:
+    for word in word_dict:
         if s.startswith(word):
-            subStrings = WordBreakII(s[len(word):], wordDict, cache)
-            for sub in subStrings:
-                res.append(word + ' ' + sub)
-    if s in wordDict:
+            sub_strings = WordBreakII(s[len(word):], word_dict, visited)
+            for sub_str in sub_strings:
+                if sub_str != s:
+                    res.append(word + ' ' + sub_str)
+    if s in word_dict:
         res.append(s)
-    cache[s] = res
+    visited[s] = res
     return res
 
 
@@ -122,9 +149,21 @@ if __name__ == '__main__':
 
     print 'WordBreak'
     dict = ['i', 'like', 'sam', 'sung', 'samsung', 'ham', 'water', 'is']
-    print WordBreak('ilikesamsung', dict)
+    print WordBreak('ilikesamsung', dict, {})
     print 'WordBreakII'
     cache = {}
     print WordBreakII('ilikesamsungsamsung', dict, cache)
 
-    ''.isdigit()
+    print 'WordSearch'
+    # print WordSearch([
+    #     ['A', 'B', 'C', 'E'],
+    #     ['S', 'F', 'C', 'S'],
+    #     ['A', 'D', 'E', 'E']], 'ABCCED')
+    # print WordSearch([
+    #     ['A', 'B', 'C', 'E'],
+    #     ['S', 'F', 'C', 'S'],
+    #     ['A', 'D', 'E', 'E']], 'SEE')
+    print WordSearch([
+        ['A', 'B', 'C', 'E'],
+        ['S', 'F', 'C', 'S'],
+        ['A', 'D', 'E', 'E']], 'ABCB')

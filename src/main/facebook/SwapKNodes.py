@@ -1,6 +1,36 @@
 from LinkedList import generateNodes, print_head
 
 
+def reverseKGroup(head, k):
+    if not head or k == 1:
+        return head
+
+    pre = None
+    curr = head
+    temp = head
+    count = 0
+    # the first look make sure the list has more than k nodes
+    while count < k:
+        temp = temp._next
+        if not temp:
+            # no need to reverse the list
+            return head
+        count += 1
+    # the second loop reverse the first k nodes
+    count = 0
+    while curr and count < k:
+        curr_next = curr._next
+        curr._next = pre
+        pre = curr
+        curr = curr_next
+        count += 1
+
+    # after the reverse, head comes the tail
+    head._next = reverseKGroup(curr_next, k)
+    return pre
+
+
+
 def swap_pairs(head):
     pre = None
     slow = head
@@ -33,18 +63,6 @@ def reverse_list(head):
         pre = curr
         curr = fast
     return pre
-
-
-def reverse(pre, dst):
-    curr = pre._next
-    tail = curr
-    while curr != dst:
-        curr_next = curr._next
-        curr._next = pre
-        pre = curr
-        curr = curr_next
-    return curr, tail
-
 
 def swap_k_nodes(head, k):
     if k == 0 or k == 1 or head == None:
@@ -123,6 +141,10 @@ def deleteDuplicates(head):
 if __name__ == '__main__':
     head = generateNodes([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     print_head(swap_k_nodes(head, 3))
+    head = generateNodes([1, 2, 3, 4, 5, 6, 7, 8])
+    print_head(swap_k_nodes(head, 5))
+    print_head(reverseKGroup(generateNodes([1, 2, 3, 4, 5]), 2))
+    print_head(reverseKGroup(generateNodes([1, 2]), 2))
     print 'deleteDuplicates'
     head = generateNodes([1, 1, 1, 1, 2, 2, 3, 3])
     print_head(deleteDuplicates(head))

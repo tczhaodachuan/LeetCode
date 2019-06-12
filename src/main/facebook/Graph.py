@@ -28,7 +28,33 @@ class Solution(object):
         return graph_dict[node.val]
 
     def canFinish(self, numCourses, prerequisites):
-        pass
+        course_graph = [[] for _ in range(numCourses)]
+        visited = [0 for _ in range(numCourses)]
+        for pre in prerequisites:
+            if pre[1] not in course_graph[pre[0]]:
+                course_graph[pre[0]].append(pre[1])
+        for i in range(numCourses):
+            # for untaken course
+            if visited[i] != 1:
+                if not self.canTaken(i, course_graph, visited):
+                    return False
+        return True
+
+    def canTaken(self, i, course_graph, visited):
+        # the course i has been completed
+        if visited[i] == 1:
+            return True
+        # the course i has been taking now
+        if visited[i] == -1:
+            return False
+        # taking the course now
+        visited[i] = -1
+        for pre in course_graph[i]:
+            if not self.canTaken(pre, course_graph, visited):
+                return False
+        # taken it
+        visited[i] = 1
+        return True
 
 
 if __name__ == '__main__':
@@ -55,3 +81,7 @@ if __name__ == '__main__':
             if neigh not in visited:
                 visited.add(neigh)
                 stack.append(neigh)
+
+    print s.canFinish(2, [[1, 0]])
+
+    print s.canFinish(2, [[1, 0], [0, 1]])

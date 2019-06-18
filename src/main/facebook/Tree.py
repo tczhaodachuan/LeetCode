@@ -99,6 +99,22 @@ class Solution(object):
         results.append(root.val)
         self.inOrder(root.right, results)
 
+    def flatten(self, root):
+        if not root:
+            return root
+        if not root.left and not root.right:
+            return root
+        left_node = self.flatten(root.left)
+        right_node = self.flatten(root.right)
+        if left_node:
+            root.left = None
+            root.right = left_node
+
+            current = left_node
+            while current.right:
+                current = current.right
+            current.right = right_node
+        return root
 
 if __name__ == '__main__':
     root = TreeNode(0)
@@ -132,5 +148,13 @@ if __name__ == '__main__':
     root.right = TreeNode(10)
     root.right.right = TreeNode(14)
     root.right.right.left = TreeNode(13)
-
     print findDistanceBetweenAnyTwoNodes(root, TreeNode(6), TreeNode(13))
+    print 'flatten'
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.left.left = TreeNode(3)
+    root.left.right = TreeNode(4)
+    root.right = TreeNode(5)
+    root.right.right = TreeNode(6)
+    root = s.flatten(root)
+    print print_tree(root)

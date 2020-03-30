@@ -140,7 +140,7 @@ def generateNodes(nums):
 def printNode(head):
     current = head
     while current:
-        print current.val
+        print(current.val)
         current = current.next
 
 
@@ -152,35 +152,32 @@ if __name__ == '__main__':
 
     tmp = head
     while tmp is not None:
-        print tmp.val
         tmp = tmp.next
 
-    print 'after'
+    print('after')
 
     tmp = head.reverse(head)
     while tmp is not None:
-        print tmp.val
         tmp = tmp.next
 
-    print head.containsNearbyDuplicate([1, 2, 1], 2)
+    print(head.containsNearbyDuplicate([1, 2, 1], 2))
 
     nums = [1, 1, 1, 2, 3]
-    print head.removeDuplicateFromSortedArray(nums)
-    print nums
+    print(head.removeDuplicateFromSortedArray(nums))
 
     head = generateNodes([1, 2, 3, 4, 5])
-    print 'generateNodes'
+    print('generateNodes')
     printNode(head)
-    print 'rotateKElement'
+    print('rotateKElement')
     head = rotateKElement(head, 2)
     printNode(head)
 
-    print 'rotateKElementII'
+    print('rotateKElementII')
     head = generateNodes([1, 2, 3, 4, 5])
     head = rotateKElementII(head, 7)
     printNode(head)
 
     head = generateNodes([8, 990, 10, 20])
-    print 'reverseII'
+    print('reverseII')
     head = head.reverseII(head)
     printNode(head)

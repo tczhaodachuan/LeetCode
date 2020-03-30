@@ -1,16 +1,17 @@
-def maximumShopping(items, ret, maxWeight):
+def maximumShopping_backtrack(i, items, ret, maxWeight):
     if ret['currentWeight'] <= maxWeight:
+        # update max price based on the current shopping cart pricing
         ret['maxPrice'] = max(ret['maxPrice'], ret['currentPrice'])
     else:
         # over weight
         return True
 
-    for i in range(len(items)):
+    for j in range(i, len(items)):
         # with current item
-        [price, weight] = items[i]
+        [price, weight] = items[j]
         ret['currentWeight'] += weight
         ret['currentPrice'] += price
-        overWeight = maximumShopping(items[i+1:], ret, maxWeight)
+        overWeight = maximumShopping_backtrack(j + 1, items, ret, maxWeight)
         # without current item
         ret['currentWeight'] -= weight
         ret['currentPrice'] -= price
@@ -19,7 +20,7 @@ def maximumShopping(items, ret, maxWeight):
     return False
 
 
-def maximumShooping_backpack(items, maxWeight):
+def maximumShopping_backpack(items, maxWeight):
     f = [0 for i in range(maxWeight + 1)]
 
     for i in range(len(items)):
@@ -35,8 +36,8 @@ if __name__ == '__main__':
     ret['maxPrice'] = 0
     ret['currentPrice'] = 0
     ret['currentWeight'] = 0
-    maximumShopping(items, ret, 10)
+    maximumShopping_backtrack(0, items, ret, 10)
 
-    print ret
+    print(ret)
 
-    print maximumShooping_backpack(items, 10)
+    print(maximumShopping_backpack(items, 10))

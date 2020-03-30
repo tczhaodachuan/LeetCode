@@ -5,7 +5,7 @@ def removeVowel(s):
     ret = []
 
     for character in s:
-        if not vowels.has_key(character):
+        if character not in vowels:
             ret.append(character)
 
     return ''.join(ret)
@@ -31,8 +31,8 @@ def rotate(s):
 
 if __name__ == '__main__':
     s = 'united states'
-    print removeVowel(s)
+    print(removeVowel(s))
 
-    print isRoundRotated('abc', 'cba')
+    print(isRoundRotated('abc', 'cba'))
 
-    print isRoundRotated('ab', 'aa')
+    print(isRoundRotated('ab', 'aa'))

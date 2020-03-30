@@ -4,27 +4,25 @@ class Order(object):
         self.dependent = None
 
 
-def getOrderList(orderDependency):
+def getOrderList(order_dependency):
     graph = dict()
-    orderDict = dict()
+    order_dict = dict()
     in_degrees = dict()
 
-    for ord in orderDependency:
+    for ord in order_dependency:
         orderName = ord.name
-        orderDict[orderName] = ord
-        if not in_degrees.has_key(ord):
-            in_degrees[ord] = 0
+        order_dict[orderName] = ord
+        in_degrees.setdefault(ord, 0)
 
         if ord.dependent:
-            dependentName = ord.dependent.name
-            orderDict[dependentName] = ord.dependent
-            if not in_degrees.has_key(ord.dependent):
+            dependent_name = ord.dependent.name
+            order_dict[dependent_name] = ord.dependent
+            if ord.dependent not in in_degrees:
                 in_degrees[ord.dependent] = 1
             else:
                 in_degrees[ord.dependent] += 1
 
-        if not graph.has_key(ord):
-            graph[ord] = set()
+        graph.setdefault(ord, set())
 
         if ord.dependent:
             graph[ord].add(ord.dependent)

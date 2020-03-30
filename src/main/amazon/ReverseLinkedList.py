@@ -2,15 +2,19 @@ from LinkedList import generateNodes, printNode
 
 
 def reverseLinkedList(head):
+    # pre is the tail holder, flip one node a time
+
     pre = None
     current = head
+
     while current:
-        nextNode = current.next
+        # need to remember the next first, as we will replace it with pre
+        next_link = current.next
         current.next = pre
         pre = current
-        current = nextNode
-
+        current = next_link
     return pre
+
 
 
 def reverseHalfLinkedListII(head):
@@ -59,6 +63,11 @@ if __name__ == '__main__':
     reverseHalfLinkedList(head)
     printNode(head)
 
-    head = generateNodes([9, 10, 11, 12])
+    head = generateNodes([9, 10, 11, 12, 13])
+    reverseHalfLinkedListII(head)
+    printNode(head)
+
+
+    head = generateNodes([7, 9, 10, 11, 12, 13])
     reverseHalfLinkedListII(head)
     printNode(head)

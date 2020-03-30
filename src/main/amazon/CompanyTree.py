@@ -60,4 +60,4 @@ if __name__ == '__main__':
 
     ret = getHighAverage(root)
     head = ret['root']
-    print head.val, ret['avg']
+    print(head.val, ret['avg'])

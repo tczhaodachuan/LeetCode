@@ -22,11 +22,11 @@ def getKClosest(points, k):
 
     for point in points:
         distance = pow(point.x - zero.x, 2) + pow(point.y - zero.y, 2)
-        heapq.heappush(heap, [distance, point])
+        heapq.heappush(heap, (distance, point))
     ret = []
 
     for i in range(k):
-        [distance, point] = heapq.heappop(heap)
+        _, point = heapq.heappop(heap)
         ret.append(point)
 
     return ret
@@ -46,9 +46,9 @@ if __name__ == '__main__':
     ret = getKClosest(points, 1)
 
     for r in ret:
-        print r.x, r.y
+        print(r.x, r.y)
 
     ret = getKClosest(points, 2)
 
     for r in ret:
-        print r.x, r.y
+        print(r.x, r.y)

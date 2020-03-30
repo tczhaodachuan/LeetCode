@@ -25,7 +25,7 @@ def getSkyLine(buildings):
             # starting point always introduce new height
             heapq.heappush(heap, height[1])
         else:
-            # ending point remove the heaght from inventory, but keep the highest one
+            # ending point remove the height from inventory, but keep the highest one
             heap.remove(-height[1])
             heapq.heapify(heap)
 

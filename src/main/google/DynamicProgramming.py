@@ -25,6 +25,7 @@ class DP(object):
         else:
             return True
 
+    # https://leetcode.com/problems/longest-increasing-subsequence/
     def longest_increase_subsequence(self, nums):
         # dp[i] meaning until the ith, longest increase subsequents.
         # The longest increasing subsequents will skip the abnormal high and low numbers,
@@ -34,7 +35,7 @@ class DP(object):
         if len(nums) == 0:
             return 0
         # initial value is 1, because the starting len is 1 if the nums contains 1 number
-        dp = [1 for x in range(len(nums))]
+        dp = [1 for _ in range(len(nums))]
         longest_length = 1
         for i in range(1, len(nums)):
             j = i - 1
@@ -72,10 +73,36 @@ class DP(object):
                         right = mid
                 # find the first number which is more than num[i]
                 increasing_subsequence[right] = nums[i]
-
         return len(increasing_subsequence)
 
-    def longest_consecutive_numer(self, nums):
+    # https: // leetcode.com / problems / number - of - longest - increasing - subsequence /
+    def number_of_longest_increasing_subsequence(self, nums):
+        if len(nums) <= 1: return len(nums)
+        lengths = [0] * len(nums) #lengths[i] = longest ending in nums[i]
+        counts = [1] * len(nums) #count[i] = number of longest ending in nums[i]
+
+        for j, num in enumerate(nums):
+            for i in xrange(j):
+                if nums[i] < nums[j]:
+                    if lengths[i] >= lengths[j]:
+                        lengths[j] = 1 + lengths[i]
+                        counts[j] = counts[i]
+                    elif lengths[i] + 1 == lengths[j]:
+                        # if nums[i] < nums[j] and they are consecutive, it means the counts[j] should include counts[i]
+                        counts[j] += counts[i]
+
+        longest = max(lengths)
+        return sum(c for i, c in enumerate(counts) if lengths[i] == longest)
+
+    def length_of_longest_continuous_increasing_subsequence(self, nums):
+        result = turn_point = 0
+        for i in range(len(nums)):
+            if i and nums[i-1] >= nums[i]: turn_point = i
+            result = max(result, i - turn_point + 1)
+        return result
+
+    # https://leetcode.com/problems/longest-consecutive-sequence/
+    def longest_consecutive_number(self, nums):
         # O(n) complexity
         # DP requires L(n) = L(n-1) + 1 if exists, if not L(n) = 0, where n is from a number to n consecutive sequence
         dp = [0 for i in range(len(nums))]
@@ -154,7 +181,6 @@ class DP(object):
 
         nums = sorted(nums)
         median = len(nums) / 2
-        print median, nums[median]
         moves = 0
         for i in range(len(nums)):
             moves += abs(nums[i] - nums[median])
@@ -177,15 +203,23 @@ class DP(object):
             count += abs(nums[i] - nums[middle])
         return count
 
-    def maxVacationDays(self, holidays):
-        numer_of_cities = len(holidays[0])
-        number_of_month = len(holidays)
+    def maxVacationDays(self, flights, days):
+        n = len(flights)
+        k = len(days[0])
+        dp = [-1] * n
+        dp[0] = 0
+        # dp[i] stands for current week's holidays taken from each days
+        for curr_week in range(k):
+            t = [-1] * n
+            for curr_city in range(n):
+                for from_city in range(n):
+                    if curr_city ==  from_city or flights[from_city][curr_city]:
+                        t[curr_city] = max(t[curr_city], dp[from_city] + days[curr_city][curr_week])
+            dp = t
 
-        dp = [[0 for i in range(numer_of_cities)] for i in range(number_of_month)]
-        for i in range(1, number_of_month):
-            for j in range(numer_of_cities):
-                dp[i][j] = max(dp[i - 1])
-        print number_of_month, numer_of_cities
+        return max(dp)
+
+
 
     def first_overlapping_interval(self, intervals):
         sort = SortArrays()
@@ -257,12 +291,6 @@ class DP(object):
                 stack.append(newInterval)
         return stack
 
-    def minMutation(self, start, end, bank):
-        bankDict = {}
-        for b in bank:
-            bankDict.setdefault(b, True)
-        return self.findMinMutation(start, end, bankDict)
-
     def ladderLength(self, beginWord, endWord, wordList):
 
         wordList.add(endWord)
@@ -287,6 +315,12 @@ class DP(object):
             return -1
         return min(steps)
 
+    def minMutation(self, start, end, bank):
+        bankDict = {}
+        for b in bank:
+            bankDict.setdefault(b, True)
+        return self.findMinMutation(start, end, bankDict)
+
     def findMinMutation(self, start, end, bankDict):
         if start == end:
             return 0
@@ -300,15 +334,13 @@ class DP(object):
         steps = []
         for i in range(len(start)):
             for transit_gene in keys:
-                tmp = list(start)
-                # one gene mutation
-                if tmp[i] == transit_gene[i]:
+                if start[i] == transit_gene[i]:
                     continue
-                tmp[i] = transit_gene[i]
+                tmp = start[:i] + transit_gene[i] + start[i+1:]
                 # valid gene mutation
-                if bankDict.has_key(''.join(tmp)):
-                    bankDict.pop(''.join(tmp))
-                    step = self.findMinMutation(''.join(tmp), end, bankDict)
+                if bankDict.has_key(tmp):
+                    bankDict.pop(tmp)
+                    step = self.findMinMutation(tmp, end, bankDict)
                     if step != -1:
                         # it's a valid gene mutation, can it can reach to the end gene, add the steps needed
                         steps.append(step + 1)
@@ -395,6 +427,7 @@ class DP(object):
             largestRectangleArea = max(largestRectangleArea, area)
 
         return largestRectangleArea
+
     def largest_rectangle_histogram(self, nums):
         # The idea is to find area = local min height * (first smaller number in the right - last smaller number in the left - 1)
         # The idea is to store the increasing numbers, because when the number it's increasing, the max rectangle is non-determinative.
@@ -496,7 +529,7 @@ def shortestDistance(grid):
                     distance[currX][currY] += dist
                     for [x, y] in directions:
                         [nextX, nextY] = [currX + x, currY + y]
-                        if nextX >= 0 and nextX < m and nextY >= 0 and nextY < n and grid[nextX][
+                        if 0 <= nextX < m and 0 <= nextY < n and grid[nextX][
                             nextY] == buildingReached:
                             grid[nextX][nextY] -= 1
                             queue.append([nextX, nextY, dist + 1])
@@ -507,6 +540,32 @@ def shortestDistance(grid):
                 s_distance = distance[i][j]
 
     return s_distance
+# https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/
+# A = [1,3,5,4], B = [1,2,3,7]
+def minSwaps(a, b):
+    # swap[i] stands for minimal steps to do swap at i
+    # keeps[i] stands for minimal steps to remain the same
+    swaps = [len(a) + 1] * len(a)
+    keeps = [len(a) + 1] * len(a)
+    if len(a) != len(b):
+        return 0
+    # just swap the first one is 1
+    swaps[0] = 1
+    # keep doesn't need swap
+    keeps[0] = 0
+    for i in range(1, len(a)):
+        if a[i] > a[i-1] and b[i] > b[i-1]:
+            swaps[i] = swaps[i-1] + 1
+            keeps[i] = keeps[i-1]
+        ## 1, 3
+        ## 2, 4
+        if a[i] > b[i-1] and b[i] > a[i-1]:
+            swaps[i] = min(keeps[i-1] + 1, swaps[i])
+            keeps[i] = min(swaps[i-1], keeps[i])
+
+    return min(swaps[-1], keeps[-1])
+
+
 
 
 if __name__ == '__main__':
@@ -529,38 +588,32 @@ if __name__ == '__main__':
 
     # print dp.canIWin(4, 6)
     print 'longest_consecutive_numer'
-    print dp.longest_consecutive_numer([100, 4, 200, 1, 3, 2])
-
+    print dp.longest_consecutive_number([100, 4, 200, 1, 3, 2])
     print 'longest_increase_subsequence'
     print dp.longest_increase_subsequence([10, 9, 2, 5, 3, 7, 101, 18])
     print 'longest_increase_subsequence_optimize'
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 7, 101, 18])
     print dp.longest_increase_subsequence_optimize([10, 9, 2, 5, 3, 4])
-
-    holidays = [[1, 0, 3, 4], [0, 1, 0, 2], [0, 2, 3, 0]]
-
-    dp.maxVacationDays(holidays)
+    print 'number of longest increase_subsequence'
+    print dp.number_of_longest_increasing_subsequence([2, 2, 2, 2, 2])
+    print dp.number_of_longest_increasing_subsequence([1, 3, 5, 4, 7])
+    print 'length of longest continuous increase_subsequence'
+    print dp.length_of_longest_continuous_increasing_subsequence([1, 6, 3, 7, 8])
 
     print dp.first_overlapping_interval([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
 
     print dp.merge_intervals([(1, 4), (4, 6), (2, 3), (3, 9), (1, 2)])
 
     print dp.merge_intervals([[1, 4], [1, 4]])
-
+    print 'MinMutation'
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGGTA", "AACCGCTA", "AAACGGTA"])
-
     print dp.minMutation('AAAAACCC', 'AACCCCCC', ["AAAACCCC", "AAACCCCC", "AACCCCCC"])
-
     print dp.minMutation('AACCGGTT', 'AAACGGTA', ["AACCGATT", "AACCGATA", "AAACGATA", "AAACGGTA"])
-
+    print 'WordLadder'
     print dp.ladderLength('hit', 'cog', {"hot", "dot", "dog", "lot", "log"})
-
     print dp.ladderLength('hot', 'dog', {"hot", "dot", "dog"})
-
     print dp.ladderLength('a', 'c', {"a", "b", "c"})
-
     print dp.ladderLength('hot', 'dog', {"hot", "dog"})
-
     print dp.ladderLength('hot', 'dot', {"hot", "dot", "dog"})
 
     print dp.paintFence(2, 3)
@@ -569,14 +622,20 @@ if __name__ == '__main__':
     print dp.minMutation('hit', 'cog', ["hot", "dot", "dog", "lot", "log", "cog"])
 
     print 'largest_rectangle_histogram'
-    print dp.largest_rectangle_histogram([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogram([4, 2, 0, 3, 2, 5])
     print 'largest_rectangle_histogramII'
-    print dp.largest_rectangle_histogramII([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogramII([4, 2, 0, 3, 2, 5])
     print 'largest_rectangle_histogram_brutal_force'
-    print dp.largest_rectangle_histogram_brutal_force([4,2,0,3,2,5])
+    print dp.largest_rectangle_histogram_brutal_force([4, 2, 0, 3, 2, 5])
 
     print 'ShortestDistance'
     print shortestDistance([[1, 0, 2, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])
 
     print 'MinDistance'
     print minDistance("sea", "eat")
+
+    print 'MinSwaps'
+    print minSwaps([1,3,5,4], [1,2,3,7])
+
+    print "MaxVacationDays"
+    print dp.maxVacationDays([[0,1,1],[1,0,1],[1,1,0]],[[1,3,1],[6,0,3],[3,3,3]])

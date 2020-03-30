@@ -94,9 +94,29 @@ def bfs(s, word_dict):
 
     return depth - 1
 
-
 if __name__ == '__main__':
     array = ['a', 'abcd', 'bcd', 'abd', 'cd', 'c']
+    array = sorted(array, lambda a, b: len(a) - len(b))
+    dp = {
+        w: 0 for w in array
+    }
+    longest = 0
+    # dp[i] = max(dp[i], dp[j] + 1), j != i
+    for word in array:
+        if len(word) < 2:
+            continue
+        for j in range(len(word)):
+            target = word[:j] + word[j + 1:]
+            if target in dp:
+                print word, target
+                dp[word] = max(dp[word], dp[target] + 1)
+        longest = max(longest, dp[word])
+
+    print longest
+
+
+
+
     print longestChain(array)
     print longestChainII(array)
 

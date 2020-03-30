@@ -13,7 +13,7 @@ def insertCycleLinkedList(head, val):
     while pre != cur:
         nextNode = cur.next
 
-        if val >= cur.val and val <= nextNode.val:
+        if cur.val <= val <= nextNode.val:
             break
 
         if nextNode.val < cur.val and (val > cur.val or val < nextNode.val):

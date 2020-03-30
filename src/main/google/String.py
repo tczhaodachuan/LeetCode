@@ -262,7 +262,7 @@ def decodeString(s):
                 else:
                     repeatNum = encodeQueue.pop(len(encodeQueue) - 1)
                     tmp = ''
-                    for i in range(int(repeatNum)):
+                    for k in range(int(repeatNum)):
                         tmp = tmp + repeatPattern
                     encodeQueue.append(tmp)
                     break
@@ -336,7 +336,7 @@ def minWindow(s, t):
         while counter == 0:
             # based on start index, we found all matching characters, and we got the diff
             # now it's the time to move start index forward.
-            if end - start > 0 and end - start < d:
+            if 0 < end - start < d:
                 head = start
                 d = end - start
             # move the start to the next matching character

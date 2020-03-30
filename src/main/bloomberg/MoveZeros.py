@@ -1,7 +1,7 @@
 def move_zeros(nums):
     i = 0
     j = i + 1
-    while j < len(nums) and i < j:
+    while len(nums) > j > i:
         if nums[i] == 0 and nums[j] != 0:
             nums[i] = nums[j]
             nums[j] = 0

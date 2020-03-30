@@ -9,7 +9,7 @@ def longestPath(matrix, i, j, dp, directions):
         ni = i + dir[0]
         nj = j + dir[1]
 
-        if ni >= 0 and ni < m and nj >= 0 and nj < n and matrix[i][j] > matrix[ni][nj] and dp[i][j] < 1 + longestPath(
+        if 0 <= ni < m and 0 <= nj < n and matrix[i][j] > matrix[ni][nj] and dp[i][j] < 1 + longestPath(
                 matrix, ni, nj, dp, directions):
             dp[i][j] = dp[ni][nj] + 1
 

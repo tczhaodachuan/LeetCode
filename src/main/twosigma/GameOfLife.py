@@ -16,7 +16,7 @@ def game_of_life(board):
             for direct in directions:
                 nX = x + direct[0]
                 nY = y + direct[1]
-                if nX >= 0 and nX < row and nY >= 0 and nY < column:
+                if 0 <= nX < row and 0 <= nY < column:
                     # if the labour cell is live
                     if board[nX][nY] == 1 or board[nX][nY] == 2:
                         count_live += 1

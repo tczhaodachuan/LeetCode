@@ -1,43 +1,60 @@
-def maximumShopping_backtrack(i, items, ret, maxWeight):
-    if ret['currentWeight'] <= maxWeight:
-        # update max price based on the current shopping cart pricing
-        ret['maxPrice'] = max(ret['maxPrice'], ret['currentPrice'])
-    else:
-        # over weight
-        return True
+def backtracking_backpack(items, ret, max_weight):
+	if ret['currentWeight'] <= max_weight:
+		ret['maxPrice'] = max(ret['maxPrice'], ret['currentPrice'])
+	else:
+		# over weight
+		return True
 
-    for j in range(i, len(items)):
-        # with current item
-        [price, weight] = items[j]
-        ret['currentWeight'] += weight
-        ret['currentPrice'] += price
-        overWeight = maximumShopping_backtrack(j + 1, items, ret, maxWeight)
-        # without current item
-        ret['currentWeight'] -= weight
-        ret['currentPrice'] -= price
-        if overWeight:
-            break
-    return False
+	for i in range(len(items)):
+		# with current item
+		[price, weight] = items[i]
+		ret['currentWeight'] += weight
+		ret['currentPrice'] += price
+		overWeight = backtracking_backpack(items[i + 1:], ret, max_weight)
+		# without current item
+		ret['currentWeight'] -= weight
+		ret['currentPrice'] -= price
+		if overWeight:
+			break
+	return False
 
 
-def maximumShopping_backpack(items, maxWeight):
-    f = [0 for i in range(maxWeight + 1)]
+def dp_one_backpack(items, max_weight):
+	# max value for the first i items put into j weight
+	# dp[i][j] = max(dp[i-1][j], dp[i-1][j-w] + c)
+	dp = [[0 for i in range(max_weight + 1)] for j in range(len(items))]
 
-    for i in range(len(items)):
-        [price, weight] = items[i]
-        for j in range(maxWeight, weight - 1, -1):
-            f[j] = max(f[j], f[j - weight] + price)
-    return f[-1]
+	for i in range(0, len(items)):
+		[price, weight] = items[i]
+		for j in range(weight, max_weight + 1):
+			if i - 1 < 0:
+				dp[i][j] = price
+			else:
+				dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight] + price)
+	return dp[-1][-1]
+
+
+def dp_two_backpack(items, max_weight):
+	f = [0 for i in range(max_weight + 1)]
+
+	for i in range(len(items)):
+		[price, weight] = items[i]
+		# reverse it so it doesn't overwrite what we have calculated from last loop
+		for j in range(max_weight, weight - 1, -1):
+			f[j] = max(f[j], f[j - weight] + price)
+	return f[-1]
 
 
 if __name__ == '__main__':
-    items = [[3, 2], [4, 3], [2, 4], [4, 6], [4, 8]]
-    ret = {}
-    ret['maxPrice'] = 0
-    ret['currentPrice'] = 0
-    ret['currentWeight'] = 0
-    maximumShopping_backtrack(0, items, ret, 10)
+	items = [[3, 2], [4, 3], [2, 4], [4, 6], [4, 8]]
+	ret = {}
+	ret['maxPrice'] = 0
+	ret['currentPrice'] = 0
+	ret['currentWeight'] = 0
+	backtracking_backpack(items, ret, 10)
 
-    print(ret)
+	print ret
 
-    print(maximumShopping_backpack(items, 10))
+	print dp_two_backpack(items, 10)
+
+	print dp_one_backpack(items, 10)

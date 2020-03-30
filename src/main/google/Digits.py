@@ -12,7 +12,7 @@ def replaceTwoAdjentDigits(num):
 
     replaceStart = False
     while start > 0:
-        if nums[start] >= nums[mid] and nums[mid] > nums[end]:
+        if nums[start] >= nums[mid] > nums[end]:
             start -= 1
             mid -= 1
             end -= 1

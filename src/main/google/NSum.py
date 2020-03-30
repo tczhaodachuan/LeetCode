@@ -66,16 +66,64 @@ class NSum(object):
         return answers
 
 
+# https://leetcode.com/problems/target-sum/
+def targetSum(nums, s):
+    # dfs
+    maximum = sum(nums)
+    minimum = sum(nums) * (-1)
+    if s > maximum and s < minimum:
+        return 0
+
+    return targetSumWays(nums, 0, s)
+
+
+def targetSumWays(nums, i, s):
+    if i == len(nums) - 1:
+        # stop condition
+        if s == nums[i] or s == nums[i] * (-1):
+            print i, s
+            return 1
+        else:
+            return 0
+
+    return targetSumWays(nums, i + 1, s - nums[i]) + targetSumWays(nums, i + 1, s + nums[i])
+
+
+def targetSumII(nums, s):
+    # dp solution
+    summation = sum(nums)
+    if s > summation or s < (-1) * summation:
+        return 0
+
+    dp = [[0 for _ in range(2 * summation + 1)] for _ in range(len(nums) + 1)]
+    # dp[i][j] stands the number of ways to use the first i elements to get sum of j
+    # dp[len(nums) - 1][s] is the result
+    # dp[0][summation] = 1 initial value to say, summation result only has 1 way
+    # dp[i-1][j-nums[i]] + dp[i-1][j+nums[i]] = dp[i][j]
+    print dp
+    dp[0][summation] = 1
+    for i in range(len(nums)):
+        j = nums[i]
+        while j < 2 * summation + 1 - nums[i]:
+            if dp[i][j]:
+                dp[i + 1][j + nums[i]] += dp[i][j]
+                dp[i + 1][j - nums[i]] += dp[i][j]
+            j += 1
+    # s + summation meaning we shifted the possible value with summaion number, since array cannot store negative index
+    # otherwise, the array should be in [-summation, summation]
+    return dp[-1][s + summation]
+
+
 def findTargetSumWaysII(nums, S):
     # NP-complete problem, easy to find answer
-    # hard to find all solutions in polynormal time
+    # hard to find all solutions in polynomial time
     summation = sum(nums)
     if summation < S:
         # no solution available
         return 0
     if summation + S % 2 == 1:
         # because all of the num in nums are even number
-        # after each num * 2, however, the taret number is an odd number
+        # after each num * 2, however, the target number is an odd number
         return 0
     # convert the problem to a subset sum problem
     # (S+sum)/2 is the target number, then only consider the summation
@@ -138,6 +186,26 @@ def helper(res, expression, nums, target, pos, eval, multed):
                    multed * curr)
 
 
+# https://leetcode.com/problems/subarray-sum-equals-k/
+def subArrayEqual(nums, k):
+
+    if len(nums) == 0:
+        return 0
+
+    presum_dict = {0: 1}
+    # dp[i] meaning the sum of array from 0 to i,
+    presum = 0
+    count = 0
+    for num in nums:
+        presum += num
+        # e.g. sum of the sub string i -> j equals k
+        # dp[j]-k=dp[i], j>i, means i has been stored before reaches to j
+        count += presum_dict.get(presum - k, 0)
+        presum_dict[presum] = presum_dict.get(presum, 0) + 1
+
+    return count
+
+
 if __name__ == '__main__':
     n_sum = NSum()
     nums = [-12, -1, 4, -14, 0, 10, 7, -7, -6, 9, 6, -2, 7, 13, 9, -1, 4, 12, 9, 4, 14, 0, -4, 0, 0, 10, 2, -7, 7, -4,
@@ -153,6 +221,8 @@ if __name__ == '__main__':
 
     print 'findTargetSumWays'
     print findTargetSumWays([1, 1, 1, 1, 1], 3)
+    print targetSum([1, 1, 1, 1, 1], 3)
+    print targetSumII([1, 1, 1, 1, 1], 3)
     # print findTargetSumWays([10, 9, 6, 4, 19, 0, 41, 30, 27, 15, 14, 39, 33, 7, 34, 17, 24, 46, 2, 46], 45)
 
     print 'findTargetSumWaysII'
@@ -161,3 +231,7 @@ if __name__ == '__main__':
 
     print 'addOperators'
     print addOperators('123', 6)
+
+    print 'subArrayEqualsK'
+
+    print subArrayEqual([1, 1, 1], 2)

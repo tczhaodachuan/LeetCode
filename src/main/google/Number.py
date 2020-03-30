@@ -286,7 +286,7 @@ class Solution(object):
             return [-1, -1]
 
         found = self.binarySearch(nums, 0, len(nums), target)
-        if found == []:
+        if not found:
             return [-1, -1]
         if len(found) == 1:
             return [found[0], found[0]]
@@ -458,3 +458,4 @@ if __name__ == '__main__':
 
     print solution.findPeakElement([1,2,3,1])
     print solution.findPeakElement([1, 2])
+    # comment line

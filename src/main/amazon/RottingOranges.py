@@ -21,7 +21,6 @@ def min_time_to_rotting(fields):
         for j in range(column):
             if fields[i][j] == 1:
                 return -1
-
     return mins
 
 

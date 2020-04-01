@@ -1,6 +1,3 @@
-import heapq
-
-
 def partition_labels(s):
     char_intervals = {}
     for i in range(len(s)):

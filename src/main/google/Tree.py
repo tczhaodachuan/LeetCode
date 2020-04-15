@@ -115,10 +115,9 @@ class TreeNode(object):
         self.print_in_order(head.right)
 
     def findNthSmallestNode(self, head, n, c):
-        if head == None:
+        if head == None or c['count'] >= n:
             return None
-        if c['count'] >= n:
-            return None
+
         left = self.findNthSmallestNode(head.left, n, c)
         if left:
             return left

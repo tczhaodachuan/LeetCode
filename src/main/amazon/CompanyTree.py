@@ -19,13 +19,15 @@ def dfs(head, ret):
     if not head.children or len(head.children) == 0:
         return [head.val, 1]
 
-    # pre order
+    # pre order, divide
     curSum = head.val
     curCount = 1
     for child in head.children:
         [sum, count] = dfs(child, ret)
+        #conquer
         curSum += sum
         curCount += count
+
     avg = curSum * 1.0 / curCount
     if ret['avg'] < avg:
         ret['avg'] = avg

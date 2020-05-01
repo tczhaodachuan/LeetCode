@@ -35,7 +35,16 @@ leetcode 642
 scheduler, send to SNS messages
 leetcode 322
 leetcode 210
+leetcode 303
+leetcode 380
+leetcode 1153
+leetcode 937
+leetcode 490
+leetcode 742
 
-how to handle the idea against you?
-I was charging to optimize a system 
+Calculate the sum of a range of array
+
+Parking Lot system
+
+Linux FIND
 

@@ -45,8 +45,28 @@ class Solution(object):
                     continue
 
             heapq.heappush(heap, interval[1])
-        print heap
         return len(heap)
+
+    def minMeetingRoomsII(self, intervals):
+        meet_times = {}
+        for start, end in intervals:
+            if start not in meet_times:
+                meet_times[start] = 1
+            else:
+                meet_times[start] += 1
+
+            if end not in meet_times:
+                meet_times[end] = -1
+            else:
+                meet_times[end] -= 1
+
+        print meet_times
+        ans = 0
+        rooms = 0
+        for time, meetings in meet_times.iteritems():
+            rooms += meetings
+            ans = max(ans, rooms)
+        return ans
 
 
 if __name__ == '__main__':
@@ -56,3 +76,6 @@ if __name__ == '__main__':
 
     print s.minMeetingRooms([[0, 30], [5, 10], [15, 20]])
     print s.minMeetingRooms([[7, 10], [2, 4]])
+
+    print s.minMeetingRoomsII([[0, 30], [5, 10], [15, 20]])
+    print s.minMeetingRoomsII([[2, 5], [4, 7], [3, 9], [1, 5], [10, 20]])

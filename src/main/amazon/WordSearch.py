@@ -1,3 +1,6 @@
+from Trie import Trie
+
+
 def word_search(board, words):
     def get_adjacent(i, j, row, col):
         directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -32,6 +35,40 @@ def word_search(board, words):
     return result
 
 
+def search(grid, x, y, trie_node, result, visited):
+    if x < 0 or x >= len(grid) or y < 0 or y >= len(grid[0]) or trie_node is None:
+        return
+    if trie_node.has_word:
+        # reach to a word in the Trie
+        if (x, y) not in visited:
+            if trie_node.s not in result:
+                result.append(trie_node.s)
+
+    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    if grid[x][y] in trie_node.children:
+        for dx, dy in directions:
+            search(grid, x + dx, y + dy, trie_node.children[grid[x][y]], result, visited + [(x, y)])
+
+
+def word_searchii(grid, words):
+    if grid is None or len(grid) == 0:
+        return []
+
+    trie = Trie()
+    for word in words:
+        trie.add_word(word)
+
+    m = len(grid)
+    n = len(grid[0])
+    visited = []
+    result = []
+    for i in range(m):
+        for j in range(n):
+            search(grid, i, j, trie.head, result, visited)
+
+    return result
+
+
 if __name__ == '__main__':
     board = [
         ['o', 'a', 'a', 'n'],
@@ -47,3 +84,5 @@ if __name__ == '__main__':
     ]
     words = ["aaa"]
     print word_search(board, words)
+
+    print word_searchii(["doaf", "agai", "dcan"], ["dog", "dad", "dgdg", "can", "again"])

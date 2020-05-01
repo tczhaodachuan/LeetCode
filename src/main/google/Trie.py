@@ -1,7 +1,7 @@
 class TrieNode(object):
     def __init__(self, value):
         self.value = value
-        self.childen = dict()
+        self.children = dict()
 
 
 class Trie(object):
@@ -10,51 +10,51 @@ class Trie(object):
         for word in words:
             current = self.head
             for i in range(len(word)):
-                if not current.childen.has_key(word[i]):
+                if not current.children.has_key(word[i]):
                     child = TrieNode(word[i])
-                    current.childen[word[i]] = child
+                    current.children[word[i]] = child
                     current = child
                 else:
-                    current = current.childen[word[i]]
+                    current = current.children[word[i]]
 
     def addWord(self, word):
         current = self.head
         for i in range(len(word)):
-            if not current.childen.has_key(word[i]):
+            if not current.children.has_key(word[i]):
                 child = TrieNode(word[i])
-                current.childen[word[i]] = child
+                current.children[word[i]] = child
                 current = child
             else:
-                current = current.childen[word[i]]
+                current = current.children[word[i]]
 
     def removeWord(self, word):
         stack = []
         current = self.head
         for i in range(len(word)):
-            if not current.childen.has_key(word[i]):
+            if not current.children.has_key(word[i]):
                 return
             else:
-                current = current.childen[word[i]]
+                current = current.children[word[i]]
                 stack.append(current)
 
         i = len(word) - 1
 
         while i > 0:
-            if len(stack[i].childen) == 0:
+            if len(stack[i].children) == 0:
                 print 'Remove ' + stack[i].value
-                stack[i - 1].childen.pop(stack[i].value)
+                stack[i - 1].children.pop(stack[i].value)
             stack.pop()
             i -= 1
-        if len(stack[i].childen) == 0:
-            self.head.childen.pop(stack[i].value)
+        if len(stack[i].children) == 0:
+            self.head.children.pop(stack[i].value)
 
     def isWordInside(self, word):
         current = self.head
         for i in range(len(word)):
-            if not current.childen.has_key(word[i]):
+            if not current.children.has_key(word[i]):
                 return False
             else:
-                current = current.childen[word[i]]
+                current = current.children[word[i]]
         return True
 
 
@@ -63,7 +63,7 @@ def printTrie(trieNode):
         return
     stack = []
     print trieNode.value
-    for child in trieNode.childen.itervalues():
+    for child in trieNode.children.itervalues():
         stack.append(child)
     levelLenth = len(stack)
     message = ''
@@ -75,8 +75,8 @@ def printTrie(trieNode):
         message = message.__add__(node.value)
         message = message.__add__(' ')
         levelLenth -= 1
-        if len(node.childen) > 0:
-            for child in node.childen.itervalues():
+        if len(node.children) > 0:
+            for child in node.children.itervalues():
                 stack.insert(0, child)
 
     print message

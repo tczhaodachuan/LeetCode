@@ -34,7 +34,6 @@ def party_invite(guest_list):
 
     result = {}
     for person_name, person in persons.iteritems():
-        print person_name
         if person_name != 'Adam':
             invite_him(person, result)
     print result

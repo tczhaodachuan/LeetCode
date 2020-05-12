@@ -1,54 +1,71 @@
-class TrieNode():
-    def __init__(self):
-        # 26 characters
-        self.links = [None for _ in range(26)]
-        self._is_end = False
-
-    def containsChr(self, char):
-        return self.links[ord(char) - ord('a')] != None
-
-    def getChar(self, char):
-        return self.links[ord(char) - ord('a')]
-
-    def putChar(self, char, node):
-        self.links[ord(char) - ord('a')] = node
-
-    def set_end(self):
-        self._is_end = TrieNode
-
-    @property
-    def is_end(self):
-        return self._is_end
+class TrieNode(object):
+    def __init__(self, val):
+        self.is_word = False
+        self.value = val
+        self.children = {}
 
 
-class Trie(object):
+class WordDictionary(object):
 
     def __init__(self):
-        self.root = TrieNode()
+        """
+        Initialize your data structure here.
+        """
 
-    def insert(self, word):
-        current = self.root
-        for w in word:
-            if current.containsChr(chr(w)):
-                current = current.getChar(chr(w))
-            else:
-                node = TrieNode()
-                current.putChar(chr(w), node)
-                current = node
-        current.set_end()
+        self.head = TrieNode(None)
 
-    def searchPrefix(self, prefix):
-        current = self.root
-        for p in prefix:
-            if current.containsChr(chr(p)):
-                current = current.getChar(chr(p))
+    def addWord(self, word):
+        """
+        Adds a word into the data structure.
+        :type word: str
+        :rtype: None
+        """
+
+        current = self.head
+        for i in range(len(word)):
+            c = word[i]
+            if c in current.children:
+                current = current.children[c]
             else:
-                return None
-        return current
+                child = TrieNode(c)
+                current.children[c] = child
+                current = child
+        current.is_word = True
 
     def search(self, word):
-        node = self.searchPrefix(word)
-        return not node and node.is_end
+        """
+        Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter.
+        :type word: str
+        :rtype: bool
+        """
+        return self._search(self.head, word)
 
-    def startsWith(self, prefix):
-        return not self.searchPrefix(prefix)
+    def _search(self, current, word):
+        for i in range(len(word)):
+            c = word[i]
+            if c != '.':
+                if c in current.children:
+                    current = current.children[c]
+                else:
+                    return False
+            else:
+                for child in current.children:
+                    # exclude current dot
+                    if self._search(current.children[child], word[i + 1:]):
+                        return True
+                return False
+        return current.is_word
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
+
+if __name__ == '__main__':
+    wd = WordDictionary()
+    wd.addWord('a')
+    wd.addWord('a')
+
+    input = [["."],["a"],["aa"],["a"],[".a"],["a."]]
+    for elem in input:
+        print wd.search(elem[0])

@@ -48,3 +48,34 @@ Parking Lot system
 
 Linux FIND
 
+Introduce yourself, 
+I’m a software engineer since graduated, I’ve been working in financial industry in last 7 years. I started my career from infrastructure management, realtime monitoring system, machine metrics reporting system, role-based access control system which is security related. While in the recent 3 years, in Bloomberg, I focus on the distributed data pipeline. I’m building the system to sufficiently transform millions of data within  a timely manner. I changed the traditional way of record based processing into column based processing, which helped the product improve the speed about 300%. Recently, I am charging of rearchitect the pricing engines to double the capacity while make sure the data quality.
+
+Deliver results:
+A time when you were 75% through a project and had to pivot strategy to ensure its successful completion:
+Time is always short, there is a time, we found out we missed a critical function while we almost finish the project. I got a design in mind, but I am busy with the current project, so I discussed this with my manager and my product manager, as this project is as important as the other product, we agreed on combine resources to work across the teams. Though it’s will be a learning curve for other team, I need to speed more time to talk rather than I write codes myself, testing myself. I have to summarize I thought and lay down the requirements such as testing coverage, expectations in details so they can execute.
+Dive Deep: A complex problem requires a lot of depth analysis. Thread enable problem, a multi-process task also has multi thread codes, the process hang occasionally, feels impossible to troubleshoot it, stack the process, collect the stacks, analysis each line to understand where it got stuck. This problem has been happening for a year, but no-one really wants to do anything because it’s legacy and complicated. So I have to take the charge, build a theory around it and verify it, then you can present it for higher managers who have no idea what you are talking about, but they have the trust in you.
+
+Earn trust, helped an unperformed colleague. There was a colleague who didn’t get a good review last year, he was trying to ask me what did I do wrong?
+I immediately have a one-on-one session with him, he explained to me that he did a lot of jobs, he handled lots on call support, and he finished the tasks given to him. And He thought the manager liked him.
+I understand his frustrations, and I would like to take me as an example for the mistakes I made in the early age. You are not only work hard, you need to work smart. 	Spending too much time on training and communications between teams won’t help you deliver the product. It is very clear, the lack of end result will flush all of the hard work away. Yes, in the last battle of your assigned project, you gave up and got pushed away from another team, the work is a fight, I helped him understand that he needs to think as an owner of the project, and he needs to fight from all possible ways to get it done. In the coming week, I also reported this to my manager, my manager was happy that I can earned the trust from the colleague, and I gave him some feedbacks which he cannot give in his role.
+Earn trust, how to sell your idea to your team? A time when you have to communicate a change in your team.
+I have to admit the failures to the higher manager that it was a design flaw, let’s discuss how to fix it rather than blame all others. 
+I explained the details to the team, and I also provided the solution as a whole. Yes I also listened to the audience that why we didn’t capture this issue earlier, and how do we prevent this from happening.
+ 
+Ownership, sacrifice short term gain for a long term value. I am taking responsibility beyond my scope but it’s the team’s best interest and it does good for the firm in general. 
+I could have fixed the small bug and 
+Disagree and commit, disagree with your boss
+Insist on high standard, relentlessly wired on improving the quality of a fully working product. There is a product which consistently pulling data from a service until it’s available, the product is running perfectly fine but it’s using lots of resources, and maintaining cost is high, to make the product right, we need to change that to an event-drive based system, to accomplish that, I need across team efforts to make it happen, the data owners needs to agree to deliver the signal with a minimal cost, our system needs to have a way to handle event-drive, we spent lots of time to build such infra to support the single use case, which turns out to be a generic case for every team in DL. 
+Right a lot, 
+A significant decision that you took which required input from various sources, such as clients, other stakeholders or partners.
+ambiguous situation, removing ambiguity, the experienced worker and leader may have a better sense on the problems because they have seen many and failed many.
+Invent and Simplify:
+A simple solution to a complex problem, 
+Record based processing, the traditional data pipeline is processing one record a time, the record was written in a file with JSON format, thus it needs to be decoded and encoded every time to use it. Even just need an attribute from it. Thus I proposed and changed part of the way we process the data, if the data was written in a column based file, we can just process the particular column rather than in a much sufficient way.
+Such as we want to filter out all blank ID rows, we can get the ID column now and just apply logic onto that single array to get the results.
+
+Client obsession, 
+Our system collected aggregated data for all of the clients, thus when a system failure happened, all of the clients will get impacted. And those clients are very frustrated as they didn’t get the data in time. I have to convince our product managers to sponsor us resources to develop a way to partition the clients data. So when failures happened, the impact is minimized, as the result, our clients haven’t reported complains in about 6 months, which saved us and the clients lots of time.
+
+unclear about the clients’ requests, going above and beyond the customer, deliver excellent service back to the customers. 

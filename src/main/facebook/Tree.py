@@ -116,6 +116,76 @@ class Solution(object):
             current.right = right_node
         return root
 
+    def verticalTraversal(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[List[int]]
+        """
+
+        result = {}
+        self.traversal(root, 0, 0, result)
+        sorted_items = sorted(result.items(), key=lambda (x, _): x)
+        final_result = []
+        for _, values in sorted_items:
+            values.sort()
+            final_result.append([s for (_, s) in values])
+        return final_result
+
+    def traversal(self, root, x, depth, result):
+        if not root:
+            return
+        self.traversal(root.left, x - 1, depth + 1, result)
+        if x in result:
+            result[x].append((depth, root.val))
+        else:
+            result[x] = [(depth, root.val)]
+        self.traversal(root.right, x + 1, depth + 1, result)
+
+    def distanceK(self, root, target, K):
+        """
+        We are given a binary tree (with root node root), a target node, and an integer value K.
+        Return a list of the values of all nodes that have a distance K from the target node.  The answer can be returned in any order.
+        :type root: TreeNode
+        :type target: TreeNode
+        :type K: int
+        :rtype: List[int]
+        """
+        graph = {}
+        self.constructGraph(root, None, graph)
+        visited = set()
+        queue = [(target.val, 0)]
+        result = []
+        while len(queue) > 0:
+            current, distance = queue.pop(0)
+            visited.add(current)
+            if distance == K:
+                result.append(current)
+            elif distance < K:
+                for neighbor in graph.get(current, []):
+                    if neighbor in visited:
+                        continue
+                    else:
+                        queue.append((neighbor, distance + 1))
+        return result
+
+    def constructGraph(self, root, parent, graph):
+        if not root:
+            return
+
+        if parent:
+            if root.val in graph:
+                graph[root.val].add(parent.val)
+            else:
+                graph[root.val] = {parent.val}
+
+            if parent.val in graph:
+                graph[parent.val].add(root.val)
+            else:
+                graph[parent.val] = {root.val}
+        self.constructGraph(root.left, root, graph)
+        self.constructGraph(root.right, root, graph)
+
+
 if __name__ == '__main__':
     root = TreeNode(0)
     root.left = TreeNode(1)
@@ -158,3 +228,10 @@ if __name__ == '__main__':
     root.right.right = TreeNode(6)
     root = s.flatten(root)
     print print_tree(root)
+
+    root = TreeNode(3)
+    root.left = TreeNode(9)
+    root.right = TreeNode(20)
+    root.right.left = TreeNode(15)
+    root.right.right = TreeNode(7)
+    print s.verticalTraversal(root)

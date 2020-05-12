@@ -300,9 +300,8 @@ class Solution(object):
             return []
 
         mid = (start + end) / 2
-
+        targets = [mid]
         if nums[mid] == target:
-            targets = [mid]
             leftSearch = self.binarySearch(nums, start, mid - 1, target)
             rightSearch = self.binarySearch(nums, mid + 1, end, target)
 

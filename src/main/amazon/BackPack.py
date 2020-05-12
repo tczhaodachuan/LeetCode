@@ -45,6 +45,10 @@ def dp_two_backpack(items, max_weight):
 	return f[-1]
 
 
+def divide_nums(nums):
+	pass
+
+
 if __name__ == '__main__':
 	items = [[3, 2], [4, 3], [2, 4], [4, 6], [4, 8]]
 	ret = {}

@@ -18,3 +18,18 @@ class Solution(object):
             subset.append(nums[i])
             self.back_track(nums, i + 1, list(subset), results)
             subset = subset[:-1]
+
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+
+        result = []
+        self.dfs(nums, 0, [], result)
+        return result
+
+    def dfs(self, nums, index, subset, result):
+        result.append(subset)
+        for i in range(index, len(nums)):
+            self.dfs(nums, i + 1, subset + [nums[i]], result)

@@ -12,6 +12,17 @@ def removeDuplicates(nums):
     return i + 1
 
 
+def countDistinctNumbers(nums):
+    i = 1
+    result = 1
+    while i < len(nums):
+        while nums[i - 1] == nums[i]:
+            i += 1
+        i += 1
+        result += 1
+    return result
+
+
 def removeElements(nums, val):
     if len(nums) == 0:
         return 0
@@ -64,3 +75,6 @@ if __name__ == '__main__':
     print 'removeDuplicatesFromSortedArray'
     print removeDuplicatesFromSortedArray([1, 1, 1, 2, 2, 3])
     print removeDuplicatesFromSortedArray([0, 0, 1, 1, 1, 1, 2, 3, 3])
+
+    print countDistinctNumbers([1, 1, 1, 1, 1, 2])
+    print countDistinctNumbers([1, 1, 1, 1, 1, 2, 2, 2, 3])

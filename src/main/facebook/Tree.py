@@ -185,6 +185,47 @@ class Solution(object):
         self.constructGraph(root.left, root, graph)
         self.constructGraph(root.right, root, graph)
 
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+
+        if not root:
+            return 'None'
+
+        left_path = self.serialize(root.left)
+        right_path = self.serialize(root.right)
+
+        return '{},{},{}'.format(root.val, left_path, right_path)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        if len(data) == 0:
+            return None
+
+        queue = data.split(',')
+        return self.constructTree(queue)
+
+    def constructTree(self, queue):
+
+        if len(queue) == 0:
+            return None
+
+        elemt = queue.pop(0)
+        if elemt != 'None':
+            node = TreeNode(int(elemt))
+            node.left = self.constructTree(queue)
+            node.right = self.constructTree(queue)
+            return node
+        else:
+            return None
+
 
 if __name__ == '__main__':
     root = TreeNode(0)
@@ -235,3 +276,9 @@ if __name__ == '__main__':
     root.right.left = TreeNode(15)
     root.right.right = TreeNode(7)
     print s.verticalTraversal(root)
+
+    s = Solution()
+    s_str = s.serialize(root)
+    print s_str
+    node = s.deserialize(s_str)
+    print_tree(node)

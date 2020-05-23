@@ -101,5 +101,5 @@ if __name__ == '__main__':
     print findTargetSumWays([0, 0, 0, 0, 0, 0, 0, 0, 1], 1)
     print findTargetSumWaysMemory([0, 0, 0, 0, 0, 0, 0, 0, 1], 1)
     print findTargetSumWaysMemory([2, 20, 24, 38, 44, 21, 45, 48, 30, 48, 14, 9, 21, 10, 46, 46, 12, 48, 12, 38], 48)
-    print findTargetSumWaysMemory([2, 107, 109, 113, 127, 131, 137, 3, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 47, 53],899)
-    #print findTargetSumWaysDP([2, 20, 24, 38, 44, 21, 45, 48, 30, 48, 14, 9, 21, 10, 46, 46, 12, 48, 12, 38], 48)
+    print findTargetSumWaysMemory([2, 107, 109, 113, 127, 131, 137, 3, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 47, 53], 899)
+    # print findTargetSumWaysDP([2, 20, 24, 38, 44, 21, 45, 48, 30, 48, 14, 9, 21, 10, 46, 46, 12, 48, 12, 38], 48)

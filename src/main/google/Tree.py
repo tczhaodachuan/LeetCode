@@ -51,8 +51,6 @@ class TreeNode(object):
                     stack.insert(0, node.left)
         return answer
 
-
-
     def doRightSideView(self, depth, root):
         if root is None:
             return []
@@ -241,6 +239,7 @@ def isSymmetric(root):
         return True
     return isSubTreeEqual(root.left, root.right)
 
+
 def isSubTreeEqual(left, right):
     if not left and not right:
         return True
@@ -253,6 +252,7 @@ def isSubTreeEqual(left, right):
         return isSubTreeEqual(left.right, right.left) and isSubTreeEqual(left.left, right.right)
     else:
         return False
+
 
 # https://www.geeksforgeeks.org/find-maximum-path-sum-two-leaves-binary-tree/
 # replace the same character at once leetcode

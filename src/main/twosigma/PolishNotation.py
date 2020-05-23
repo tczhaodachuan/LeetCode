@@ -2,6 +2,7 @@ class Polish(object):
     def __init__(self, polish_array):
         self.polish_array = polish_array
         self.operators = ['+', '-', '*', '/']
+
     def calculate(self):
         self.stack = []
         for polish in self.polish_array:
@@ -19,7 +20,6 @@ class Polish(object):
             else:
                 self.stack.append(int(polish))
         return self.stack.pop()
-
 
 
 if __name__ == '__main__':

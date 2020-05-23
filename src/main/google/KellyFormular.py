@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 
-
 if __name__ == '__main__':
     RKH = pd.read_csv('C:\Users\\tczhaodachuan\Desktop\Papers\RKH.csv', sep=',', header=None)
     header = RKH.values[0][:]
@@ -29,6 +28,5 @@ if __name__ == '__main__':
 
     print excess_returns
     print 252 * np.mean(excess_returns[1:])
-
 
     # print pd.merge(tday_RKH.to_frame(), tday.to_frame())

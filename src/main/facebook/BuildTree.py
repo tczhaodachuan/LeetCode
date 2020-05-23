@@ -78,6 +78,8 @@ class Solution(object):
                 curr = curr.next
             level_node = level_node.left
         return root
+
+
 if __name__ == '__main__':
     s = Solution()
     tree = s.buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7])

@@ -33,5 +33,4 @@ if __name__ == '__main__':
             path = longestPath(matrix, i, j, dp, directions)
             dp[i][j] = path
 
-
     print dp

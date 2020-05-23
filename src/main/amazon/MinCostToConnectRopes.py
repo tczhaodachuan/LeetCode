@@ -1,4 +1,6 @@
 import heapq
+
+
 def minCostToConnectRopes(ropes, min_cost):
     # 1. find the min cost pair in the ropes
     # 2. repeat the question until the ropes length is 1
@@ -23,6 +25,7 @@ def minCostToConnectRopes2(ropes):
     min_cost = ropes[0] + ropes[1]
     return min_cost + minCostToConnectRopes2(ropes[2:] + [min_cost])
 
+
 def minCostToConnectRopes3(ropes):
     # fastest, as only need min rope in the list
     if len(ropes) == 1:
@@ -30,6 +33,7 @@ def minCostToConnectRopes3(ropes):
     heapq.heapify(ropes)
     min_cost = heapq.heappop(ropes) + heapq.heappop(ropes)
     return min_cost + minCostToConnectRopes2(ropes + [min_cost])
+
 
 def minCostToConnectRopes4(ropes):
     # fastest, as only need min rope in the list
@@ -43,6 +47,7 @@ def minCostToConnectRopes4(ropes):
         heapq.heappush(ropes, new_cost)
 
     return min_cost
+
 
 if __name__ == '__main__':
     ropes = [8, 4, 6, 12]

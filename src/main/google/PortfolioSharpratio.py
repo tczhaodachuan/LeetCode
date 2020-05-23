@@ -111,6 +111,7 @@ class SharpRatioCalculator(object):
 
         return best_allocations
 
+
 if __name__ == '__main__':
     sr_calculator = SharpRatioCalculator()
     symbols = ['C', 'GS', 'IBM', 'HNZ']
@@ -118,7 +119,6 @@ if __name__ == '__main__':
     end_date = dt.datetime(2010, 12, 31)
     allocations = [0.2, 0.0, 0.8, 0.0]
     (vol, sharp_ratio, avg_daily_ret, cum_ret) = sr_calculator.simulate(start_date, end_date, symbols, allocations)
-
 
     # print sr_calculator.optimize(start_date, end_date, symbols)
     best_allocations = sr_calculator.gradient_ascent(start_date, end_date, symbols)

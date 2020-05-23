@@ -36,6 +36,46 @@ def add_two_numbers(l1, l2):
     return sum_list
 
 
+def addStrings(num1, num2):
+    """
+    :type num1: str
+    :type num2: str
+    :rtype: str
+    """
+
+    i, j = len(num1) - 1, len(num2) - 1
+
+    result = []
+    carry = 0
+    while i >= 0 and j >= 0:
+        n = int(num1[i])
+        m = int(num2[j])
+        current = (m + n + carry) % 10
+        result.insert(0, str(current))
+        carry = (m + n + carry) / 10
+        i -= 1
+        j -= 1
+    while i >= 0:
+        n = int(num1[i])
+        current = (n + carry) % 10
+        result.insert(0, str(current))
+        carry = (n + carry) / 10
+
+        i -= 1
+
+    while j >= 0:
+        n = int(num2[j])
+        current = (n + carry) % 10
+        result.insert(0, str(current))
+        carry = (n + carry) / 10
+
+        j -= 1
+
+    if carry > 0:
+        result.insert(0, str(carry))
+    return ''.join(result)
+
+
 if __name__ == '__main__':
     l1 = generateNodes([3, 6, 4])
     l2 = generateNodes([3, 4, 5])
@@ -45,3 +85,5 @@ if __name__ == '__main__':
     while result:
         print result.val
         result = result._next
+
+    print addStrings('1', '9')

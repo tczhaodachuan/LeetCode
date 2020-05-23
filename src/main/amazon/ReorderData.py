@@ -31,6 +31,7 @@ def reorder_logs(logs):
     letter_logs = [x.log for x in letter_logs]
     return letter_logs + digit_logs
 
+
 if __name__ == '__main__':
     logs = ["dig1 8 1 5 1", "let1 art can", "dig2 3 6", "let2 own kit dig", "let3 art zero"]
 

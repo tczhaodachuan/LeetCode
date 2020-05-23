@@ -1,6 +1,3 @@
-from array import array
-
-
 class TextEditor(object):
     def __init__(self):
         # front stack
@@ -37,7 +34,6 @@ class TextEditor(object):
             else:
                 del self._t_stack[start:end]
 
-
     def display(self):
         content = ''
         for c in self._f_stack:
@@ -46,6 +42,7 @@ class TextEditor(object):
         for c in self._t_stack:
             content = content + c
         print content
+
 
 if __name__ == '__main__':
     textEditor = TextEditor()
@@ -76,5 +73,5 @@ if __name__ == '__main__':
     textEditor.display()
 
     print textEditor._f_stack
-    textEditor.delete(9,10)
+    textEditor.delete(9, 10)
     textEditor.display()

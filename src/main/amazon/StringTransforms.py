@@ -1,7 +1,6 @@
-#LC 1153
+# LC 1153
 
 def canConvert(s, t):
-
     if len(s) != len(t):
         return False
 

@@ -87,9 +87,6 @@ def findAnagramsTP(s, p):
     return result
 
 
-import sys
-
-
 def minWindow(s, t):
     """
     :type s: str

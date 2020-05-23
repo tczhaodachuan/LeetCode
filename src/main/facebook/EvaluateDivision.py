@@ -35,6 +35,7 @@ def divide(fraction, denominator, graph, visited):
 
     return -1.0
 
+
 def find(parents, x):
     if parents[x][0] == x:
         return parents[x]
@@ -43,13 +44,14 @@ def find(parents, x):
     parents[x] = (root_x[0], root_x[1] * parents[x][1])
     return parents[x]
 
+
 def evaluateDivisionsII(equations, values, queries):
     parents = {}
 
     for i, [f, d] in enumerate(equations):
         if f not in parents and d not in parents:
             parents[f] = (d, values[i])
-            parents[d] = (f, 1.0/values[i])
+            parents[d] = (f, 1.0 / values[i])
         elif f not in parents:
             parents[f] = (d, values[i])
         elif d not in parents:
@@ -74,12 +76,9 @@ def evaluateDivisionsII(equations, values, queries):
     return result
 
 
-
 if __name__ == '__main__':
     equations = [["a", "b"], ["b", "c"]]
     values = [2.0, 3.0]
     queries = [["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"]]
     print evaluateDivisions(equations, values, queries)
     print evaluateDivisionsII(equations, values, queries)
-
-

@@ -56,6 +56,7 @@ class WordDictionary(object):
                 return False
         return current.is_word
 
+
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
 # obj.addWord(word)
@@ -66,6 +67,6 @@ if __name__ == '__main__':
     wd.addWord('a')
     wd.addWord('a')
 
-    input = [["."],["a"],["aa"],["a"],[".a"],["a."]]
+    input = [["."], ["a"], ["aa"], ["a"], [".a"], ["a."]]
     for elem in input:
         print wd.search(elem[0])

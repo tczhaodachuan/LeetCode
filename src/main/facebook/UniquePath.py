@@ -117,6 +117,7 @@ class Solution(object):
             dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2])
         return dp[n]
 
+
 if __name__ == '__main__':
     s = Solution()
     print s.uniquePathsOneDp(3, 2)

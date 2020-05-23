@@ -19,11 +19,11 @@ def dispatch_fruit(lst):
 
 
 print dispatch_fruit(["S Kevin", "Apple"
-                   , "Banana"
-                   , "S John"
-                   , "Orange"
-                   , "Banana"
-                   , "Apple"
-                   , "E John"
-                   , "Peach"
-                   , "E Kevin"])
+                         , "Banana"
+                         , "S John"
+                         , "Orange"
+                         , "Banana"
+                         , "Apple"
+                         , "E John"
+                         , "Peach"
+                         , "E Kevin"])

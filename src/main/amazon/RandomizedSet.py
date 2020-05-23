@@ -42,8 +42,6 @@ class RandomizedSet(object):
         self.values_dict.pop(val)
         return True
 
-
-
     def getRandom(self):
         """
         Get a random element from the set.

@@ -96,6 +96,7 @@ class RandomizedSetII(object):
     def getRandom(self):
         return self.keys[random.randint(0, len(self.keys) - 1)]
 
+
 if __name__ == '__main__':
     randomSet = RandomizedSet()
     print randomSet.insert(2)

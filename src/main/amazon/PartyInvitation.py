@@ -9,7 +9,6 @@ class Guest(object):
 
 
 def invite_him(guest, result):
-
     total_left_over = guest.left_over
     for invitee in guest.invitee:
         total_left_over += invitee.left_over
@@ -20,7 +19,6 @@ def invite_him(guest, result):
             result[guest.guest_name] = 'Welcome'
         else:
             result[guest.guest_name] = 'Not Welcome'
-
 
 
 def party_invite(guest_list):

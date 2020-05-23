@@ -23,6 +23,7 @@ def mergeSort(nums):
         result += right_sort[j:]
     return result
 
+
 def quickSort(nums, start, end):
     if start >= end:
         return
@@ -48,6 +49,7 @@ def quickSort(nums, start, end):
     quickSort(nums, start, right)
     quickSort(nums, left, end)
     return nums
+
 
 if __name__ == '__main__':
     print mergeSort([9, 123, 0, 4, 5, 6, 5])

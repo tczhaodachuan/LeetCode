@@ -12,7 +12,7 @@ class Range(object):
         j = 1
         interval = str(nums[0])
         while i < len(nums) - 1 and j < len(nums):
-            if nums[j - 1] + 1== nums[j]:
+            if nums[j - 1] + 1 == nums[j]:
                 interval = str(nums[i]) + '->' + str(nums[j])
                 j += 1
             else:

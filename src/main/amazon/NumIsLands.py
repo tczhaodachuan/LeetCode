@@ -126,4 +126,4 @@ if __name__ == '__main__':
 
     print numIslandsII(4, 5, [[1, 1], [0, 1], [3, 3], [3, 4]])
 
-    print numIslandsII(3, 3, [[0,0],[0,1],[2,2],[2,1]])
+    print numIslandsII(3, 3, [[0, 0], [0, 1], [2, 2], [2, 1]])

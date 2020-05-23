@@ -1,6 +1,3 @@
-import bisect
-
-
 def isPowerOfFourI(num):
     if num <= 0:
         return False
@@ -12,17 +9,19 @@ def isPowerOfFourI(num):
 
     return num == 1
 
+
 def isPowerOfFourII(num):
     if num <= 0:
         return False
     # if a num is the power of 2, it means only one bit is set
     # so n AND n - 1 will make it 0
-    if num & (num-1):
+    if num & (num - 1):
         return False
 
     # we already knew it's power of 2 at this moment
     # we can mast it with 5555
     return num & 0x5555
+
 
 def isPowerOfTwo(num):
     # power of two numbers has only one 1 in bits
@@ -54,7 +53,6 @@ if __name__ == '__main__':
     print isPowerOfFourI(2)
     print isPowerOfFourI(4)
     print isPowerOfFourI(2048)
-
 
     print isPowerOfFourII(0)
     print isPowerOfFourII(1024)

@@ -11,7 +11,7 @@ def palindrome(input_str):
 
 def expand_palindrome(palindrome_dict, input_str, i, j):
     while i >= 0 and j < len(input_str) and input_str[i] == input_str[j]:
-        sub_str = input_str[i:j+1]
+        sub_str = input_str[i:j + 1]
         if not palindrome_dict.has_key(sub_str):
             palindrome_dict[sub_str] = True
         i -= 1

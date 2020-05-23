@@ -36,6 +36,7 @@ def searchValue(head, val):
 
     return 0
 
+
 if __name__ == '__main__':
     head1, d1 = arrayToListNode([8])
     head2, d2 = arrayToListNode([8, 13])

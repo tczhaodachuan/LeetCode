@@ -1,8 +1,9 @@
 import time
 
 import numpy as np
-import pyarrow as pa
 import pyarrow.plasma as plasma
+
+import pyarrow as pa
 
 client = plasma.connect("/tmp/plasma")
 

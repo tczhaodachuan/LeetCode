@@ -27,8 +27,11 @@ def findMinHeightTrees(n, edges):
         numberOfNodes = numberOfNodes - m
 
     return leafs
+
+
 def findMaxPolynomal(points):
     pass
+
 
 def findMinTriangleOfPoints(points):
     maxArea = 0

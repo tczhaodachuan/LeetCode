@@ -3,10 +3,9 @@ def coinChange(coins, amount):
         return -1
     # dp question dp[amount] = min(dp[amount - N] + 1), N is from the coins
     coins = sorted(coins)
-    if coins[0] >  amount:
+    if coins[0] > amount:
         # impossible to combine with other coins
         return -1
-
 
     dp = [amount + 1 for _ in range(amount + 1)]
     # amount 0 needs 0 coins

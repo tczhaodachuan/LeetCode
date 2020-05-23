@@ -32,4 +32,4 @@ if __name__ == '__main__':
     print minTotalDistance([[1, 0, 0, 0, 1], [0, 0, 0, 0, 0], [0, 0, 1, 0, 0]])
 
     ''.split(' ')
-    print sorted([[1,3],[2,2]],key = lambda  item:item[1])
+    print sorted([[1, 3], [2, 2]], key=lambda item: item[1])

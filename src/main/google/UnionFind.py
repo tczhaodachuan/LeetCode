@@ -60,6 +60,27 @@ def numberOfIslandsII(m, n, positions):
     return ans
 
 
+def maxAreaOfIsland(grid):
+    m = len(grid)
+    n = len(grid[0])
+    seen = set()
+    result = 0
+    for i in range(m):
+        for j in range(n):
+            result = max(result, area(i, j, seen, grid))
+
+
+def area(i, j, seen, grid):
+    if (i, j) in seen:
+        return 0
+
+    if i < 0 or i == len(grid) or j < 0 or j == len(grid[0]) or grid[i][j] == 0:
+        return 0
+
+    return area(i + 1, j, seen, grid) + area(i - 1, j, seen, grid) + area(i, j + 1, seen, grid) + area(i, j - 1, seen,
+                                                                                                       grid) + 1
+
+
 def surroundedRegions(board):
     if len(board) == 0:
         return
@@ -82,6 +103,7 @@ def surroundedRegions(board):
     for p in uf.id.iterkeys():
         if not uf.find(p, (len(board), len(board[0]))):
             board[p[0]][p[1]] = 'X'
+
 
 if __name__ == '__main__':
     positions = [[0, 0], [0, 1], [1, 2], [2, 1]]

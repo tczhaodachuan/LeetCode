@@ -47,6 +47,3 @@ if __name__ == '__main__':
 
     head = insertCycleLinkedList(head, 3)
     print head.val
-
-
-

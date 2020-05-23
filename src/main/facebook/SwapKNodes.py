@@ -30,7 +30,6 @@ def reverseKGroup(head, k):
     return pre
 
 
-
 def swap_pairs(head):
     pre = None
     slow = head
@@ -63,6 +62,7 @@ def reverse_list(head):
         pre = curr
         curr = fast
     return pre
+
 
 def swap_k_nodes(head, k):
     if k == 0 or k == 1 or head == None:

@@ -26,6 +26,7 @@ class KthElement(object):
         return self.kthLargest(nums, len(nums) - k)
 
     def kthLargest(self, nums, k):
+        # log(N*log(k)) complexity, optimization could apply if K > n/2 to change max heap or min heap
         heap = []
         if k == 1:
             return nums[0]
@@ -40,6 +41,34 @@ class KthElement(object):
                 heapq.heappop(heap)
                 heapq.heappush(heap, nums[i])
         return heap[0]
+
+    def kthElementParition(self, nums, k):
+        # Leverage quick sort codes to select the position of k
+        return self.quickSortK(nums, 0, len(nums) - 1, k)
+
+    def quickSortK(self, nums, l, r, k):
+
+        if k > 0 and k <= r - l + 1:
+            pos = self.partition(nums, l, r)
+            if pos - l == k - 1:
+                return nums[pos]
+            elif pos - l > k - 1:
+                return self.quickSortK(nums, l, pos - 1, k)
+            else:
+                # Every before pos is "sorted", all we need is k - pos to be sorted somehow as well
+                return self.quickSortK(nums, pos + 1, r, k - pos + l - 1)
+        import sys
+        return sys.maxint
+
+    def partition(self, nums, l, r):
+        pivot = nums[r]
+        i = l
+        for j in range(l, r):
+            if nums[j] <= pivot:
+                nums[i], nums[j] = nums[j], nums[i]
+                i += 1
+        nums[i], nums[r] = nums[r], nums[i]
+        return i
 
     def kSmallestPairs(self, nums1, nums2, k):
         if k == 0:
@@ -163,6 +192,8 @@ if __name__ == '__main__':
     print kthElement.findKthElement([1, 2, 6, 8, 10, 11], [6, 9, 10, 18, 19], 6)
 
     print kthElement.kthLargest([9, 10, 0, 1, 6, 9], 4)
+    print 'kthLargestParition'
+    print kthElement.kthElementParition([9, 10, 0, 1, 6, 9], 4)
 
     print 'findKthNumber'
     print kthElement.findKthNumber(9, 2)

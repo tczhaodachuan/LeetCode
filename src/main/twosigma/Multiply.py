@@ -10,5 +10,6 @@ def multiply(m, n):
         m = m << 1
     return result
 
+
 if __name__ == '__main__':
     print multiply(3, 4)

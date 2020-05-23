@@ -24,8 +24,6 @@ class SortList(object):
         return lo
 
 
-
-
 if __name__ == '__main__':
     sortList = SortList()
     sortList.insert(5)
@@ -35,4 +33,3 @@ if __name__ == '__main__':
     sortList.insert(1)
     sortList.insert(8)
     sortList.insert(8)
-

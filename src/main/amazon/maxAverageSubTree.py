@@ -5,14 +5,13 @@ class TreeNode(object):
 
 
 def maxAverageSubTree(root):
-
-    result = {'maxNode' : None, 'maxAvg' : float('-inf')}
+    result = {'maxNode': None, 'maxAvg': float('-inf')}
     helper(root, result)
 
     return result['maxNode']
 
-def helper(root, result):
 
+def helper(root, result):
     if root is None:
         return (0, 0)
 
@@ -28,6 +27,7 @@ def helper(root, result):
         result['maxNode'] = root
 
     return curr_total, count
+
 
 if __name__ == '__main__':
     head = TreeNode(2)

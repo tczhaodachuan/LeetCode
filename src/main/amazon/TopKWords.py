@@ -12,11 +12,13 @@ class CountWord(object):
 
 
 import heapq
+
+
 def top_n_buzz_words(keywords, reviews, k):
     if k < 1:
         return []
 
-    counter = {keyword:0 for keyword in keywords}
+    counter = {keyword: 0 for keyword in keywords}
     result = []
     for review in reviews:
         review = review.lower()
@@ -36,6 +38,7 @@ def top_n_buzz_words(keywords, reviews, k):
         ret.append(heapq.heappop(result).word)
     return ret
 
+
 def top_n_buzz_words_1(keywords, reviews, k):
     # this solution doesn't sort if counter equals
     if k < 1:
@@ -51,10 +54,11 @@ def top_n_buzz_words_1(keywords, reviews, k):
             if keyword.lower() in review_words:
                 result[keyword] += 1
     ret = []
-    for key, value in sorted(result.items(), key=lambda item : -item[1]):
+    for key, value in sorted(result.items(), key=lambda item: -item[1]):
         ret.append(key)
         if len(ret) == k:
             return ret
+
 
 if __name__ == '__main__':
     k = 2

@@ -21,13 +21,15 @@ def palindromePartition(input):
     dfs(input, 0, partition, result)
     return result
 
+
 def is_palindrome(input):
     if len(input) <= 1:
         return True
     if input[0] != input[-1]:
         return False
 
-    return is_palindrome(input[1:len(input)-1])
+    return is_palindrome(input[1:len(input) - 1])
+
 
 if __name__ == '__main__':
     print is_palindrome('aba')

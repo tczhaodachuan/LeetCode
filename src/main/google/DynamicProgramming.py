@@ -78,8 +78,8 @@ class DP(object):
     # https: // leetcode.com / problems / number - of - longest - increasing - subsequence /
     def number_of_longest_increasing_subsequence(self, nums):
         if len(nums) <= 1: return len(nums)
-        lengths = [0] * len(nums) #lengths[i] = longest ending in nums[i]
-        counts = [1] * len(nums) #count[i] = number of longest ending in nums[i]
+        lengths = [0] * len(nums)  # lengths[i] = longest ending in nums[i]
+        counts = [1] * len(nums)  # count[i] = number of longest ending in nums[i]
 
         for j, num in enumerate(nums):
             for i in xrange(j):
@@ -97,7 +97,7 @@ class DP(object):
     def length_of_longest_continuous_increasing_subsequence(self, nums):
         result = turn_point = 0
         for i in range(len(nums)):
-            if i and nums[i-1] >= nums[i]: turn_point = i
+            if i and nums[i - 1] >= nums[i]: turn_point = i
             result = max(result, i - turn_point + 1)
         return result
 
@@ -213,13 +213,11 @@ class DP(object):
             t = [-1] * n
             for curr_city in range(n):
                 for from_city in range(n):
-                    if curr_city ==  from_city or flights[from_city][curr_city]:
+                    if curr_city == from_city or flights[from_city][curr_city]:
                         t[curr_city] = max(t[curr_city], dp[from_city] + days[curr_city][curr_week])
             dp = t
 
         return max(dp)
-
-
 
     def first_overlapping_interval(self, intervals):
         sort = SortArrays()
@@ -336,7 +334,7 @@ class DP(object):
             for transit_gene in keys:
                 if start[i] == transit_gene[i]:
                     continue
-                tmp = start[:i] + transit_gene[i] + start[i+1:]
+                tmp = start[:i] + transit_gene[i] + start[i + 1:]
                 # valid gene mutation
                 if bankDict.has_key(tmp):
                     bankDict.pop(tmp)
@@ -540,6 +538,8 @@ def shortestDistance(grid):
                 s_distance = distance[i][j]
 
     return s_distance
+
+
 # https://leetcode.com/problems/minimum-swaps-to-make-sequences-increasing/
 # A = [1,3,5,4], B = [1,2,3,7]
 def minSwaps(a, b):
@@ -554,18 +554,16 @@ def minSwaps(a, b):
     # keep doesn't need swap
     keeps[0] = 0
     for i in range(1, len(a)):
-        if a[i] > a[i-1] and b[i] > b[i-1]:
-            swaps[i] = swaps[i-1] + 1
-            keeps[i] = keeps[i-1]
+        if a[i] > a[i - 1] and b[i] > b[i - 1]:
+            swaps[i] = swaps[i - 1] + 1
+            keeps[i] = keeps[i - 1]
         ## 1, 3
         ## 2, 4
-        if a[i] > b[i-1] and b[i] > a[i-1]:
-            swaps[i] = min(keeps[i-1] + 1, swaps[i])
-            keeps[i] = min(swaps[i-1], keeps[i])
+        if a[i] > b[i - 1] and b[i] > a[i - 1]:
+            swaps[i] = min(keeps[i - 1] + 1, swaps[i])
+            keeps[i] = min(swaps[i - 1], keeps[i])
 
     return min(swaps[-1], keeps[-1])
-
-
 
 
 if __name__ == '__main__':
@@ -635,7 +633,7 @@ if __name__ == '__main__':
     print minDistance("sea", "eat")
 
     print 'MinSwaps'
-    print minSwaps([1,3,5,4], [1,2,3,7])
+    print minSwaps([1, 3, 5, 4], [1, 2, 3, 7])
 
     print "MaxVacationDays"
-    print dp.maxVacationDays([[0,1,1],[1,0,1],[1,1,0]],[[1,3,1],[6,0,3],[3,3,3]])
+    print dp.maxVacationDays([[0, 1, 1], [1, 0, 1], [1, 1, 0]], [[1, 3, 1], [6, 0, 3], [3, 3, 3]])

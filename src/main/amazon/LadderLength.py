@@ -2,26 +2,31 @@ def ladderLength(start, end, dict):
     def dfs(start, end, dict, temp, result):
         if start == end:
             result.append(temp)
-            return 
+            return
         for transform in get_transforms(start, dict):
             if transform in dict:
                 dict.remove(transform)
                 dfs(transform, end, dict, temp + 1, result)
                 dict.append(transform)
+
     result = []
     dict.append(end)
     dfs(start, end, dict, 1, result)
     return result
 
+
 def ladderLengthBFS(start, end, dict):
     pass
 
+
 import string
+
+
 def get_transforms(start, dict):
     for i in range(len(start)):
         for alpha in string.ascii_lowercase:
             if start[i] != alpha:
-                yield start[:i] + alpha + start[i+1:]
+                yield start[:i] + alpha + start[i + 1:]
 
 
 class Solution:
@@ -31,6 +36,7 @@ class Solution:
     @param: dict: a set of string
     @return: An integer
     """
+
     def ladderLength(self, start, end, dict):
         import collections
         dict.add(end)
@@ -64,12 +70,13 @@ class Solution:
                     continue
                 words.append(left + char + right)
         return words
-    
+
+
 if __name__ == '__main__':
     start = 'hit'
     end = 'cog'
     dict = ['hot', 'dot', 'dog', 'lot', 'log']
-    
+
     print ladderLength(start, end, dict)
 
     start = 'hit'
@@ -77,7 +84,6 @@ if __name__ == '__main__':
     dict = ['hot', 'dot', 'dog', 'lot', 'log']
 
     print ladderLength(start, end, dict)
-    
+
     solution = Solution()
     print solution.ladderLength(start, end, {'hot', 'dot', 'dog', 'lot', 'log'})
-    

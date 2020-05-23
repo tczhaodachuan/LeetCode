@@ -16,6 +16,7 @@ def do_word_break(s, wordDict, searchedSolution):
     searchedSolution[s] = False
     return False
 
+
 def word_break(s, wordDict):
     if len(s) == 0:
         return False

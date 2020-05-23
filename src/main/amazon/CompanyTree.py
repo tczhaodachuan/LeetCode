@@ -24,7 +24,7 @@ def dfs(head, ret):
     curCount = 1
     for child in head.children:
         [sum, count] = dfs(child, ret)
-        #conquer
+        # conquer
         curSum += sum
         curCount += count
 

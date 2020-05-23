@@ -60,6 +60,30 @@ class Node(object):
             i += 1
         return False
 
+    def containsNearbyAlmostDuplicate(self, nums, k, t):
+        """
+        Inside an interval, whether there are two numbers match the rule
+        :type nums: List[int]
+        :type k: int
+        :type t: int
+        :rtype: bool
+        """
+        if len(nums) == 0 or k <= 0 or t < 0:
+            return False
+        # brutal force
+        for i in range(len(nums)):
+            j = i + 1
+            while j - i <= k and j < len(nums):
+                if abs(nums[i] - nums[j]) <= t:
+                    return True
+                j += 1
+
+        return False
+
+        # maintain a sorted list with at most K length
+        # search max number lower than current number in the list
+        # search min number higher than current number in the list
+
     def removeDuplicateFromSortedArray(self, nums):
         if len(nums) == 0:
             return 0
@@ -99,6 +123,7 @@ def rotateKElement(head, k):
     slow.next = None
     return head
 
+
 def rotateKElementII(head, k):
     if k == 0 or head == None:
         return head
@@ -122,10 +147,6 @@ def rotateKElementII(head, k):
     head = slow.next
     slow.next = None
     return head
-
-
-
-
 
 
 def generateNodes(nums):

@@ -34,6 +34,9 @@ class Solution(object):
                 stack.append(s[i])
         return len(stack) == 0
 
+    def removeInvalidParentheses(self, s):
+        pass
+
 
 if __name__ == '__main__':
     solution = Solution()

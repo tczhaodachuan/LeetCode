@@ -22,12 +22,15 @@ def swap(url, i, j):
     url[j] = temp
     return swap(url, i + 1, j - 1)
 
+
 def generateId(url):
     id = 0
     for char in url:
         id = id * 62 + convert(char)
 
     return id
+
+
 def convert(char):
     if '0' <= char <= '9':
         return ord(char) - ord('0')
@@ -36,6 +39,7 @@ def convert(char):
     if 'A' <= char <= 'Z':
         return ord(char) - ord('A') + 36
     return -1
+
 
 if __name__ == '__main__':
     tinyUrl = shortUrl(2183918321)

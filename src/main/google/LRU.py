@@ -4,6 +4,7 @@ class LRU(object):
         self.cache = dict()
         self.head = None
         self.end = None
+
     def get(self, key):
         if self.cache.has_key(key):
             node = self.cache.get(key)

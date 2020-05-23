@@ -10,6 +10,7 @@ def min_hours(row, col, grid):
         for j in range(col):
             if grid[i][j] == 1:
                 queue.append((i, j, hours))
+
     def get_neighbors(i, j):
         directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
         for di, dj in directions:

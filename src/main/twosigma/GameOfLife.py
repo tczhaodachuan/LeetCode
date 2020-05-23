@@ -2,7 +2,6 @@ def game_of_life(board):
     row = len(board)
     column = len(board[0])
 
-
     directions = [(-1, -1), (-1, 0), (-1, 1), (0, 1),
                   (1, 1), (1, 0), (1, -1), (0, -1)]
 
@@ -36,9 +35,9 @@ def game_of_life(board):
 
 
 if __name__ == '__main__':
-    board = [[0,1,0,1,1,0],
-             [1,0,1,0,0,0],
-             [0,0,1,1,1,1],
-             [0,0,0,0,0,0]]
+    board = [[0, 1, 0, 1, 1, 0],
+             [1, 0, 1, 0, 0, 0],
+             [0, 0, 1, 1, 1, 1],
+             [0, 0, 0, 0, 0, 0]]
 
     print game_of_life(board)

@@ -61,5 +61,3 @@ if __name__ == '__main__':
         if current.random:
             print 'Random =>' + current.random.label
         current = current.next
-
-

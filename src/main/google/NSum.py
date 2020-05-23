@@ -188,7 +188,6 @@ def helper(res, expression, nums, target, pos, eval, multed):
 
 # https://leetcode.com/problems/subarray-sum-equals-k/
 def subArrayEqual(nums, k):
-
     if len(nums) == 0:
         return 0
 

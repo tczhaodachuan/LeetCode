@@ -5,6 +5,7 @@ class MaxHeapNode(object):
     def __lt__(self, other):
         return self.val > other.val
 
+
 class MinHeapNode(object):
     def __init__(self, val):
         self.val = val
@@ -12,7 +13,9 @@ class MinHeapNode(object):
     def __lt__(self, other):
         return self.val < other.val
 
+
 import heapq
+
 queue = []
 
 for i in range(10):

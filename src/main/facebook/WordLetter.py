@@ -14,7 +14,6 @@ class Solution(object):
         visited = set()
         steps = []
         while queue:
-            print queue
             word, dist = queue.pop()
             if word == endWord:
                 steps.append(dist)
@@ -25,7 +24,6 @@ class Solution(object):
                         continue
                     else:
                         tmp = word[:i] + dict_word[i] + word[i + 1:]
-                        print tmp, visited
                         if tmp not in visited and tmp in wordList:
                             queue.append((tmp, dist + 1))
                             visited.add(tmp)

@@ -70,6 +70,86 @@ def find_kth(nums1, nums2, K):
     return find_kth(nums1, nums2[K / 2:], K - K / 2 - 1)
 
 
+import heapq
+
+
+class MaxHeapNode(object):
+    def __init__(self, distance, element):
+        self.distance = distance
+        self.element = element
+
+    def __lt__(self, other):
+        return self.distance > other.distance
+
+
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type x: int
+        :rtype: List[int]
+        """
+
+        # we don't need order anyway
+        distance_arr = []
+
+        queue = []
+
+        for i in range(len(arr)):
+            element = arr[i]
+            distance = abs((element - x) * (element - x))
+            if len(queue) < k:
+                heapq.heappush(queue, MaxHeapNode(distance, element))
+            else:
+                if distance < queue[0].distance:
+                    heapq.heapreplace(queue, MaxHeapNode(distance, element))
+
+        result = []
+        while len(queue) > 0:
+            result.append(heapq.heappop(queue).element)
+        return sorted(result)
+
+    def findClosestElementsBS(self, arr, k, x):
+
+        if x <= arr[0]:
+            return arr[:k]
+        elif x >= arr[-1]:
+            return arr[len(arr) - k:]
+        else:
+            i = 0
+            j = len(arr) - 1
+            # [i, j) not close range, find the left bound
+            while i <= j:
+                # avoid overflow
+                mid = i + (j - i) / 2
+                if arr[mid] == x:
+                    j = mid - 1
+                elif arr[mid] < x:
+                    i = mid + 1
+                else:
+                    j = mid - 1
+
+            left = i - 1
+            right = i + 1
+            result = [arr[i]]
+            while len(result) < k:
+                left_distance, right_distance = sys.maxint, sys.maxint
+                if left >= 0:
+                    left_distance = abs(arr[left] - x)
+                if right < len(arr):
+                    right_distance = abs(arr[right] - x)
+
+                if left_distance < right_distance:
+                    result.insert(0, arr[left])
+                    left -= 1
+                else:
+                    result.append(arr[right])
+                    right += 1
+
+            return result
+
+
 if __name__ == '__main__':
     a = [3, 5, 6, 7, 8, 10]
     print find(a, 7)
@@ -78,3 +158,10 @@ if __name__ == '__main__':
     print find_median_from_sorted_array([], [1, 2, 3, 4, 5])
 
     print find_median_from_sorted_array([1, 2], [3, 4])
+
+    s = Solution()
+    print s.findClosestElements([0, 0, 0, 1, 3, 5, 6, 7, 8, 8], 2, 2)
+
+    print s.findClosestElementsBS([0, 0, 0, 1, 3, 5, 6, 7, 8, 8], 2, 2)
+
+    print s.findClosestElementsBS([0, 0, 0, 1, 3, 3, 3, 3, 3, 5, 6, 7, 8, 8], 7, 3)

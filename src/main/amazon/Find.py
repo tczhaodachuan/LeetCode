@@ -32,7 +32,6 @@ class SizeFileRule(FileRule):
             pass
 
 
-
 class LinuxFile(object):
     def __init__(self, path):
         self.path = path

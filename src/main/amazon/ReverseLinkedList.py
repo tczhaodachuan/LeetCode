@@ -16,7 +16,6 @@ def reverseLinkedList(head):
     return pre
 
 
-
 def reverseHalfLinkedListII(head):
     slow = head
 
@@ -66,7 +65,6 @@ if __name__ == '__main__':
     head = generateNodes([9, 10, 11, 12, 13])
     reverseHalfLinkedListII(head)
     printNode(head)
-
 
     head = generateNodes([7, 9, 10, 11, 12, 13])
     reverseHalfLinkedListII(head)

@@ -1,4 +1,6 @@
 import math
+
+
 # LC 60, n!=n*(n-1)!
 # the first digit determined by k/(n-1)!
 def getPermutation(n, k):

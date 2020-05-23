@@ -36,6 +36,7 @@ def dfs(i, visited, friends, N):
             visited[j] = 1
             dfs(j, visited, friends, N)
 
+
 class UnionFind(object):
     def __init__(self, n):
         self.father = [i for i in range(n)]
@@ -54,11 +55,14 @@ class UnionFind(object):
             self.father[root_a] = root_b
             self.count -= 1
 
+
 def friendCyclesUF(friends):
     if len(friends) == 0:
         return 0
 
     N = len(friends)
+
+
 if __name__ == '__main__':
     friends = ['YYNN',
                'YYYN',

@@ -21,6 +21,7 @@ def critical_connection(n, connections):
                     bridges.append([at, to])
             else:
                 lows[at] = min(lows[at], lows[to])
+
     graph = {i: [] for i in range(n)}
 
     for i, j in connections:

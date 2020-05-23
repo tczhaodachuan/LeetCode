@@ -25,8 +25,11 @@ class Calculator(object):
             if abs(num - value) < 1:
                 self.res.append((value, num))
 
+
 calculator = Calculator()
 threadLock = threading.Lock()
+
+
 def Iterator1(s):
     while True:
         try:
@@ -37,6 +40,7 @@ def Iterator1(s):
         except:
             break
 
+
 def Iterator2(s):
     while True:
         try:
@@ -46,6 +50,7 @@ def Iterator2(s):
             threadLock.release()
         except:
             break
+
 
 if __name__ == '__main__':
     s1 = Stream([0.2, 1.4, 3.0])
@@ -60,4 +65,3 @@ if __name__ == '__main__':
     thread1.start()
 
     print calculator.res
-

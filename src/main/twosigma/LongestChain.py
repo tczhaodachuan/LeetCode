@@ -45,7 +45,7 @@ def longestChainII(words):
     longest_length = 0
 
     # sort word from short to long
-    words = sorted(words, lambda a,b:len(a)-len(b))
+    words = sorted(words, lambda a, b: len(a) - len(b))
 
     word_dict = dict()
     for element in words:
@@ -94,6 +94,7 @@ def bfs(s, word_dict):
 
     return depth - 1
 
+
 if __name__ == '__main__':
     array = ['a', 'abcd', 'bcd', 'abd', 'cd', 'c']
     array = sorted(array, lambda a, b: len(a) - len(b))
@@ -113,9 +114,6 @@ if __name__ == '__main__':
         longest = max(longest, dp[word])
 
     print longest
-
-
-
 
     print longestChain(array)
     print longestChainII(array)

@@ -28,7 +28,7 @@ class Solution(object):
                     # case 3 prefix of * matches with s and prefix of * is not dot
                     # case 4,prefix of * is dot, it doesn't matter, just dp[i-1][j], only matters with string match
                     dp[i][j] = dp[i][j - 1] or dp[i][j - 2] or (
-                        dp[i - 1][j] and (s[i - 1] == p[j - 2] or p[j - 2] == '.'))
+                            dp[i - 1][j] and (s[i - 1] == p[j - 2] or p[j - 2] == '.'))
                 else:
                     dp[i][j] = dp[i - 1][j - 1] and s[i - 1] == p[j - 1]
         return dp[len(s)][len(p)]

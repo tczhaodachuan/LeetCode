@@ -19,6 +19,7 @@ def isRoundRotated(s1, s2):
 
     return rotate(s1) == s2
 
+
 def rotate(s):
     if len(s) <= 1:
         return s

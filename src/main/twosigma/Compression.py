@@ -23,5 +23,6 @@ def compress(input_string):
             i += 1
     return input_string
 
+
 if __name__ == '__main__':
     print compress("aaaaaaaaa")

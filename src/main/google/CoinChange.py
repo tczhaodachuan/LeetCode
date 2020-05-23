@@ -3,7 +3,7 @@ def min_coins(coins, amount):
         return 0
 
     # dp[i] stands for minimal coins for amount i
-	# dp[0] = 0, no coins for amount 0
+    # dp[0] = 0, no coins for amount 0
     # dp[i] = min(dp[i], dp[i - coin] + 1) for coin in coins
     dp = [amount + 1 for i in range(amount + 1)]
     dp[0] = 0

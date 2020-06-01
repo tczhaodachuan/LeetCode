@@ -51,8 +51,57 @@ class Solution(object):
                 heapq.heappush(queue, node)
         return time
 
+    def reorganizeString(self, S):
+        # reorgnize string to have no same letters adjacent each other
+        # very similar to the task scheduler algo
+        letter_cont = {}
+        for i in range(len(S)):
+            c = S[i]
+            letter_cont[c] = letter_cont.get(c, MaxLetterNode(c, 0))
+            letter_cont[c].cnt += 1
+        queue = []
+        for node in letter_cont.values():
+            heapq.heappush(queue, node)
+
+        result = []
+        while len(queue) > 0:
+            curr_node = heapq.heappop(queue)
+            if len(result) == 0:
+                result.append(curr_node.letter)
+                curr_node.cnt -= 1
+            else:
+                if result[-1] != curr_node.letter:
+                    result.append(curr_node.letter)
+                    curr_node.cnt -= 1
+                else:
+                    if len(queue) == 0:
+                        # impossible to reorganize
+                        return ""
+                    else:
+                        next_node = heapq.heappop(queue)
+                        result.append(next_node.letter)
+                        next_node.cnt -= 1
+                        if next_node.cnt > 0:
+                            heapq.heappush(queue, next_node)
+            if curr_node.cnt > 0:
+                heapq.heappush(queue, curr_node)
+
+        return ''.join(result)
+
+
+class MaxLetterNode(object):
+    def __init__(self, letter, cnt):
+        self.letter = letter
+        self.cnt = cnt
+
+    def __lt__(self, other):
+        return self.cnt > other.cnt
+
+
 
 if __name__ == '__main__':
     s = Solution()
     print s.leastInterval(["A", "A", "A", "B", "B", "B"], 2)
     print s.leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"], 2)
+
+    print s.reorganizeString("aab")

@@ -60,7 +60,6 @@ class Solution(object):
             else:
                 meet_times[end] -= 1
 
-        print meet_times
         ans = 0
         rooms = 0
         for time, meetings in meet_times.iteritems():

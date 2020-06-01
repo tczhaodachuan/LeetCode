@@ -150,6 +150,35 @@ class Solution(object):
             return result
 
 
+def searchRotatedSortedArray(nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left <= right:
+        mid = left + (right - left) / 2
+        if nums[mid] == target:
+            return mid
+        # right side is in order
+        elif nums[mid] < nums[right]:
+            if target == nums[right]:
+                return right
+
+            if nums[mid] < target < nums[right]:
+                left = mid + 1
+            else:
+                # this condition missed check with nums[right], thus check in the first
+                right = mid - 1
+        else:
+            if target == nums[left]:
+                return left
+
+            if nums[left] < target < nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+
+    return -1
+
+
 if __name__ == '__main__':
     a = [3, 5, 6, 7, 8, 10]
     print find(a, 7)
@@ -165,3 +194,5 @@ if __name__ == '__main__':
     print s.findClosestElementsBS([0, 0, 0, 1, 3, 5, 6, 7, 8, 8], 2, 2)
 
     print s.findClosestElementsBS([0, 0, 0, 1, 3, 3, 3, 3, 3, 5, 6, 7, 8, 8], 7, 3)
+
+    print searchRotatedSortedArray([4, 5, 6, 7, 0, 1, 2], 3)

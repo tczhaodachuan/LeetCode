@@ -27,6 +27,7 @@ class ReadN(object):
 
     def readII(self, buf, N):
         eof = False
+        # local variable for the current read
         total_read = 0
         # this function could be called multiple times
         # the only difference compare with the above one is we need to store the state of the last read
@@ -37,14 +38,14 @@ class ReadN(object):
                 self.remaining_chars, self.read_buffer = read4(5)
                 if self.remaining_chars < 4:
                     eof = True
-
-                demand_cnt = min(self.remaining_chars, N - total_read)
-                for i in range(demand_cnt):
-                    buf[total_read + i] = self.read_buffer[self.offset + i]
-                total_read += demand_cnt
-                self.remaining_chars -= demand_cnt
-                # buffer has 4 chars, but read 1 last time, the first read will reset offset to 0
-                self.offset = (self.offset + demand_cnt) % 4
+            # read remaining chars first if there are any
+            demand_cnt = min(self.remaining_chars, N - total_read)
+            for i in range(demand_cnt):
+                buf[total_read + i] = self.read_buffer[self.offset + i]
+            total_read += demand_cnt
+            self.remaining_chars -= demand_cnt
+            # buffer has 4 chars, but read 1 last time, the first read will reset offset to 0
+            self.offset = (self.offset + demand_cnt) % 4
         return buf
 
 

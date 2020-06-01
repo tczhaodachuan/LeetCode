@@ -25,6 +25,23 @@ def countOfAirplanes(airplanes):
     return answer
 
 
+def countOfAirplanesII(airplanes):
+    airplanes = sorted(airplanes)
+    points = {}
+
+    for depart, arrive in airplanes:
+        points[depart] = points.get(depart, 0) + 1
+        points[arrive] = points.get(arrive, 0) - 1
+
+    answer = 0
+    number = 0
+    for time, land_or_depart in points.iteritems():
+        number += land_or_depart
+        answer = max(answer, number)
+
+    return answer
+
+
 def mergeIntervals(intervals):
     intervals = sorted(intervals)
 
@@ -72,5 +89,6 @@ if __name__ == '__main__':
     print countOfAirplanes([(1, 10), (2, 3), (5, 8), (4, 7)])
 
     print countOfAirplanes([(1, 10), (10, 20), (20, 30), (30, 40)])
-
+    print countOfAirplanesII([(1, 10), (10, 20), (20, 30), (30, 40)])
+    print countOfAirplanesII([(1, 10), (2, 3), (5, 8), (4, 7)])
     print intervalIntersection([[0, 2], [5, 10], [13, 23], [24, 25]], [[1, 5], [8, 12], [15, 24], [25, 26]])

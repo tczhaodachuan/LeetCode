@@ -30,6 +30,35 @@ class Solution(object):
             res = (res + x / res) / 2
         return res
 
+    def divide(self, dividend, divisor):
+        positive = (dividend < 0) == (divisor < 0)
+        a, b = abs(dividend), abs(divisor)
+        result = 0
+        while a >= b:
+            temp, i = b, 1
+            while a >= temp:
+                a -= temp
+                result += i
+                i <<= 1
+                temp <<= 1
+
+        if not positive:
+            return -result
+        return result
+
+    def divideBrutal(self, a, b):
+        positive = (a < 0) == (b < 0)
+        a, b = abs(a), abs(b)
+        result = 0
+
+        while a >= 0:
+            a -= b
+            result += 1
+
+        if not positive:
+            return -result + 1
+        return result - 1
+
 
 if __name__ == '__main__':
     s = Solution()
@@ -44,3 +73,8 @@ if __name__ == '__main__':
 
     print s.mySqrt(4)
     print s.mySqrt(8)
+
+    print 'divide------------'
+    print s.divide(100, 7)
+
+    print s.divideBrutal(100, 7)

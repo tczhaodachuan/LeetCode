@@ -18,23 +18,44 @@ def findPeak(A):
     return l
 
 
+def findLocalMinimal(nums):
+    if len(nums) < 2:
+        return len(nums) - 1
+
+    nums = [sys.maxint] + nums + [sys.maxint]
+    left, right = 1, len(nums) - 2
+    while left <= right:
+        mid = left + (right - left) / 2
+
+        if nums[mid - 1] >= nums[mid] <= nums[mid + 1]:
+            return mid - 1
+        elif nums[mid - 1] < nums[mid] <= nums[mid + 1]:
+            # go left
+            right = mid - 1
+        elif nums[mid - 1] >= nums[mid] > nums[mid + 1]:
+            left = mid + 1
+        else:
+            right -= 1
+    return -1
+
+
 def checkBadVersion(mid):
     pass
 
 
 def firstBadVersion(n):
-    i = 0
+    i = 1
     j = n
-    result = -1
     # i <=j to cover all of the possible points, otherwise we will miss the j
     while i <= j:
         mid = i + (j - i) / 2  # avoid overflow
         if checkBadVersion(mid):
-            result = mid
             j = mid - 1
         else:
             i = mid + 1
-    return result
+    if i > n:
+        return -1
+    return i
 
 
 import sys
@@ -109,3 +130,10 @@ if __name__ == '__main__':
     print searchInsertPos(nums, 5)
     print searchInsertPos(nums, 85)
     print searchInsertPos(nums, 1)
+
+    print 'findLocalMinimal'
+    print findLocalMinimal([9, 6, 3, 14, 5, 7, 4])
+
+    print findLocalMinimal([23, 8, 15, 2, 3])
+
+    print findLocalMinimal([1, 2, 3])

@@ -94,6 +94,22 @@ def findTargetSumWaysDP(nums, S):
     return dp[-1][S + total]
 
 
+def KSumII(nums, k, target):
+    # find all subarray with length k sum is the target
+    result = []
+    KSumDfs(nums, 0, [], k, target, result)
+    return result
+
+
+def KSumDfs(nums, start_index, temp, k, target, result):
+    if len(temp) == k and target == 0:
+        result.append(temp)
+        return
+
+    for i in range(start_index, len(nums)):
+        KSumDfs(nums, i + 1, temp + [nums[i]], k, target - nums[i], result)
+
+
 if __name__ == '__main__':
     print findTargetSumWays([1, 1, 1, 1, 1], 3)
     print findTargetSumWaysMemory([1, 1, 1, 1, 1], 3)
@@ -103,3 +119,6 @@ if __name__ == '__main__':
     print findTargetSumWaysMemory([2, 20, 24, 38, 44, 21, 45, 48, 30, 48, 14, 9, 21, 10, 46, 46, 12, 48, 12, 38], 48)
     print findTargetSumWaysMemory([2, 107, 109, 113, 127, 131, 137, 3, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 47, 53], 899)
     # print findTargetSumWaysDP([2, 20, 24, 38, 44, 21, 45, 48, 30, 48, 14, 9, 21, 10, 46, 46, 12, 48, 12, 38], 48)
+
+
+    print KSumII([1,2,3,4], 2, 5)

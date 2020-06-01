@@ -57,6 +57,28 @@ def reverseHalfLinkedList(head):
         fastCount -= 1
 
 
+def reverseKGroups(head, k):
+    if not head or k <= 1:
+        return head
+
+    slow, fast = head, head
+    pre = None
+    count = 0
+    while fast and count < k:
+        fast = fast.next
+        count += 1
+
+    if count == k:
+        while slow != fast:
+            temp = slow.next
+            slow.next = pre
+            pre = slow
+            slow = temp
+    else:
+        return head
+    head.next = reverseKGroups(fast, k)
+    return pre
+
 if __name__ == '__main__':
     head = generateNodes([9, 10, 11, 12])
     reverseHalfLinkedList(head)
@@ -68,4 +90,13 @@ if __name__ == '__main__':
 
     head = generateNodes([7, 9, 10, 11, 12, 13])
     reverseHalfLinkedListII(head)
+    printNode(head)
+
+    head = generateNodes([1,2,3,4,5])
+    head = reverseKGroups(head, 3)
+    printNode(head)
+
+
+    head = generateNodes([1,2,3,4,5])
+    head = reverseKGroups(head, 2)
     printNode(head)

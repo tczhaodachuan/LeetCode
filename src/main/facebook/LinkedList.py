@@ -26,6 +26,20 @@ def print_head(head):
         curr = curr._next
     print line
 
+def nextLargerNodes(head):
+    nums = []
+    curr = head
+    while curr:
+        nums.append(curr.val)
+        curr = curr._next
+    result = [0 for _ in range(len(nums))]
+    index_stack = []
+    for i in range(len(nums)):
+        while len(index_stack) and nums[index_stack[-1]] < nums[i]:
+            result[index_stack.pop(-1)] = nums[i]
+        index_stack.append(i)
+    return result
+
 
 if __name__ == '__main__':
     head = generateNodes([1, 2, 3])

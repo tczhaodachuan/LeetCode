@@ -19,6 +19,31 @@ def findColumn(matrix):
     return result
 
 
+def antiDiagonal(matrix):
+    m = len(matrix)
+    n = len(matrix[0])
+    result = []
+
+    queue = [(0, 0)]
+    seen = set()
+    directions = [(0, 1), (1, 0)]
+    while len(queue) > 0:
+        size = len(queue)
+        diagonal = []
+        for i in range(size):
+            x, y = queue.pop()
+            diagonal.append(matrix[x][y])
+            for dx, dy in directions:
+                _x = x + dx
+                _y = y + dy
+                if (_x, _y) in seen or _x >= m or _y >= n:
+                    continue
+                seen.add((_x, _y))
+                queue.append((_x, _y))
+        result.append(diagonal)
+    return result
+
+
 if __name__ == '__main__':
     input = [[0, 0, 0, 1],
              [0, 1, 1, 1],
@@ -30,3 +55,8 @@ if __name__ == '__main__':
              [0, 0, 0, 0],
              [0, 0, 0, 0]]
     print findColumn(input)
+
+    print antiDiagonal([[12, 7, 21, 31, 11],
+                        [45, -2, 14, 27, 19],
+                        [-3, 15, 36, 71, 26],
+                        [4, -13, 55, 34, 15]])

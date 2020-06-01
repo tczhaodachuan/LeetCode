@@ -152,6 +152,34 @@ class Codec:
         root.right = self.deserialize(data[i:])
         return
 
+    def sortedNumsToBST(self, nums):
+        if len(nums) == 0:
+            return None
+        i = 0
+        j = len(nums) - 1
+        mid = (i + j) / 2
+        root = TreeNode(nums[mid])
+        root.left = self.sortedNumsToBST(nums[:mid])
+        root.right = self.sortedNumsToBST(nums[mid + 1:])
+        return root
+
+    def findCloestValue(self, root, target):
+        if not root:
+            return None
+
+        if root.val < target:
+            right_close = self.findCloestValue(root.right, target)
+            if right_close and abs(right_close - target) < abs(root.val - target):
+                return right_close
+            else:
+                return root.val
+        else:
+            left_close = self.findCloestValue(root.left, target)
+            if left_close and abs(left_close - target) < abs(root.val - target):
+                return left_close
+            else:
+                return root.val
+
 
 if __name__ == '__main__':
     from Tree import TreeNode

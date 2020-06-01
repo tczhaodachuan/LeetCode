@@ -24,6 +24,26 @@ def sparse_matrix(A, B):
 
     return result_matrix
 
+def dot_product_sparse_vectors(a, b):
+    # store sparse vector as a sorted list of tuples such as, and eclipse the zeros
+    # [(1,2), (2, 7), (50,8)]
+    i, j = 0, 0
+    result = 0
+
+    while i < len(a) and j < len(b):
+        l_pos, l_val = a[i]
+        r_pos, r_val = b[j]
+        if l_pos == r_pos:
+            result += l_val * r_val
+            i += 1
+            j += 1
+        elif l_pos > r_pos:
+            j += 1
+        else:
+            i += 1
+
+    return result
+
 
 def vector_product(v1, v2):
     i, j = 0, 0

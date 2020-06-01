@@ -12,6 +12,44 @@ quick and slow pointers
 '''
 
 
+def longestSubstring(s, k):
+    """
+    longest sub string with all character repeat at least k times
+    :type s: str
+    :type k: int
+    :rtype: int
+    """
+
+    c_count = {}
+    for i in range(len(s)):
+        c = s[i]
+        c_count[c] = c_count.get(c, 0) + 1
+
+    all_more_than_k = True
+    for cnt in c_count.values():
+        if cnt < k:
+            all_more_than_k = False
+            break
+
+    if all_more_than_k:
+        # maximum result
+        return len(s)
+
+    left, right = 0, 0
+    result = 0
+    while right < len(s):
+        ch = s[right]
+        if c_count[ch] < k:
+            # cannot include the current ch
+            # [left,right)
+            result = max(result, longestSubstring(s[left:right], k))
+            # move the left pass the current char
+            left = right + 1
+        right += 1
+    # it could be that the left pointer never moved, such as aaaabbb situation
+    return max(result, longestSubstring(s[left:], k))
+
+
 def findMidPoint(node):
     slow, fast = node, node
 
@@ -71,6 +109,7 @@ def findDuplicateTime(nums, k):
     # sorted nums
     i = 0
     j = len(nums) - 1
+    mid = i + (j - i) / 2
     while i <= j:
         mid = i + (j - i) / 2
         if nums[mid] == k:
@@ -134,8 +173,60 @@ class Solution(object):
         return ans
 
 
+def intersection(nums1, nums2):
+    i, j = 0, 0
+
+    intersec = []
+    while i < len(nums1) and j < len(nums2):
+        if nums1[i] == nums2[j]:
+            intersec.append(nums1[i])
+            i += 1
+            j += 1
+        elif nums1[i] > nums2[j]:
+            j += 1
+        else:
+            i += 1
+
+    return intersec
+
+
+import sys
+
+
+def cloestTwoSum(nums, target):
+    delta = sys.maxint
+    num1 = None
+    num2 = None
+
+    i, j = 0, len(nums) - 1
+    while i < j:
+        if nums[i] + nums[j] > target:
+            if abs(target - nums[i] - nums[j]) < delta:
+                delta = abs(target - nums[i] - nums[j])
+                num1 = nums[i]
+                num2 = nums[j]
+
+            j -= 1
+        elif nums[i] + nums[j] < target:
+            if abs(target - nums[i] - nums[j]) < delta:
+                delta = abs(target - nums[i] - nums[j])
+                num1 = nums[i]
+                num2 = nums[j]
+            i += 1
+        else:
+            delta = 0
+            num1 = nums[i]
+            num2 = nums[j]
+            break
+    return num1, num2
+
+
 if __name__ == '__main__':
     s = Solution()
     print s.totalFruit([1, 2, 1, 2, 2, 3])
 
     print findDuplicateTime([1, 2, 3, 3, 3, 5, 5], 5)
+
+    print intersection([1, 2, 3, 3, 4, 5], [3, 3, 5, 7, 8])
+
+    print cloestTwoSum([1, 2, 3, 5, 6, 7, 8], 12)

@@ -26,6 +26,7 @@ def print_head(head):
         curr = curr._next
     print line
 
+
 def nextLargerNodes(head):
     nums = []
     curr = head
@@ -41,6 +42,34 @@ def nextLargerNodes(head):
     return result
 
 
+from Tree import TreeNode
+
+
+def sortedListToBST(head):
+    if not head:
+        return None
+
+    pre = None
+    slow, fast = head, head
+
+    while fast and fast._next:
+        pre = slow
+        slow = slow._next
+        fast = fast._next._next
+
+    root = TreeNode(slow.val)
+    # slow may not move, because only one node case
+    if slow == head:
+        return root
+    if pre:
+        pre._next = None
+
+    root.left = sortedListToBST(head)
+    root.right = sortedListToBST(slow._next)
+
+    return root
+
+
 if __name__ == '__main__':
     head = generateNodes([1, 2, 3])
 
@@ -49,3 +78,9 @@ if __name__ == '__main__':
     while curr:
         print curr.val
         curr = curr._next
+
+    head = generateNodes([1, 2, 3, 4, 5, 6, 7])
+    root = sortedListToBST(head)
+    from Tree import print_tree
+    print 'print out tree'
+    print_tree(root)

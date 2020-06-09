@@ -9,8 +9,8 @@ def print_tree(head):
     if not head:
         print 'None'
     else:
-        print head.val
         print_tree(head.left)
+        print head.val
         print_tree(head.right)
 
 

@@ -1,3 +1,5 @@
+https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays/
+https://leetcode.com/problems/minimum-knight-moves/
 953
 301
 238

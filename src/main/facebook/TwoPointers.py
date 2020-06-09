@@ -53,7 +53,7 @@ def longestSubstring(s, k):
 def findMidPoint(node):
     slow, fast = node, node
 
-    while slow and fast.next:
+    while fast and fast.next:
         slow = slow.next
         fast = fast.next.next
 

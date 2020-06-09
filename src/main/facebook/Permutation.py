@@ -86,6 +86,7 @@ class Solution(object):
 
         while i > mutation_index:
             if nums[i] < nums[mutation_index]:
+                # [3,1,1,3]
                 while i > 0 and nums[i] == nums[i - 1]:
                     # find the left most number which is less than mutation
                     i -= 1

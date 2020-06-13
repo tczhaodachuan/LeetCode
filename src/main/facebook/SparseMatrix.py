@@ -15,6 +15,7 @@ def sparse_matrix(A, B):
     m = len(A)
     n = len(B[0])
 
+    print compress_A, compress_B
     result_matrix = [[0 for _ in range(n)] for _ in range(m)]
 
     for i in compress_A:

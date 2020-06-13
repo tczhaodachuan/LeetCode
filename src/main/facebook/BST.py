@@ -128,6 +128,8 @@ class Solution3(object):
 class Codec:
     def serialize(self, root):
         result = []
+        self.pre_order(root, result)
+        return result
 
     def pre_order(self, root, result):
         if not root:
